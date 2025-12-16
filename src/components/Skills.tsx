@@ -9,6 +9,18 @@ const skills = [
     { name: "Astro", icon: "https://astro.build/assets/press/astro-icon-light-gradient.svg" },
     { name: "Tailwind", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
     { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+    { name: "PHP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
+    { name: "Laravel", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" },
+    { name: "Zend", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/zend/zend-original.svg" },
+    { name: "NestJS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg" },
+    { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
+    { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+    { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+    { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+    { name: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+    { name: "Spring Boot", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" },
+    { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+    { name: "OpenAI", icon: "https://cdn.simpleicons.org/openai/000000/ffffff" }, // Using simpleicons via CDN, white icon for consistency
 ];
 
 interface SkillsProps {
@@ -30,7 +42,7 @@ export default function Skills({ title }: SkillsProps) {
                     <div className="w-20 h-1 bg-light-primary dark:bg-neon-cyan mx-auto rounded-full"></div>
                 </motion.div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-10 gap-8">
                     {skills.map((skill, index) => (
                         <motion.div
                             key={index}

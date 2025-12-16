@@ -1,4 +1,5 @@
-import { motion } from "motion/react";
+import { motion, useInView, animate } from "motion/react";
+import { useEffect, useRef } from "react";
 
 interface StatsProps {
     trans: {
@@ -9,12 +10,33 @@ interface StatsProps {
     };
 }
 
+function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
+    const nodeRef = useRef<HTMLSpanElement>(null);
+    const isInView = useInView(nodeRef, { once: true, margin: "-50px" });
+
+    useEffect(() => {
+        if (!nodeRef.current || !isInView) return;
+
+        const node = nodeRef.current;
+        const controls = animate(0, to, {
+            duration: 2,
+            onUpdate(value) {
+                node.textContent = Math.round(value) + suffix;
+            },
+        });
+
+        return () => controls.stop();
+    }, [to, suffix, isInView]);
+
+    return <span ref={nodeRef} className="text-4xl font-bold mb-2">0{suffix}</span>;
+}
+
 export default function Stats({ trans }: StatsProps) {
     const stats = [
-        { num: "10+", label: trans.years },
-        { num: "30+", label: trans.projects },
-        { num: "5+", label: trans.tech },
-        { num: "100+", label: trans.clients },
+        { num: 10, suffix: "+", label: trans.years },
+        { num: 30, suffix: "+", label: trans.projects },
+        { num: 5, suffix: "+", label: trans.tech },
+        { num: 100, suffix: "+", label: trans.clients },
     ];
 
     return (
@@ -31,7 +53,7 @@ export default function Stats({ trans }: StatsProps) {
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 className="flex flex-col items-center"
                             >
-                                <h3 className="text-4xl font-bold mb-2">{stat.num}</h3>
+                                <CountUp to={stat.num} suffix={stat.suffix} />
                                 <p className="text-white/80 dark:text-gray-400 text-sm uppercase tracking-wide">{stat.label}</p>
                             </motion.div>
                         ))}
