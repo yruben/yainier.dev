@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import About from '../../components/About';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations('es');
+---
+
+<BaseLayout title="Sobre Mí - Yainier">
+    <div class="pt-20">
+        <About client:load trans={{
+            titlePart1: t('about.title.part1'),
+            titlePart2: t('about.title.part2'),
+            p1: t('about.p1'),
+            p2: t('about.p2'),
+            cta: t('about.cta')
+        }} />
+    </div>
+</BaseLayout>

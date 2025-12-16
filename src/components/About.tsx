@@ -26,7 +26,7 @@ export default function About({ trans }: AboutProps) {
                     >
                         {/* Main Image */}
                         <div className="absolute top-10 left-10 w-4/5 h-4/5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-white/10 z-10">
-                            <img src="/about_me.png" alt="Working" className="w-full h-full object-cover" />
+                            <img src="/about_me_new.png" alt="Working" className="w-full h-full object-cover" />
                         </div>
                         {/* Decorative Elements */}
                         <div className="absolute top-0 right-10 w-20 h-20 bg-light-primary/20 dark:bg-neon-cyan/20 rounded-full blur-xl animate-pulse"></div>

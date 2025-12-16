@@ -18,9 +18,10 @@ const t = useTranslations(lang);
             <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-8">
                     <a href={`/${lang === 'en' ? '' : lang}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.home')}</a>
-                    <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.about')}</a>
-                    <a href="#projects" class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.projects')}</a>
+                    <a href={`/${lang === 'en' ? 'about' : `${lang}/about`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.about')}</a>
+                    <a href={`/${lang === 'en' ? 'projects' : `${lang}/projects`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.projects')}</a>
                     <a href={`/${lang === 'en' ? 'blog' : `${lang}/blog`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.blog')}</a>
+                    <a href={`/${lang === 'en' ? 'recommended' : `${lang}/recommended`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.recommended')}</a>
                     <a href={`/${lang === 'en' ? 'contact' : `${lang}/contact`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.contact')}</a>
                     <a href="/resume.pdf" target="_blank" class="px-6 py-2 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-full hover:opacity-90 transition-opacity shadow-md dark:shadow-neon-cyan">
                         Download CV
