@@ -24,7 +24,9 @@ const t = useTranslations(lang);
                     <NavLink client:load href={`/${lang === 'en' ? 'blog' : `${lang}/blog`}`} icon="blog" text={t('nav.blog')} />
                     <NavLink client:load href={`/${lang === 'en' ? 'recommended' : `${lang}/recommended`}`} icon="recommended" text={t('nav.recommended')} />
                     <NavLink client:load href={`/${lang === 'en' ? 'contact' : `${lang}/contact`}`} icon="contact" text={t('nav.contact')} />
-                    <NavLink client:load href="/resume.pdf" icon="download" text="Download CV" isButton={true} />
+                    <div class="ml-4">
+                        <NavLink client:load href="/resume.pdf" icon="download" text="Download CV" isButton={true} />
+                    </div>
                 </div>
             </div>
             <div class="flex items-center gap-4">

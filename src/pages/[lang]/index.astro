@@ -5,6 +5,7 @@ import Stats from '../../components/Stats';
 import Skills from '../../components/Skills';
 import About from '../../components/About';
 import Projects from '../../components/Projects';
+import BlogCard from '../../components/BlogCard';
 import { getCollection } from 'astro:content';
 import { useTranslations } from '../../i18n/utils';
 import { languages } from '../../i18n/ui';
@@ -26,7 +27,7 @@ const typewriterWords = [
     t('hero.word5')
 ];
 
-const allProjects = await getCollection('projects');
+const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
 const recentProjects = allProjects.slice(0, 3);
 ---
 
@@ -63,11 +64,42 @@ const recentProjects = allProjects.slice(0, 3);
         details: t('projects.details')
     }} />
     
-    <section class="py-20 bg-light-bg dark:bg-navy-900 transition-colors duration-300">
-         <div class="container mx-auto px-6 text-center">
-             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">{t('blog.title')}</h2>
-              <a href={`/${lang}/blog`} class="text-light-primary dark:text-neon-cyan hover:underline">{t('blog.readMore')} &rarr;</a>
-         </div>
-    </section>
+    {async () => {
+         const allBlogPosts = await getCollection('blog', ({ id }) => id.startsWith(`${lang}/`));
+         const sortedPosts = allBlogPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+         const recentPosts = sortedPosts.slice(0, 3);
+         const totalArticles = allBlogPosts.length;
+
+         return (
+             <section class="py-20 bg-light-bg dark:bg-navy-900 transition-colors duration-300">
+                 <div class="container mx-auto px-6">
+                     <div class="text-center mb-12">
+                         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">{t('blog.title')}</h2>
+                         <p class="text-gray-600 dark:text-gray-300 mb-2">
+                             {t('blog.desc')}
+                         </p>
+                         <p class="text-sm text-light-primary dark:text-neon-cyan font-semibold">
+                             {totalArticles} {lang === 'es' ? 'artículos publicados' : 'articles published'}
+                         </p>
+                         <div class="w-20 h-1 bg-light-primary dark:bg-neon-cyan mx-auto mt-4 rounded-full"></div>
+                     </div>
+
+                     <div class="flex flex-wrap justify-center gap-6 mb-12 max-w-7xl mx-auto">
+                         {recentPosts.map((post, index) => (
+                             <div class="w-full sm:w-72 flex-shrink-0">
+                                 <BlogCard client:visible post={post} index={index} lang={lang} />
+                             </div>
+                         ))}
+                     </div>
+
+                     <div class="text-center">
+                         <a href={`/${lang}/blog`} class="inline-block px-8 py-3 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-full hover:opacity-90 transition-all shadow-md dark:shadow-neon-cyan">
+                            {t('blog.readMore')} &rarr;
+                         </a>
+                     </div>
+                 </div>
+             </section>
+         );
+    }}
 </BaseLayout>
 

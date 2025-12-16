@@ -1,11 +1,20 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import BlogCard from '../../../components/BlogCard';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard';
 import { getCollection } from 'astro:content';
-import { useTranslations } from '../../../i18n/utils';
+import { useTranslations } from '../../i18n/utils';
 
-const t = useTranslations('es');
-const allPosts = await getCollection('blog');
+import { languages } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map((lang) => {
+      return { params: { lang } };
+  });
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as any);
+const allPosts = await getCollection('blog', ({ id }) => id.startsWith(`${lang}/`));
 const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const totalArticles = allPosts.length;
 ---
@@ -32,7 +41,7 @@ const totalArticles = allPosts.length;
 				<div class="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto">
 					{sortedPosts.map((post, index) => (
 						<div class="w-full sm:w-72 flex-shrink-0">
-							<BlogCard client:visible post={post} index={index} />
+							<BlogCard client:visible post={post} index={index} lang={lang} />
 						</div>
 					))}
 				</div>

@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ id }) => id.startsWith('en/'));
+  return posts.map(post => ({
+    params: { slug: post.slug.replace(/^en\//, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+<BaseLayout title={post.data.title}>
+  <div class="pt-24 pb-20 bg-light-bg dark:bg-navy-900 min-h-screen">
+      <article class="container mx-auto px-6 max-w-4xl">
+        <div class="mb-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                {post.data.title}
+            </h1>
+            <div class="flex items-center justify-center gap-4 text-gray-600 dark:text-gray-400">
+                <time datetime={post.data.pubDate.toISOString()}>
+                    {post.data.pubDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    })}
+                </time>
+                <span>•</span>
+                <span>{post.data.author}</span>
+            </div>
+            {post.data.image && (
+                <div class="mt-10 rounded-2xl overflow-hidden shadow-2xl">
+                    <img 
+                        src={post.data.image} 
+                        alt={post.data.title}
+                        class="w-full h-auto object-cover"
+                    />
+                </div>
+            )}
+        </div>
+        
+        <div class="prose prose-lg dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 leading-relaxed">
+            <Content />
+        </div>
+      </article>
+  </div>
+</BaseLayout>

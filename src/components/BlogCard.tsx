@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 interface BlogCardProps {
     post: CollectionEntry<'blog'>;
     index?: number;
+    lang?: string;
 }
 
 // Function to calculate reading time based on word count
@@ -13,7 +14,7 @@ function calculateReadingTime(content: string): number {
     return Math.ceil(wordCount / wordsPerMinute);
 }
 
-export default function BlogCard({ post, index = 0 }: BlogCardProps) {
+export default function BlogCard({ post, index = 0, lang = 'en' }: BlogCardProps) {
     const readingTime = calculateReadingTime(post.body);
     const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -49,7 +50,7 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
             <div className="absolute inset-0 p-4 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {/* Title */}
                 <h3 className="text-base font-bold text-white mb-2 line-clamp-2">
-                    <a href={`/blog/${post.slug}`}>
+                    <a href={lang === 'en' ? `/blog/${post.slug.replace(/^en\//, '')}` : `/${lang}/blog/${post.slug.replace(/^[a-z]{2}\//, '')}`}>
                         {post.data.title}
                     </a>
                 </h3>

@@ -3,8 +3,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { useTranslations } from '../../i18n/utils';
 
-const t = useTranslations('es');
-const allProjects = await getCollection('projects');
+import { languages } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map((lang) => {
+      return { params: { lang } };
+  });
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as any);
+const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
 ---
 
 <BaseLayout title="Proyectos - Yainier">

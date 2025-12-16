@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const allProjects = await getCollection('projects');
+const allProjects = await getCollection('projects', ({ id }) => id.startsWith('en/'));
 ---
 
 <BaseLayout title="Projects - Yainier">

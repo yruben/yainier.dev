@@ -36,10 +36,11 @@ export default function NavLink({ href, icon, text, isButton = false }: NavLinkP
     return (
         <a
             href={href}
-            className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            className="group relative inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors"
         >
             {IconComponent && <IconComponent className="w-4 h-4" />}
             <span>{text}</span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-light-primary dark:bg-neon-cyan transition-all duration-300 group-hover:w-full"></span>
         </a>
     );
 }
