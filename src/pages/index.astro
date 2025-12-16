@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero';
+import Stats from '../components/Stats';
+import Skills from '../components/Skills';
+import About from '../components/About';
+import Projects from '../components/Projects';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+// Take first 3 projects for the home page
+const recentProjects = allProjects.slice(0, 3);
+---
+
+<BaseLayout title="Yainier - Web Developer">
+    <Hero client:load />
+    <Stats client:visible />
+    <Skills client:visible />
+    <About client:visible />
+    <Projects projects={recentProjects} client:visible />
+    
+    <!-- Blog Section Placeholder - Can be added similarly or kept simple -->
+    <section class="py-20 bg-navy-800">
+         <div class="container mx-auto px-6 text-center">
+             <h2 class="text-3xl font-bold text-white mb-8">Latest Articles</h2>
+              <a href="/blog" class="text-neon-cyan hover:underline">Read the Blog &rarr;</a>
+         </div>
+    </section>
+</BaseLayout>
