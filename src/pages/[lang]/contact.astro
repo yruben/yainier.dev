@@ -1,8 +1,16 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { useTranslations } from '../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useTranslations } from '../../i18n/utils';
+import { languages } from '../../i18n/ui';
 
-const t = useTranslations('en');
+export async function getStaticPaths() {
+  return Object.keys(languages).map((lang) => {
+      return { params: { lang } };
+  });
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as any);
 ---
 
 <BaseLayout title={`Contact - Yainier`}>

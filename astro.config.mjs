@@ -11,4 +11,11 @@ export default defineConfig({
         react()
     ],
     site: 'https://yainier.dev',
+    i18n: {
+        defaultLocale: "en",
+        locales: ["en", "es"],
+        routing: {
+            prefixDefaultLocale: false
+        }
+    }
 });

@@ -17,6 +17,14 @@ export default {
                     cyan: '#64ffda',
                     pink: '#ff0066',
                     blue: '#00e0ff',
+                },
+                // Light mode palette
+                light: {
+                    bg: '#f8fafc', // slate-50
+                    surface: '#ffffff',
+                    text: '#0f172a', // slate-900
+                    primary: '#0ea5e9', // sky-500
+                    secondary: '#ec4899', // pink-500
                 }
             },
             boxShadow: {

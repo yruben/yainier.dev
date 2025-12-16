@@ -1,8 +1,18 @@
 import { motion } from "motion/react";
 
-export default function About() {
+interface AboutProps {
+    trans: {
+        titlePart1: string;
+        titlePart2: string;
+        p1: string;
+        p2: string;
+        cta: string;
+    }
+}
+
+export default function About({ trans }: AboutProps) {
     return (
-        <section id="about" className="py-20 bg-navy-800 overflow-hidden">
+        <section id="about" className="py-20 bg-gray-50 dark:bg-navy-800 overflow-hidden transition-colors duration-300">
             <div className="container mx-auto px-6">
                 <div className="flex flex-col md:flex-row items-center gap-16">
 
@@ -15,17 +25,17 @@ export default function About() {
                         transition={{ duration: 0.8 }}
                     >
                         {/* Main Image */}
-                        <div className="absolute top-10 left-10 w-4/5 h-4/5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 z-10">
+                        <div className="absolute top-10 left-10 w-4/5 h-4/5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-white/10 z-10">
                             <img src="https://via.placeholder.com/600x800" alt="Working" className="w-full h-full object-cover" />
                         </div>
                         {/* Decorative Elements */}
-                        <div className="absolute top-0 right-10 w-20 h-20 bg-neon-cyan/20 rounded-full blur-xl animate-pulse"></div>
-                        <div className="absolute bottom-10 left-0 w-32 h-32 bg-neon-pink/20 rounded-full blur-xl animate-pulse"></div>
+                        <div className="absolute top-0 right-10 w-20 h-20 bg-light-primary/20 dark:bg-neon-cyan/20 rounded-full blur-xl animate-pulse"></div>
+                        <div className="absolute bottom-10 left-0 w-32 h-32 bg-light-secondary/20 dark:bg-neon-pink/20 rounded-full blur-xl animate-pulse"></div>
 
                         {/* Floating Badge */}
-                        <div className="absolute bottom-20 right-0 bg-navy-900 p-4 rounded-xl shadow-neon-cyan border border-neon-cyan/30 z-20 flex items-center gap-3">
-                            <div className="text-3xl font-bold text-neon-cyan">5+</div>
-                            <div className="text-xs text-gray-300 uppercase leading-tight">Years<br />Experience</div>
+                        <div className="absolute bottom-20 right-0 bg-white dark:bg-navy-900 p-4 rounded-xl shadow-lg dark:shadow-neon-cyan border border-gray-100 dark:border-neon-cyan/30 z-20 flex items-center gap-3">
+                            <div className="text-3xl font-bold text-light-primary dark:text-neon-cyan">5+</div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300 uppercase leading-tight">Years<br />Experience</div>
                         </div>
                     </motion.div>
 
@@ -37,20 +47,20 @@ export default function About() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative inline-block">
-                            About <span className="text-neon-pink">Me</span>
-                            <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-neon-pink rounded-full"></span>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 relative inline-block">
+                            {trans.titlePart1} <span className="text-light-secondary dark:text-neon-pink">{trans.titlePart2}</span>
+                            <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-light-secondary dark:bg-neon-pink rounded-full"></span>
                         </h2>
 
-                        <p className="text-gray-300 leading-relaxed mb-6">
-                            I'm a passionate Full Stack Developer with over 5 years of experience specializing in building digital applications. I love creating seamless user experiences and writing clean, maintainable code.
+                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+                            {trans.p1}
                         </p>
-                        <p className="text-gray-300 leading-relaxed mb-8">
-                            My journey began when I discovered my love for problem-solving through code. Since then, I've worked on various projects ranging from small business websites to large-scale enterprise applications.
+                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
+                            {trans.p2}
                         </p>
 
-                        <a href="#contact" className="inline-block px-8 py-3 bg-neon-pink text-white font-bold rounded-lg hover:bg-pink-600 transition-colors shadow-neon-pink">
-                            Let's Talk
+                        <a href="#contact" className="inline-block px-8 py-3 bg-light-secondary dark:bg-neon-pink text-white font-bold rounded-lg hover:bg-pink-600 transition-colors shadow-md dark:shadow-neon-pink">
+                            {trans.cta}
                         </a>
                     </motion.div>
 

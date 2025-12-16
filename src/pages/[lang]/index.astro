@@ -1,15 +1,23 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero';
-import Stats from '../components/Stats';
-import Skills from '../components/Skills';
-import About from '../components/About';
-import Projects from '../components/Projects';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero';
+import Stats from '../../components/Stats';
+import Skills from '../../components/Skills';
+import About from '../../components/About';
+import Projects from '../../components/Projects';
 import { getCollection } from 'astro:content';
-import { useTranslations } from '../i18n/utils';
-import { siteConfig } from '../config';
+import { useTranslations } from '../../i18n/utils';
+import { languages } from '../../i18n/ui';
+import { siteConfig } from '../../config';
 
-const t = useTranslations('en');
+export async function getStaticPaths() {
+  return Object.keys(languages).map((lang) => {
+      return { params: { lang } };
+  });
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as any);
 const typewriterWords = [
     t('hero.word1'),
     t('hero.word2'),
@@ -22,7 +30,7 @@ const allProjects = await getCollection('projects');
 const recentProjects = allProjects.slice(0, 3);
 ---
 
-<BaseLayout title="Yainier - Web Developer">
+<BaseLayout title={`Yainier - ${lang === 'es' ? 'Desarrollador Web' : 'Web Developer'}`}>
     <Hero client:load trans={{
         hello: t('hero.hello'),
         subtitlePrefix: t('hero.subtitlePrefix'),
@@ -56,8 +64,8 @@ const recentProjects = allProjects.slice(0, 3);
     
     <section class="py-20 bg-light-bg dark:bg-navy-900 transition-colors duration-300">
          <div class="container mx-auto px-6 text-center">
-             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Latest Articles</h2>
-              <a href="/blog" class="text-light-primary dark:text-neon-cyan hover:underline">Read the Blog &rarr;</a>
+             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">{t('blog.title')}</h2>
+              <a href={`/${lang}/blog`} class="text-light-primary dark:text-neon-cyan hover:underline">{t('blog.readMore')} &rarr;</a>
          </div>
     </section>
 </BaseLayout>

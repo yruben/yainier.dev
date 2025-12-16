@@ -21,8 +21,25 @@ const { title, description = "Yainier's Portfolio" } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<ViewTransitions />
+        <script is:inline>
+            const theme = (() => {
+                if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+                    return localStorage.getItem('theme');
+                }
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    return 'dark';
+                }
+                return 'light';
+            })();
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            window.localStorage.setItem('theme', theme);
+        </script>
 	</head>
-	<body class="bg-navy-900 text-white font-sans antialiased">
+	<body class="bg-light-bg text-light-text dark:bg-navy-900 dark:text-white font-sans antialiased transition-colors duration-300">
         <Navbar />
 		<main>
 			<slot />

@@ -1,6 +1,6 @@
 export const siteConfig = {
     hero: {
-        title: "Chandni Chauhan",
+        title: "Yainier Martínez Ruben",
         subtitlePrefix: "And I'm a ",
         typewriterWords: [
             "Software Engineer",
