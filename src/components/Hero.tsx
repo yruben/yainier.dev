@@ -9,6 +9,7 @@ interface HeroProps {
         subtitlePrefix: string;
         hire: string;
         contact: string;
+        description?: string;
     };
     titles?: string[]; // Optional override, defaults to config if empty
 }
@@ -30,14 +31,14 @@ export default function Hero({ trans, titles }: HeroProps) {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <div className="relative w-80 h-80 md:w-[450px] md:h-[450px]">
+                    <div className="relative w-80 h-80 md:w-[500px] md:h-[500px]">
                         {/* Blob Shape behind image */}
                         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0 w-full h-full text-light-primary/30 dark:text-neon-cyan/30 fill-current animate-blob">
                             <path d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.3C93.5,8.6,82.2,21.5,70.6,32.2C59,42.9,47.1,51.4,34.9,59.3C22.7,67.2,10.2,74.5,-2.1,78.2C-14.4,81.9,-26.6,82,-38.3,77.2C-50,72.4,-61.2,62.7,-69.9,51.1C-78.6,39.5,-84.8,26,-87.3,11.5C-89.8,-3,-88.6,-18.5,-81.1,-31.6C-73.6,-44.7,-59.8,-55.4,-45.6,-62.6C-31.4,-69.8,-16.8,-73.5,-0.9,-71.9L15,-70.3Z" transform="translate(100 100)" />
                         </svg>
                         <div className="relative z-10 w-full h-full rounded-full overflow-hidden border-4 border-light-primary dark:border-neon-cyan shadow-lg dark:shadow-neon-cyan">
-                            {/* Placeholder Image */}
-                            <img src="https://via.placeholder.com/500x500" alt="Profile" className="w-full h-full object-cover" />
+                            {/* Profile Image */}
+                            <img src="/profile_new.png" alt="Profile" className="w-full h-full object-cover object-center-top" style={{ objectPosition: '50% 25%' }} />
                         </div>
                     </div>
                 </motion.div>
@@ -87,7 +88,7 @@ export default function Hero({ trans, titles }: HeroProps) {
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.8, duration: 0.6 }}
                     >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eveniet lecto tempore possimus voluptates quis necessitatibus.
+                        {trans.description}
                     </motion.p>
 
                     {/* Social Links */}
