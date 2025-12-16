@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from './ThemeToggle';
 import LanguagePicker from './LanguagePicker';
+import NavLink from './NavLink';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -16,16 +17,14 @@ const t = useTranslations(lang);
                 </a>
             </div>
             <div class="hidden md:block">
-                <div class="ml-10 flex items-baseline space-x-8">
-                    <a href={`/${lang === 'en' ? '' : lang}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.home')}</a>
-                    <a href={`/${lang === 'en' ? 'about' : `${lang}/about`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.about')}</a>
-                    <a href={`/${lang === 'en' ? 'projects' : `${lang}/projects`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.projects')}</a>
-                    <a href={`/${lang === 'en' ? 'blog' : `${lang}/blog`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.blog')}</a>
-                    <a href={`/${lang === 'en' ? 'recommended' : `${lang}/recommended`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.recommended')}</a>
-                    <a href={`/${lang === 'en' ? 'contact' : `${lang}/contact`}`} class="text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('nav.contact')}</a>
-                    <a href="/resume.pdf" target="_blank" class="px-6 py-2 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-full hover:opacity-90 transition-opacity shadow-md dark:shadow-neon-cyan">
-                        Download CV
-                    </a>
+                <div class="ml-10 flex items-baseline space-x-6">
+                    <NavLink client:load href={`/${lang === 'en' ? '' : lang}`} icon="home" text={t('nav.home')} />
+                    <NavLink client:load href={`/${lang === 'en' ? 'about' : `${lang}/about`}`} icon="about" text={t('nav.about')} />
+                    <NavLink client:load href={`/${lang === 'en' ? 'projects' : `${lang}/projects`}`} icon="projects" text={t('nav.projects')} />
+                    <NavLink client:load href={`/${lang === 'en' ? 'blog' : `${lang}/blog`}`} icon="blog" text={t('nav.blog')} />
+                    <NavLink client:load href={`/${lang === 'en' ? 'recommended' : `${lang}/recommended`}`} icon="recommended" text={t('nav.recommended')} />
+                    <NavLink client:load href={`/${lang === 'en' ? 'contact' : `${lang}/contact`}`} icon="contact" text={t('nav.contact')} />
+                    <NavLink client:load href="/resume.pdf" icon="download" text="Download CV" isButton={true} />
                 </div>
             </div>
             <div class="flex items-center gap-4">

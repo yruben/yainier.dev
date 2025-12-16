@@ -27,9 +27,11 @@ const totalArticles = allPosts.length;
 				</div>
 
 				{/* Articles Grid */}
-				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+				<div class="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto">
 					{sortedPosts.map((post, index) => (
-						<BlogCard client:visible post={post} index={index} />
+						<div class="w-full sm:w-72 flex-shrink-0">
+							<BlogCard client:visible post={post} index={index} />
+						</div>
 					))}
 				</div>
 			</div>
