@@ -5,6 +5,7 @@ import Stats from '../components/Stats';
 import Skills from '../components/Skills';
 import About from '../components/About';
 import Projects from '../components/Projects';
+import BlogCard from '../components/BlogCard';
 import { getCollection } from 'astro:content';
 import { useTranslations } from '../i18n/utils';
 import { siteConfig } from '../config';
@@ -55,11 +56,47 @@ const recentProjects = allProjects.slice(0, 3);
         details: t('projects.details')
     }} />
     
-    <section class="py-20 bg-light-bg dark:bg-navy-900 transition-colors duration-300">
-         <div class="container mx-auto px-6 text-center">
-             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Latest Articles</h2>
-              <a href="/blog" class="text-light-primary dark:text-neon-cyan hover:underline">Read the Blog &rarr;</a>
-         </div>
-    </section>
+    <!-- Latest Articles Section -->
+    {async () => {
+        const allBlogPosts = await getCollection('blog');
+        const sortedPosts = allBlogPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+        const recentPosts = sortedPosts.slice(0, 3);
+        const totalArticles = allBlogPosts.length;
+        
+        return (
+            <section class="py-20 bg-gray-50 dark:bg-navy-800 transition-colors duration-300">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                            {t('blog.title')}
+                        </h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-2">
+                            {t('blog.desc')}
+                        </p>
+                        <p class="text-sm text-light-primary dark:text-neon-cyan font-semibold">
+                            {totalArticles} articles published
+                        </p>
+                        <div class="w-20 h-1 bg-light-primary dark:bg-neon-cyan mx-auto mt-4 rounded-full"></div>
+                    </div>
+                    
+                    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-12">
+                        {recentPosts.map((post, index) => (
+                            <BlogCard client:visible post={post} index={index} />
+                        ))}
+                    </div>
+                    
+                    <div class="text-center">
+                        <a 
+                            href="/blog" 
+                            class="inline-block px-8 py-3 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-full hover:opacity-90 transition-all shadow-md dark:shadow-neon-cyan"
+                        >
+                            {t('blog.readMore')} &rarr;
+                        </a>
+                    </div>
+                </div>
+            </section>
+        );
+    }}
+
 </BaseLayout>
 

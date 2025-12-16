@@ -1,8 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import BlogCard from '../../components/BlogCard';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogCard from '../../../components/BlogCard';
 import { getCollection } from 'astro:content';
+import { useTranslations } from '../../../i18n/utils';
 
+const t = useTranslations('es');
 const allPosts = await getCollection('blog');
 const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const totalArticles = allPosts.length;
@@ -15,13 +17,13 @@ const totalArticles = allPosts.length;
 				{/* Header */}
 				<div class="text-center mb-16">
 					<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-						Latest <span class="text-light-primary dark:text-neon-cyan">Articles</span>
+						{t('blog.title')}
 					</h1>
 					<p class="text-gray-600 dark:text-gray-300 mb-2">
-						Thoughts, tutorials, and insights on web development
+						{t('blog.desc')}
 					</p>
 					<p class="text-sm text-light-primary dark:text-neon-cyan font-semibold">
-						{totalArticles} articles published
+						{totalArticles} artículos publicados
 					</p>
 					<div class="w-20 h-1 bg-light-primary dark:bg-neon-cyan mx-auto mt-6 rounded-full"></div>
 				</div>

@@ -2,6 +2,9 @@
 title: "Mastering Tailwind CSS"
 pubDate: 2023-10-15
 description: "Tips and tricks for building beautiful UIs efficiently with Tailwind CSS."
+author: "Yainier Ruben"
+authorImage: "/profile_new.png"
+category: "CSS & Design"
 tags: ["tailwindcss", "css", "design"]
 ---
 

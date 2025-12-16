@@ -2,6 +2,9 @@
 title: "TypeScript for Beginners"
 pubDate: 2023-11-05
 description: "Why you should start using TypeScript in your JavaScript projects today."
+author: "Yainier Ruben"
+authorImage: "/profile_new.png"
+category: "Programming"
 tags: ["typescript", "javascript", "programming"]
 ---
 
