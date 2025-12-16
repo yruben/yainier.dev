@@ -5,6 +5,7 @@ description: "Why you should start using TypeScript in your JavaScript projects 
 author: "Yainier Ruben"
 authorImage: "/profile_new.png"
 category: "Programming"
+image: "/blog/typescript-cover.png"
 tags: ["typescript", "javascript", "programming"]
 ---
 
