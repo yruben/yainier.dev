@@ -1,5 +1,6 @@
 import { motion } from "motion/react"
 import Typewriter from 'typewriter-effect';
+import { Github, Linkedin, Youtube, Twitter } from 'lucide-react';
 import { siteConfig } from "../config";
 
 interface HeroProps {
@@ -81,13 +82,34 @@ export default function Hero({ trans, titles }: HeroProps) {
                     </motion.div>
 
                     <motion.p
-                        className="text-gray-600 dark:text-gray-400 mb-8 max-w-lg mx-auto md:mx-0"
+                        className="text-gray-600 dark:text-gray-400 mb-6 max-w-lg mx-auto md:mx-0"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.8, duration: 0.6 }}
                     >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eveniet lecto tempore possimus voluptates quis necessitatibus.
                     </motion.p>
+
+                    {/* Social Links */}
+                    <motion.div
+                        className="flex gap-4 justify-center md:justify-start mb-8"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.9, duration: 0.6 }}
+                    >
+                        <a href="https://github.com/yruben" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                            <Github size={20} />
+                        </a>
+                        <a href="https://linkedin.com/in/yruben" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                            <Linkedin size={20} />
+                        </a>
+                        <a href="https://youtube.com/@yruben" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-500 hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                            <Youtube size={20} />
+                        </a>
+                        <a href="https://twitter.com/yruben" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-blue-400 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                            <Twitter size={20} />
+                        </a>
+                    </motion.div>
 
                     <motion.div
                         className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
