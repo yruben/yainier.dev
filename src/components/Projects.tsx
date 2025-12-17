@@ -7,6 +7,7 @@ interface Project {
         tags: string[];
         githubUrl?: string;
         liveUrl?: string;
+        image?: string;
     };
     slug: string;
 }
@@ -50,9 +51,12 @@ export default function Projects({ projects, trans }: ProjectsProps) {
                             className="bg-white dark:bg-navy-800 rounded-xl overflow-hidden border border-gray-200 dark:border-white/5 hover:border-light-primary/30 dark:hover:border-neon-cyan/30 shadow-lg group"
                         >
                             <div className="h-48 bg-gray-200 dark:bg-navy-700 relative overflow-hidden">
-                                {/* Placeholder Thumbnail - User to replace */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent dark:from-navy-900 dark:to-transparent opacity-60 z-10"></div>
-                                <img src={`https://via.placeholder.com/600x400?text=${project.data.title}`} alt={project.data.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" />
+                                <img
+                                    src={project.data.image || `https://via.placeholder.com/600x400?text=${project.data.title}`}
+                                    alt={project.data.title}
+                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                />
                             </div>
 
                             <div className="p-6">
