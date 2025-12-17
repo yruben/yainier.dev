@@ -47,10 +47,11 @@ export default function Projects({ projects, trans }: ProjectsProps) {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1, duration: 0.5 }}
-                            whileHover={{ y: -10 }}
-                            className="bg-white dark:bg-navy-800 rounded-xl overflow-hidden border border-gray-200 dark:border-white/5 hover:border-light-primary/30 dark:hover:border-neon-cyan/30 shadow-lg group"
+                            whileHover={{ y: -5 }}
+                            className="bg-white dark:bg-navy-800 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-white/10 hover:shadow-xl hover:shadow-light-primary/20 dark:hover:shadow-neon-cyan/20 transition-all group h-[300px] relative"
                         >
-                            <div className="h-48 bg-gray-200 dark:bg-navy-700 relative overflow-hidden">
+                            {/* Image Section - Always visible, covers full background */}
+                            <div className="absolute inset-0">
                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent dark:from-navy-900 dark:to-transparent opacity-60 z-10"></div>
                                 <img
                                     src={project.data.image || `https://via.placeholder.com/600x400?text=${project.data.title}`}
@@ -59,20 +60,26 @@ export default function Projects({ projects, trans }: ProjectsProps) {
                                 />
                             </div>
 
-                            <div className="p-6">
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-light-primary dark:group-hover:text-neon-cyan transition-colors">{project.data.title}</h3>
-                                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">{project.data.description}</p>
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    {project.data.tags.map((tag, i) => (
-                                        <span key={i} className="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-navy-900 text-light-primary dark:text-neon-cyan rounded-md border border-gray-200 dark:border-neon-cyan/20">
+                            {/* Overlay - Appears on hover with smooth gradient */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/70 to-black/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
+
+                            {/* Content - Slide up and Fade in on hover */}
+                            <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-30">
+                                <h3 className="text-xl font-bold text-white mb-2">{project.data.title}</h3>
+                                <p className="text-gray-200 text-sm mb-4 line-clamp-3">{project.data.description}</p>
+
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    {project.data.tags.slice(0, 3).map((tag, i) => (
+                                        <span key={i} className="text-xs font-medium px-2 py-1 bg-white/20 text-white rounded-md backdrop-blur-sm border border-white/20">
                                             #{tag}
                                         </span>
                                     ))}
                                 </div>
-                                <div className="flex justify-between items-center">
-                                    <a href={`/projects`} className="text-sm font-bold text-gray-900 dark:text-white hover:text-light-secondary dark:hover:text-neon-pink transition-colors">{trans.details} &rarr;</a>
+
+                                <div className="flex justify-between items-center pt-2 border-t border-white/20">
+                                    <a href={`/projects`} className="text-sm font-bold text-white hover:text-light-secondary dark:hover:text-neon-cyan transition-colors">{trans.details} &rarr;</a>
                                     {project.data.liveUrl && (
-                                        <a href={project.data.liveUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Live Demo</a>
+                                        <a href={project.data.liveUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-300 hover:text-white transition-colors">Live Demo</a>
                                     )}
                                 </div>
                             </div>
