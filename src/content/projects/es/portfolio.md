@@ -5,6 +5,7 @@ tags: ["astro", "react", "tailwindcss", "typescript"]
 githubUrl: "https://github.com/yainier/portfolio"
 liveUrl: "https://yainier-dev.pages.dev/"
 image: "/projects/personal-portfolio.png"
+order: 4
 ---
 
 # Portafolio Personal

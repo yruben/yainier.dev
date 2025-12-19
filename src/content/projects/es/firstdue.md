@@ -4,6 +4,7 @@ description: "Plataforma de software integral basada en la nube para operaciones
 tags: ["react", "cloud", "saas", "fire-ems"]
 liveUrl: "https://www.firstdue.com"
 image: "/projects/firstdue-platform.png"
+order: 2
 ---
 
 # FirstDue

@@ -4,6 +4,7 @@ description: "Plataforma l√≠der de pagos digitales de Cuba para comercio electr√
 tags: ["laravel", "java", "react", "esb", "payment-gateway"]
 liveUrl: "https://enzona.net/"
 image: "/projects/plataforma-pagos.jpg"
+order: 1
 ---
 
 # ENZONA

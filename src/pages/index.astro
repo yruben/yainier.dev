@@ -20,7 +20,8 @@ const typewriterWords = [
 ];
 
 const allProjects = await getCollection('projects', ({ id }) => id.startsWith('en/'));
-const recentProjects = allProjects.slice(0, 4);
+const sortedProjects = allProjects.sort((a, b) => (a.data.order || 999) - (b.data.order || 999));
+const recentProjects = sortedProjects.slice(0, 4);
 ---
 
 <BaseLayout title="Yainier - Web Developer">
