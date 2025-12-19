@@ -28,7 +28,7 @@ const typewriterWords = [
 ];
 
 const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
-const recentProjects = allProjects.slice(0, 3);
+const recentProjects = allProjects.slice(0, 4);
 ---
 
 <BaseLayout title={`Yainier - ${lang === 'es' ? 'Desarrollador Web' : 'Web Developer'}`}>

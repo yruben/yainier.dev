@@ -39,7 +39,7 @@ export default function Projects({ projects, trans }: ProjectsProps) {
                     </p>
                 </motion.div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
                     {projects.map((project, index) => (
                         <motion.div
                             key={index}
@@ -48,11 +48,11 @@ export default function Projects({ projects, trans }: ProjectsProps) {
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1, duration: 0.5 }}
                             whileHover={{ y: -5 }}
-                            className="bg-white dark:bg-navy-800 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-white/10 hover:shadow-xl hover:shadow-light-primary/20 dark:hover:shadow-neon-cyan/20 transition-all group h-[300px] relative"
+                            className="bg-white dark:bg-navy-800 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-white/10 hover:shadow-xl hover:shadow-light-primary/20 dark:hover:shadow-neon-cyan/20 transition-all group h-[280px] relative"
                         >
                             {/* Image Section - Always visible, covers full background */}
                             <div className="absolute inset-0">
-                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent dark:from-navy-900 dark:to-transparent opacity-60 z-10"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent dark:from-navy-900/90 dark:to-transparent z-10"></div>
                                 <img
                                     src={project.data.image || `https://via.placeholder.com/600x400?text=${project.data.title}`}
                                     alt={project.data.title}
@@ -60,27 +60,34 @@ export default function Projects({ projects, trans }: ProjectsProps) {
                                 />
                             </div>
 
+                            {/* Title - Always visible at bottom */}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 z-30">
+                                <h3 className="text-lg font-bold text-white mb-1">{project.data.title}</h3>
+                            </div>
+
                             {/* Overlay - Appears on hover with smooth gradient */}
                             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/70 to-black/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
 
-                            {/* Content - Slide up and Fade in on hover */}
-                            <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-30">
-                                <h3 className="text-xl font-bold text-white mb-2">{project.data.title}</h3>
-                                <p className="text-gray-200 text-sm mb-4 line-clamp-3">{project.data.description}</p>
+                            {/* Content - Slides up on hover */}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-40">
+                                <div className="bg-gradient-to-t from-black/95 via-black/90 to-transparent pt-6 -mt-6">
+                                    <h3 className="text-lg font-bold text-white mb-2">{project.data.title}</h3>
+                                    <p className="text-gray-200 text-xs mb-3 line-clamp-2">{project.data.description}</p>
 
-                                <div className="flex flex-wrap gap-2 mb-4">
-                                    {project.data.tags.slice(0, 3).map((tag, i) => (
-                                        <span key={i} className="text-xs font-medium px-2 py-1 bg-white/20 text-white rounded-md backdrop-blur-sm border border-white/20">
-                                            #{tag}
-                                        </span>
-                                    ))}
-                                </div>
+                                    <div className="flex flex-wrap gap-1.5 mb-3">
+                                        {project.data.tags.slice(0, 3).map((tag, i) => (
+                                            <span key={i} className="text-xs font-medium px-2 py-0.5 bg-white/20 text-white rounded-md backdrop-blur-sm border border-white/20">
+                                                #{tag}
+                                            </span>
+                                        ))}
+                                    </div>
 
-                                <div className="flex justify-between items-center pt-2 border-t border-white/20">
-                                    <a href={`/projects`} className="text-sm font-bold text-white hover:text-light-secondary dark:hover:text-neon-cyan transition-colors">{trans.details} &rarr;</a>
-                                    {project.data.liveUrl && (
-                                        <a href={project.data.liveUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-300 hover:text-white transition-colors">Live Demo</a>
-                                    )}
+                                    <div className="flex justify-between items-center pt-2 border-t border-white/20">
+                                        <a href={`/projects`} className="text-xs font-bold text-white hover:text-light-secondary dark:hover:text-neon-cyan transition-colors">{trans.details} &rarr;</a>
+                                        {project.data.liveUrl && (
+                                            <a href={project.data.liveUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-gray-300 hover:text-white transition-colors">Live Demo</a>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
