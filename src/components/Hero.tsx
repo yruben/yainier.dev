@@ -2,6 +2,7 @@ import { motion } from "motion/react"
 import Typewriter from 'typewriter-effect';
 import { Github, Linkedin, Youtube, Twitter } from 'lucide-react';
 import { siteConfig } from "../config";
+import NetworkAnimation from './NetworkAnimation';
 
 interface HeroProps {
     trans: {
@@ -19,6 +20,9 @@ export default function Hero({ trans, titles }: HeroProps) {
 
     return (
         <section className="relative min-h-screen flex items-center justify-center bg-light-bg dark:bg-navy-900 overflow-hidden pt-16 transition-colors duration-300">
+            {/* Network Animation Background */}
+            <NetworkAnimation />
+
             {/* Background Glow */}
             <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-light-primary/20 dark:bg-neon-cyan/20 rounded-full blur-[100px] animate-blob"></div>
             <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-light-secondary/20 dark:bg-neon-pink/20 rounded-full blur-[100px] animate-blob animation-delay-2000"></div>

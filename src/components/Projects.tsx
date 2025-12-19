@@ -39,7 +39,7 @@ export default function Projects({ projects, trans }: ProjectsProps) {
                     </p>
                 </motion.div>
 
-                <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                <div className="flex flex-wrap justify-center gap-6 max-w-[1400px] mx-auto">
                     {projects.map((project, index) => (
                         <motion.div
                             key={index}
@@ -48,7 +48,7 @@ export default function Projects({ projects, trans }: ProjectsProps) {
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1, duration: 0.5 }}
                             whileHover={{ y: -5 }}
-                            className="bg-white dark:bg-navy-800 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-white/10 hover:shadow-xl hover:shadow-light-primary/20 dark:hover:shadow-neon-cyan/20 transition-all group h-[280px] relative w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+                            className="bg-white dark:bg-navy-800 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-white/10 hover:shadow-xl hover:shadow-light-primary/20 dark:hover:shadow-neon-cyan/20 transition-all group h-[300px] relative w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
                         >
                             {/* Image Section - Always visible, covers full background */}
                             <div className="absolute inset-0">
