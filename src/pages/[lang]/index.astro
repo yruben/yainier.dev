@@ -46,7 +46,8 @@ const recentProjects = sortedProjects.slice(0, 4);
         projects: t('stats.projects'),
         tech: t('stats.tech'),
         clients: t('stats.clients'),
-        linkedin: t('stats.linkedin')
+        linkedin: t('stats.linkedin'),
+        degree: t('stats.degree')
     }} />
 
     <Skills client:visible title={t('skills.title')} />
@@ -57,7 +58,7 @@ const recentProjects = sortedProjects.slice(0, 4);
         p1: t('about.p1'),
         p2: t('about.p2'),
         cta: t('about.cta')
-    }} />
+    }} lang={lang} />
 
     <Projects projects={recentProjects} client:visible trans={{
         title: t('projects.title'),

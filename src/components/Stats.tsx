@@ -8,6 +8,7 @@ interface StatsProps {
         tech: string;
         clients: string;
         linkedin: string;
+        degree: string;
     };
 }
 
@@ -39,6 +40,7 @@ export default function Stats({ trans }: StatsProps) {
         { num: 5, suffix: "+", label: trans.tech },
         { num: 100, suffix: "+", label: trans.clients },
         { num: 1500, suffix: "+", label: trans.linkedin },
+        { num: 1, suffix: "", label: trans.degree },
     ];
 
     return (
@@ -51,7 +53,7 @@ export default function Stats({ trans }: StatsProps) {
                             const isLastInRow = {
                                 mobile: (index % 2 === 1), // 2 cols: every odd index is last
                                 tablet: ((index + 1) % 3 === 0), // 3 cols: every 3rd item is last
-                                desktop: index === stats.length - 1, // 5 cols: only last item
+                                desktop: index === stats.length - 1, // 6 cols: only last item
                             };
 
                             return (
@@ -61,7 +63,7 @@ export default function Stats({ trans }: StatsProps) {
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className={`flex flex-col items-center justify-center px-6 md:px-8 lg:px-12 py-4 w-1/2 md:w-1/3 lg:w-1/5 ${
+                                    className={`flex flex-col items-center justify-center px-6 md:px-8 lg:px-12 py-4 w-1/2 md:w-1/3 lg:w-1/6 ${
                                         !isLastInRow.mobile ? 'border-r border-white/20' : ''
                                     } ${!isLastInRow.tablet ? 'md:border-r' : 'md:border-r-0'} ${
                                         !isLastInRow.desktop ? 'lg:border-r' : 'lg:border-r-0'

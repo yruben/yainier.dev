@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import About from '../../components/About';
+import AboutDetail from '../../components/AboutDetail';
 import { useTranslations } from '../../i18n/utils';
 
 import { languages } from '../../i18n/ui';
@@ -15,14 +15,12 @@ const { lang } = Astro.params;
 const t = useTranslations(lang as any);
 ---
 
-<BaseLayout title="Sobre Mí - Yainier">
+<BaseLayout title={lang === 'es' ? 'Sobre Mí - Yainier' : 'About - Yainier'}>
     <div class="pt-20">
-        <About client:load trans={{
-            titlePart1: t('about.title.part1'),
-            titlePart2: t('about.title.part2'),
-            p1: t('about.p1'),
-            p2: t('about.p2'),
-            cta: t('about.cta')
+        <AboutDetail client:load abstract={t('about.abstract')} trans={{
+            pageTitle: t('about.page.title'),
+            pageSubtitle: t('about.page.subtitle'),
+            professionalSummary: t('about.professionalSummary')
         }} />
     </div>
 </BaseLayout>

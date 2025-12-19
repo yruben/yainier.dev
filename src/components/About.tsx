@@ -7,10 +7,13 @@ interface AboutProps {
         p1: string;
         p2: string;
         cta: string;
-    }
+    };
+    lang?: string;
 }
 
-export default function About({ trans }: AboutProps) {
+export default function About({ trans, lang = 'en' }: AboutProps) {
+    const aboutLink = lang === 'en' ? '/about' : `/${lang}/about`;
+
     return (
         <section id="about" className="py-20 bg-gray-50 dark:bg-navy-800 overflow-hidden transition-colors duration-300">
             <div className="container mx-auto px-6">
@@ -59,7 +62,7 @@ export default function About({ trans }: AboutProps) {
                             {trans.p2}
                         </p>
 
-                        <a href="#contact" className="inline-block px-8 py-3 bg-light-secondary dark:bg-neon-pink text-white font-bold rounded-lg hover:bg-pink-600 transition-colors shadow-md dark:shadow-neon-pink">
+                        <a href={aboutLink} className="inline-block px-8 py-3 bg-light-secondary dark:bg-neon-pink text-white font-bold rounded-lg hover:bg-pink-600 transition-colors shadow-md dark:shadow-neon-pink">
                             {trans.cta}
                         </a>
                     </motion.div>
