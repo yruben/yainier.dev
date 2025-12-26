@@ -30,7 +30,7 @@ const t = useTranslations(lang);
                 </div>
             </div>
             <div class="flex items-center gap-4">
-                <LanguagePicker client:idle currentLang={lang} />
+                <LanguagePicker client:idle currentLang={lang} pathname={Astro.url.pathname} />
                 <ThemeToggle client:idle />
             </div>
         </div>

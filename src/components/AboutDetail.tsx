@@ -67,8 +67,8 @@ export default function AboutDetail({ abstract, trans }: AboutDetailProps) {
         return highlightedText;
     };
 
-    const renderAbstract = () => {
-        const highlighted = highlightKeywords(abstract);
+    const renderAbstract = (text: string) => {
+        const highlighted = highlightKeywords(text);
         const parts = highlighted.split('<mark>');
 
         return parts.map((part, index) => {
@@ -84,9 +84,15 @@ export default function AboutDetail({ abstract, trans }: AboutDetailProps) {
         });
     };
 
+    // Split abstract into two paragraphs
+    const sentences = abstract.split('. ');
+    const midPoint = Math.ceil(sentences.length / 2);
+    const firstParagraph = sentences.slice(0, midPoint).join('. ') + (sentences.length > midPoint ? '.' : '');
+    const secondParagraph = sentences.slice(midPoint).join('. ');
+
     return (
         <section className="py-20 bg-light-bg dark:bg-navy-900 transition-colors duration-300">
-            <div className="container mx-auto px-6 max-w-5xl">
+            <div className="container mx-auto px-6 max-w-7xl">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -105,12 +111,38 @@ export default function AboutDetail({ abstract, trans }: AboutDetailProps) {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="bg-white dark:bg-navy-800 rounded-2xl p-8 md:p-12 shadow-xl border border-gray-200 dark:border-white/10"
                 >
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
                         {trans.professionalSummary}
                     </h2>
 
-                    <div className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed space-y-4">
-                        {renderAbstract()}
+                    <div className="relative text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+                        {/* Image - Floated Right */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            className="lg:float-right lg:ml-8 lg:mb-2 lg:w-80 w-full mb-8"
+                        >
+                            <div className="relative">
+                                <img
+                                    src="/about_me.png"
+                                    alt="About Me"
+                                    className="rounded-2xl shadow-2xl border-4 border-white dark:border-white/10 w-full object-cover"
+                                />
+                                {/* Decorative glow effect */}
+                                <div className="absolute -inset-1 bg-gradient-to-r from-light-primary/20 to-light-secondary/20 dark:from-neon-cyan/20 dark:to-neon-pink/20 rounded-2xl blur-lg -z-10"></div>
+                            </div>
+                        </motion.div>
+
+                        {/* Text Content */}
+                        <div className="space-y-6">
+                            <p>
+                                {renderAbstract(firstParagraph)}
+                            </p>
+                            <p>
+                                {renderAbstract(secondParagraph)}
+                            </p>
+                        </div>
                     </div>
                 </motion.div>
             </div>
