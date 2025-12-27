@@ -134,7 +134,7 @@ export default function Timeline({ items }: TimelineProps) {
                         className="flex flex-col md:flex-row w-full h-full"
                     >
                         {/* Text Content */}
-                        <div className="p-8 md:p-12 md:w-1/2 flex flex-col justify-center relative z-10">
+                        <div className="p-8 md:p-12 md:w-3/5 flex flex-col justify-center relative z-10 px-12 md:px-16">
                             <motion.span
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -162,16 +162,44 @@ export default function Timeline({ items }: TimelineProps) {
                         </div>
 
                         {/* Image Content */}
-                        <div className="md:w-1/2 h-64 md:h-auto overflow-hidden relative">
-                            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 to-transparent z-10 pointer-events-none md:hidden"></div>
+                        <div className="md:w-2/5 h-auto overflow-visible relative p-4 md:p-6 flex items-center justify-center" style={{ perspective: '1000px' }}>
                             {selectedItem.data.image ? (
-                                <img
-                                    src={selectedItem.data.image}
-                                    alt={selectedItem.data.title}
-                                    className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
-                                />
+                                <div className="relative w-full" style={{ transformStyle: 'preserve-3d' }}>
+                                    {/* Main Image */}
+                                    <div
+                                        className="relative w-full h-64 md:h-72 rounded-2xl overflow-hidden border-4 border-white dark:border-white/10 shadow-2xl transition-transform duration-500 hover:scale-105"
+                                        style={{
+                                            transform: 'rotateY(-8deg) rotateX(2deg)',
+                                            transformStyle: 'preserve-3d'
+                                        }}
+                                    >
+                                        <img
+                                            src={selectedItem.data.image}
+                                            alt={selectedItem.data.title}
+                                            className="w-full h-full object-cover object-center"
+                                        />
+                                    </div>
+                                    {/* Reflection Effect */}
+                                    <div
+                                        className="relative w-full h-20 md:h-24 mt-1 rounded-b-2xl overflow-hidden opacity-30"
+                                        style={{
+                                            transform: 'rotateY(-8deg) rotateX(-2deg)',
+                                            transformStyle: 'preserve-3d'
+                                        }}
+                                    >
+                                        <img
+                                            src={selectedItem.data.image}
+                                            alt=""
+                                            className="w-full h-full object-cover object-center scale-y-[-1]"
+                                            style={{
+                                                maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 100%)',
+                                                WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 100%)'
+                                            }}
+                                        />
+                                    </div>
+                                </div>
                             ) : (
-                                <div className="w-full h-full bg-gray-100 dark:bg-navy-900 flex items-center justify-center">
+                                <div className="w-full h-64 md:h-72 bg-gray-100 dark:bg-navy-900 flex items-center justify-center rounded-2xl border-4 border-white dark:border-white/10">
                                     <span className="text-gray-400 dark:text-gray-600">No Image Available</span>
                                 </div>
                             )}
