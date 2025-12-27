@@ -27,7 +27,21 @@ const projectsCollection = defineCollection({
     }),
 });
 
+const timelineCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        label: z.string(),
+        title: z.string(),
+        fullDescription: z.string(),
+        markerTitle: z.string(),
+        markerText: z.string(),
+        image: z.string().optional(),
+        icon: z.string().optional(), // 'home', 'work', 'education', 'travel', etc.
+    }),
+});
+
 export const collections = {
     'blog': blogCollection,
     'projects': projectsCollection,
+    'timeline': timelineCollection,
 };

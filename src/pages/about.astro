@@ -3,12 +3,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AboutDetail from '../components/AboutDetail';
 import { useTranslations } from '../i18n/utils';
 
+import { getCollection } from 'astro:content';
+
 const t = useTranslations('en');
+
+const timelineEntries = await getCollection('timeline', ({ id }) => id.startsWith('en/'));
+const sortedTimeline = timelineEntries.sort((a, b) => parseInt(a.data.label) - parseInt(b.data.label));
 ---
 
 <BaseLayout title="About - Yainier">
     <div class="pt-20">
-        <AboutDetail client:load abstract={t('about.abstract')} trans={{
+        <AboutDetail client:load abstract={t('about.abstract')} timelineItems={sortedTimeline} trans={{
             pageTitle: t('about.page.title'),
             pageSubtitle: t('about.page.subtitle'),
             professionalSummary: t('about.professionalSummary')

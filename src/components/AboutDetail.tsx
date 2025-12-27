@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import Timeline from "./Timeline";
 
 interface AboutDetailProps {
     abstract: string;
@@ -7,13 +8,15 @@ interface AboutDetailProps {
         pageSubtitle: string;
         professionalSummary: string;
     };
+    lang?: string;
+    timelineItems?: any[];
 }
 
 const Keyword = ({ children }: { children: string }) => (
     <span className="text-light-primary dark:text-neon-cyan font-semibold">{children}</span>
 );
 
-export default function AboutDetail({ abstract, trans }: AboutDetailProps) {
+export default function AboutDetail({ abstract, trans, lang = 'en', timelineItems = [] }: AboutDetailProps) {
     // Function to highlight keywords in the abstract
     const highlightKeywords = (text: string) => {
         const keywords = [
@@ -109,7 +112,7 @@ export default function AboutDetail({ abstract, trans }: AboutDetailProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="bg-white dark:bg-navy-800 rounded-2xl p-8 md:p-12 shadow-xl border border-gray-200 dark:border-white/10"
+                    className="bg-white dark:bg-navy-800 rounded-2xl p-8 md:p-12 shadow-xl border border-gray-200 dark:border-white/10 mb-20"
                 >
                     <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
                         {trans.professionalSummary}
@@ -145,6 +148,11 @@ export default function AboutDetail({ abstract, trans }: AboutDetailProps) {
                         </div>
                     </div>
                 </motion.div>
+
+                {/* Timeline Section */}
+                <div className="mt-20">
+                    <Timeline items={timelineItems} title="Timeline" />
+                </div>
             </div>
         </section>
     );
