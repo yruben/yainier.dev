@@ -62,30 +62,40 @@ export default function Timeline({ items }: TimelineProps) {
 
     const nextItem = () => {
         const newIndex = (selectedIndex + 1) % sortedItems.length;
-        setSelectedIndex(newIndex);
 
-        // Check if we need to slide the window forward
-        // Slide when the new selection would be beyond the current window
-        if (newIndex >= windowStart + windowSize && newIndex < sortedItems.length) {
-            setWindowStart(Math.min(newIndex - windowSize + 1, sortedItems.length - windowSize));
+        // Only slide the window if we're at the last visible item in the current window
+        // and there are more items to show
+        const isAtLastVisibleItem = selectedIndex === windowStart + windowSize - 1;
+        const hasMoreItemsAhead = windowStart + windowSize < sortedItems.length;
+
+        if (isAtLastVisibleItem && hasMoreItemsAhead) {
+            // Slide window forward by 1
+            setWindowStart(windowStart + 1);
         } else if (newIndex === 0) {
             // Wrapped around to start
             setWindowStart(0);
         }
+
+        setSelectedIndex(newIndex);
     };
 
     const prevItem = () => {
         const newIndex = (selectedIndex - 1 + sortedItems.length) % sortedItems.length;
-        setSelectedIndex(newIndex);
 
-        // Check if we need to slide the window backward
-        // Slide when the new selection would be before the current window
-        if (newIndex < windowStart && newIndex >= 0) {
-            setWindowStart(Math.max(newIndex, 0));
+        // Only slide the window if we're at the first visible item in the current window
+        // and there are items before
+        const isAtFirstVisibleItem = selectedIndex === windowStart;
+        const hasItemsBefore = windowStart > 0;
+
+        if (isAtFirstVisibleItem && hasItemsBefore) {
+            // Slide window backward by 1
+            setWindowStart(windowStart - 1);
         } else if (newIndex === sortedItems.length - 1) {
             // Wrapped around to end
             setWindowStart(Math.max(sortedItems.length - windowSize, 0));
         }
+
+        setSelectedIndex(newIndex);
     };
 
     return (
@@ -97,7 +107,7 @@ export default function Timeline({ items }: TimelineProps) {
                 {/* Navigation Arrows (Absolute positioned or integrated) */}
                 <button
                     onClick={prevItem}
-                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-gray-100/80 dark:bg-navy-700/80 hover:bg-gray-200 dark:hover:bg-navy-600 transition-colors shadow-lg backdrop-blur-sm group"
+                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-gray-100/10 dark:bg-navy-700/10 hover:bg-gray-200/30 dark:hover:bg-navy-600/30 transition-colors shadow-lg backdrop-blur-sm group"
                     aria-label="Previous event"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-gray-200 group-hover:scale-110 transition-transform">
@@ -106,7 +116,7 @@ export default function Timeline({ items }: TimelineProps) {
                 </button>
                 <button
                     onClick={nextItem}
-                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-gray-100/80 dark:bg-navy-700/80 hover:bg-gray-200 dark:hover:bg-navy-600 transition-colors shadow-lg backdrop-blur-sm group"
+                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-gray-100/10 dark:bg-navy-700/10 hover:bg-gray-200/30 dark:hover:bg-navy-600/30 transition-colors shadow-lg backdrop-blur-sm group"
                     aria-label="Next event"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-gray-200 group-hover:scale-110 transition-transform">
@@ -236,7 +246,7 @@ export default function Timeline({ items }: TimelineProps) {
                                             <h4 className={`text-xs md:text-sm font-bold transition-colors ${isSelected ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
                                                 {item.data.markerTitle}
                                             </h4>
-                                            <p className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 max-w-[100px] leading-tight hidden md:block">
+                                            <p className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 leading-tight hidden md:block mx-auto text-center">
                                                 {item.data.markerText}
                                             </p>
                                         </div>
