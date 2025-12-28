@@ -16,7 +16,8 @@ const sortedTimeline = timelineEntries.sort((a, b) => parseInt(a.data.label) - p
         <AboutDetail client:load abstract={t('about.abstract')} timelineItems={sortedTimeline} trans={{
             pageTitle: t('about.page.title'),
             pageSubtitle: t('about.page.subtitle'),
-            professionalSummary: t('about.professionalSummary')
+            professionalSummary: t('about.professionalSummary'),
+            timelineTitle: t('about.timeline.title')
         }} />
     </div>
 </BaseLayout>

@@ -55,6 +55,7 @@ export const ui = {
         'about.page.title': 'About',
         'about.page.subtitle': 'Me',
         'about.professionalSummary': 'Professional Summary',
+        'about.timeline.title': 'My Timeline',
     },
     es: {
         'nav.home': 'Inicio',
@@ -105,5 +106,6 @@ export const ui = {
         'about.page.title': 'Sobre',
         'about.page.subtitle': 'Mí',
         'about.professionalSummary': 'Resumen Profesional',
+        'about.timeline.title': 'Mi Trayectoria',
     },
 } as const;

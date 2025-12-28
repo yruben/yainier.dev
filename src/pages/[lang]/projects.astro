@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Projects from '../../components/Projects';
 import { getCollection } from 'astro:content';
 import { useTranslations } from '../../i18n/utils';
 
@@ -14,48 +15,20 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 const t = useTranslations(lang as any);
 const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
+const formattedProjects = allProjects.map(project => ({
+	...project,
+	body: project.body
+}));
+const sortedProjects = formattedProjects.sort((a, b) => (a.data.order || 999) - (b.data.order || 999));
 ---
 
-<BaseLayout title="Proyectos - Yainier">
+<BaseLayout title={lang === 'es' ? 'Proyectos - Yainier' : 'Projects - Yainier'}>
 	<div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900">
-		<section class="py-20">
-			<div class="container mx-auto px-6">
-				<div class="text-center mb-16">
-					<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-						Mis <span class="text-light-primary dark:text-neon-cyan">Proyectos</span>
-					</h1>
-					<p class="text-gray-600 dark:text-gray-300">
-						{t('projects.desc')}
-					</p>
-					<div class="w-20 h-1 bg-light-primary dark:bg-neon-cyan mx-auto mt-6 rounded-full"></div>
-				</div>
-				
-				<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-					{allProjects.map((project) => (
-						<div class="bg-white dark:bg-navy-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-white/5 hover:border-light-primary/50 dark:hover:border-neon-cyan/50 transition-all">
-							<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3">{project.data.title}</h2>
-							<p class="text-gray-600 dark:text-gray-300 mb-4 h-20 overflow-hidden">{project.data.description}</p>
-							<div class="flex flex-wrap gap-2 mb-6">
-								{project.data.tags.map((tag) => (
-									<span class="bg-gray-100 dark:bg-navy-700 text-gray-800 dark:text-gray-300 text-xs px-2 py-1 rounded-full">{tag}</span>
-								))}
-							</div>
-							<div class="flex space-x-4">
-								{project.data.githubUrl && (
-									<a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan flex items-center">
-										GitHub &rarr;
-									</a>
-								)}
-								{project.data.liveUrl && (
-									<a href={project.data.liveUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-light-primary dark:text-neon-cyan hover:opacity-80 flex items-center">
-										Demo &rarr;
-									</a>
-								)}
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		</section>
+		<Projects client:load projects={sortedProjects} enableInfiniteScroll={true} trans={{
+			title: t('projects.title'),
+			desc: t('projects.desc'),
+			viewAll: t('projects.viewAll'),
+			details: t('projects.details')
+		}} />
 	</div>
 </BaseLayout>

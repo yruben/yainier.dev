@@ -7,6 +7,7 @@ interface AboutDetailProps {
         pageTitle: string;
         pageSubtitle: string;
         professionalSummary: string;
+        timelineTitle: string;
     };
     lang?: string;
     timelineItems?: any[];
@@ -151,7 +152,23 @@ export default function AboutDetail({ abstract, trans, lang = 'en', timelineItem
 
                 {/* Timeline Section */}
                 <div className="mt-20">
-                    <Timeline items={timelineItems} title="Timeline" />
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-12"
+                    >
+                        <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                            {trans.timelineTitle.split(' ').map((word, i, arr) => (
+                                <span key={i} className={i === arr.length - 1 ? "text-light-secondary dark:text-neon-pink" : ""}>
+                                    {word} {i < arr.length - 1 ? ' ' : ''}
+                                </span>
+                            ))}
+                        </h2>
+                        <div className="w-20 h-1 bg-light-secondary dark:bg-neon-pink rounded-full"></div>
+                    </motion.div>
+                    <Timeline items={timelineItems} />
                 </div>
             </div>
         </section>
