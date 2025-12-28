@@ -75,7 +75,7 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
         : "bg-light-primary dark:bg-neon-cyan";
 
     return (
-        <section id="projects" className="py-20 bg-light-bg dark:bg-navy-900 transition-colors duration-300">
+        <section id="projects" className="py-20 bg-light-bg dark:bg-navy-900 transition-colors duration-300 border-t border-gray-300 dark:border-white/5">
             <div className="container mx-auto px-6 max-w-7xl">
                 <motion.div
                     className={`mb-16 ${enableInfiniteScroll ? 'text-left' : 'text-center'}`}

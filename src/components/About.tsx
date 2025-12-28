@@ -15,7 +15,7 @@ export default function About({ trans, lang = 'en' }: AboutProps) {
     const aboutLink = lang === 'en' ? '/about' : `/${lang}/about`;
 
     return (
-        <section id="about" className="py-20 bg-gray-50 dark:bg-navy-800 overflow-hidden transition-colors duration-300">
+        <section id="about" className="py-20 bg-gray-50 dark:bg-navy-800 overflow-hidden transition-colors duration-300 border-t border-gray-300 dark:border-white/5">
             <div className="container mx-auto px-6">
                 <div className="flex flex-col md:flex-row items-center gap-16">
 

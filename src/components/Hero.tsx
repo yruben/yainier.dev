@@ -105,13 +105,13 @@ export default function Hero({ trans, titles }: HeroProps) {
                         <a href="https://github.com/yruben" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
                             <Github size={20} />
                         </a>
-                        <a href="https://linkedin.com/in/yruben" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                        <a href="https://www.linkedin.com/in/yainiermr" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
                             <Linkedin size={20} />
                         </a>
-                        <a href="https://youtube.com/@yruben" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-500 hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                        <a href="https://youtube.com/@IngenieroDeExito" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-500 hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
                             <Youtube size={20} />
                         </a>
-                        <a href="https://twitter.com/yruben" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-blue-400 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                        <a href="https://twitter.com/yainiermr" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-100 dark:bg-navy-800 rounded-full text-gray-700 dark:text-gray-300 hover:text-blue-400 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-navy-700 transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
                             <Twitter size={20} />
                         </a>
                     </motion.div>

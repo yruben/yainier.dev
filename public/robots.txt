@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yainier.dev/sitemap-index.xml

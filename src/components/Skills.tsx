@@ -29,7 +29,7 @@ interface SkillsProps {
 
 export default function Skills({ title }: SkillsProps) {
     return (
-        <section id="skills" className="py-20 bg-light-bg dark:bg-navy-900 relative transition-colors duration-300">
+        <section id="skills" className="py-20 bg-light-bg dark:bg-navy-900 relative transition-colors duration-300 border-t border-gray-300 dark:border-white/5">
             <div className="container mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

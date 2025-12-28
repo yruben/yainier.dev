@@ -35,7 +35,7 @@ export const ui = {
         'projects.details': 'Details',
         'footer.links': 'Quick Links',
         'footer.connect': 'Connect',
-        'footer.desc': 'Creating digital experiences that matter. solving problems with code and design.',
+        'footer.desc': 'Creating digital experiences that matter. Solving problems with code and design.',
         'hero.subtitlePrefix': "And I'm a ",
         'hero.word1': "Software Engineer",
         'hero.word2': "Youtuber",
@@ -56,6 +56,7 @@ export const ui = {
         'about.page.subtitle': 'Me',
         'about.professionalSummary': 'Professional Summary',
         'about.timeline.title': 'My Timeline',
+        'nav.resume': 'Download CV',
     },
     es: {
         'nav.home': 'Inicio',
@@ -107,5 +108,6 @@ export const ui = {
         'about.page.subtitle': 'Mí',
         'about.professionalSummary': 'Resumen Profesional',
         'about.timeline.title': 'Mi Trayectoria',
+        'nav.resume': 'Descargar CV',
     },
 } as const;
