@@ -1,6 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import NetworkAnimation from './NetworkAnimation';
+import FooterContact from './FooterContact';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -27,7 +28,7 @@ const t = useTranslations(lang);
                     <li><a href="#projects" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">{t('nav.projects')}</a></li>
                     <li><a href="#blog" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">{t('nav.blog')}</a></li>
                     <li><a href="/recommended" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">{t('nav.recommended')}</a></li>
-                    <li><a href="/contact" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">{t('nav.contact')}</a></li>
+                    <li><FooterContact client:load text={t('nav.contact')} /></li>
                 </ul>
             </div>
 

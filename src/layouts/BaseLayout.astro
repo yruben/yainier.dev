@@ -6,6 +6,7 @@ import ScrollToTop from '../components/ScrollToTop';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 import HireMeFAB from '../components/HireMeFAB';
+import ContactModal from '../components/ContactModal';
 
 interface Props {
 	title: string;
@@ -85,7 +86,17 @@ const { title, description = "Yainier's Portfolio" } = Astro.props;
 		<main>
 			<slot />
 		</main>
-        <HireMeFAB client:idle text={t('hero.hire')} href={`/${lang === 'en' ? 'contact' : `${lang}/contact`}`} />
+        <HireMeFAB client:idle text={t('hero.hire')} />
+        <ContactModal client:idle trans={{
+            title: t('contact.title'),
+            desc: t('contact.desc'),
+            name: t('contact.form.name'),
+            email: t('contact.form.email'),
+            message: t('contact.form.message'),
+            send: t('contact.send'),
+            success: t('contact.success'),
+            error: t('contact.error')
+        }} />
         <Footer />
         <ScrollToTop client:load />
 	</body>

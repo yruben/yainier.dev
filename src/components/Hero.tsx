@@ -122,12 +122,12 @@ export default function Hero({ trans, titles }: HeroProps) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1, duration: 0.6 }}
                     >
-                        <a href="#contact" className="px-8 py-3 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-full hover:opacity-90 transition-all shadow-md dark:shadow-neon-cyan">
+                        <button onClick={() => import('../stores/contactStore').then(m => m.isContactOpen.set(true))} className="px-8 py-3 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-full hover:opacity-90 transition-all shadow-md dark:shadow-neon-cyan">
                             {trans.hire}
-                        </a>
-                        <a href="#portfolio" className="px-8 py-3 border border-light-primary dark:border-neon-cyan text-light-primary dark:text-neon-cyan font-bold rounded-full hover:bg-light-primary/10 dark:hover:bg-neon-cyan/10 transition-colors">
+                        </button>
+                        <button onClick={() => import('../stores/contactStore').then(m => m.isContactOpen.set(true))} className="px-8 py-3 border border-light-primary dark:border-neon-cyan text-light-primary dark:text-neon-cyan font-bold rounded-full hover:bg-light-primary/10 dark:hover:bg-neon-cyan/10 transition-colors">
                             {trans.contact}
-                        </a>
+                        </button>
                     </motion.div>
                 </div>
             </div>
