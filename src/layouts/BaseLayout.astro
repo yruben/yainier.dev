@@ -68,10 +68,7 @@ const { title, description = "Yainier's Portfolio" } = Astro.props;
                 if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
                     return localStorage.getItem('theme');
                 }
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    return 'dark';
-                }
-                return 'light';
+                return 'dark'; // Default to dark mode on first visit
             })();
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
@@ -93,6 +90,9 @@ const { title, description = "Yainier's Portfolio" } = Astro.props;
             name: t('contact.form.name'),
             email: t('contact.form.email'),
             message: t('contact.form.message'),
+            namePlaceholder: t('contact.form.name.placeholder'),
+            emailPlaceholder: t('contact.form.email.placeholder'),
+            messagePlaceholder: t('contact.form.message.placeholder'),
             send: t('contact.send'),
             success: t('contact.success'),
             error: t('contact.error')
