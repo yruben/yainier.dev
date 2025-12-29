@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations } from '../i18n/utils';
+
+const t = useTranslations('en');
+---
+
+<BaseLayout title={`${t('hire.title.part1')} ${t('hire.title.part2')} - Yainier`}>
+    <section class="relative py-20 px-6 overflow-hidden">
+        <!-- background blobs -->
+        <div class="absolute top-1/4 -left-20 w-72 h-72 bg-light-primary/10 dark:bg-neon-cyan/5 rounded-full blur-3xl animate-blob"></div>
+        <div class="absolute bottom-1/4 -right-20 w-72 h-72 bg-light-secondary/10 dark:bg-neon-pink/5 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+
+        <div class="max-w-3xl mx-auto relative z-10">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                    {t('hire.title.part1')} <span class="text-light-secondary dark:text-neon-pink">{t('hire.title.part2')}</span>
+                </h1>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    {t('hire.subtitle')}
+                </p>
+                <div class="mt-8 inline-block px-4 py-2 bg-light-primary/10 dark:bg-neon-cyan/10 border border-light-primary/20 dark:border-neon-cyan/20 rounded-full">
+                    <span class="text-light-primary dark:text-neon-cyan font-bold">{t('hire.note')}</span>
+                </div>
+            </div>
+
+            <form action="/api/hire" method="POST" class="bg-white/50 dark:bg-navy-800/50 backdrop-blur-md border border-gray-200 dark:border-white/10 p-8 md:p-12 rounded-3xl shadow-xl space-y-8">
+                <!-- Honeypot -->
+                <div style="display:none;">
+                    <label for="honeypot">Leave this field empty</label>
+                    <input type="text" name="honeypot" id="honeypot" tabindex="-1" autocomplete="off" />
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Name -->
+                    <div class="space-y-2">
+                        <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                            {t('hire.form.name')} <span class="text-light-secondary dark:text-neon-pink">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            required
+                            placeholder="John Doe"
+                            class="w-full px-4 py-3 bg-white dark:bg-navy-900 border border-gray-300 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan outline-none transition-all"
+                        />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="space-y-2">
+                        <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                            {t('hire.form.email')} <span class="text-light-secondary dark:text-neon-pink">*</span>
+                        </label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            required
+                            placeholder="john@example.com"
+                            class="w-full px-4 py-3 bg-white dark:bg-navy-900 border border-gray-300 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan outline-none transition-all"
+                        />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Company -->
+                    <div class="space-y-2">
+                        <label for="company" class="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                            {t('hire.form.company')}
+                        </label>
+                        <input
+                            type="text"
+                            name="company"
+                            id="company"
+                            placeholder="Acme Corp"
+                            class="w-full px-4 py-3 bg-white dark:bg-navy-900 border border-gray-300 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan outline-none transition-all"
+                        />
+                    </div>
+
+                    <!-- Project Type -->
+                    <div class="space-y-2">
+                        <label for="project-type" class="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                            {t('hire.form.type')} <span class="text-light-secondary dark:text-neon-pink">*</span>
+                        </label>
+                        <select
+                            name="project-type"
+                            id="project-type"
+                            required
+                            class="w-full px-4 py-3 bg-white dark:bg-navy-900 border border-gray-300 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan outline-none transition-all appearance-none cursor-pointer"
+                        >
+                            <option value="" disabled selected>Select one...</option>
+                            <option value="website">{t('hire.type.website')}</option>
+                            <option value="webapp">{t('hire.type.webapp')}</option>
+                            <option value="ecommerce">{t('hire.type.ecommerce')}</option>
+                            <option value="consulting">{t('hire.type.consulting')}</option>
+                            <option value="maintenance">{t('hire.type.maintenance')}</option>
+                            <option value="other">{t('hire.type.other')}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Budget -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-4">
+                            {t('hire.form.budget')} <span class="text-light-secondary dark:text-neon-pink">*</span>
+                        </label>
+                        <div class="grid grid-cols-1 gap-3">
+                            {[
+                                '< $1000',
+                                '$1000 – $3,500',
+                                '$3,500 – $6,000',
+                                '$6,000+'
+                            ].map((value) => (
+                                <label class="flex items-center gap-3 p-3 border border-gray-300 dark:border-white/10 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-navy-900/50 transition-colors group">
+                                    <input type="radio" name="budget" value={value} required class="w-4 h-4 text-light-primary dark:text-neon-cyan focus:ring-light-primary dark:focus:ring-neon-cyan" />
+                                    <span class="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">{value}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="space-y-2">
+                        <label for="timeline" class="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                            {t('hire.form.timeline')} <span class="text-light-secondary dark:text-neon-pink">*</span>
+                        </label>
+                        <select
+                            name="timeline"
+                            id="timeline"
+                            required
+                            class="w-full px-4 py-3 bg-white dark:bg-navy-900 border border-gray-300 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan outline-none transition-all appearance-none cursor-pointer"
+                        >
+                            <option value="" disabled selected>Select one...</option>
+                            <option value="urgent">{t('hire.timeline.urgent')}</option>
+                            <option value="normal">{t('hire.timeline.normal')}</option>
+                            <option value="flexible">{t('hire.timeline.flexible')}</option>
+                            <option value="indefinite">{t('hire.timeline.indefinite')}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="space-y-2">
+                    <label for="description" class="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                        {t('hire.form.description')} <span class="text-light-secondary dark:text-neon-pink">*</span>
+                    </label>
+                    <textarea
+                        name="description"
+                        id="description"
+                        rows="5"
+                        required
+                        placeholder="Tell me more about your project goals, target audience, and any specific features you need..."
+                        class="w-full px-4 py-3 bg-white dark:bg-navy-900 border border-gray-300 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan outline-none transition-all resize-none"
+                    ></textarea>
+                </div>
+
+                <div class="pt-4">
+                    <button
+                        type="submit"
+                        class="w-full py-4 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-2xl shadow-lg shadow-light-primary/30 dark:shadow-neon-cyan/20 hover:scale-[1.02] active:scale-[0.98] transition-all text-lg"
+                    >
+                        {t('hire.form.send')}
+                    </button>
+                    <p class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">
+                        By submitting this form, you agree to our privacy policy. No spam, ever.
+                    </p>
+                </div>
+            </form>
+        </div>
+    </section>
+</BaseLayout>

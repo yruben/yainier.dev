@@ -6,7 +6,8 @@ import { X } from "lucide-react";
 
 interface ContactModalProps {
     trans: {
-        title: string;
+        titlePart1: string;
+        titlePart2: string;
         desc: string;
         name: string;
         email: string;
@@ -105,7 +106,9 @@ export default function ContactModal({ trans }: ContactModalProps) {
                         >
                             <X size={24} />
                         </button>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{trans.title}</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                            {trans.titlePart1} <span className="text-light-secondary dark:text-neon-pink">{trans.titlePart2}</span>
+                        </h2>
                         <p className="text-gray-600 dark:text-gray-300 text-sm">{trans.desc}</p>
                     </div>
 

@@ -85,7 +85,8 @@ const { title, description = "Yainier's Portfolio" } = Astro.props;
 		</main>
         <HireMeFAB client:idle text={t('hero.hire')} />
         <ContactModal client:idle trans={{
-            title: t('contact.title'),
+            titlePart1: t('contact.title.part1'),
+            titlePart2: t('contact.title.part2'),
             desc: t('contact.desc'),
             name: t('contact.form.name'),
             email: t('contact.form.email'),

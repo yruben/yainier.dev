@@ -7,13 +7,14 @@ interface HireMeFABProps {
 }
 
 export default function HireMeFAB({ text }: HireMeFABProps) {
-    const handleClick = () => {
-        isContactOpen.set(true);
-    };
+    const lang = typeof window !== 'undefined'
+        ? (window.location.pathname.startsWith('/es') ? 'es' : 'en')
+        : 'en';
+    const href = lang === 'en' ? '/hire-me' : '/es/hire-me';
 
     return (
-        <motion.button
-            onClick={handleClick}
+        <motion.a
+            href={href}
             initial={{ opacity: 0, scale: 0.8, x: -50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ delay: 1, duration: 0.5 }}
@@ -23,6 +24,6 @@ export default function HireMeFAB({ text }: HireMeFABProps) {
         >
             <Mail size={20} />
             <span>{text}</span>
-        </motion.button>
+        </motion.a>
     );
 }
