@@ -26,6 +26,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         const name = formData.get('name')
         const email = formData.get('email')
         const message = formData.get('message')
+        const lang = formData.get('lang') || 'en' // Get language from form, default to 'en'
 
         if (!name || !email || !message) {
             return new Response(
@@ -36,16 +37,39 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
         const resend = new Resend(env.RESEND_API_KEY)
 
+        // Define email subjects based on language
+        const subjects = {
+            en: `📩 New message from yainier.com`,
+            es: `📩 Nuevo mensaje desde yainier.com`
+        }
+
+        // Define email content labels based on language
+        const labels = {
+            en: {
+                name: 'Name',
+                email: 'Email',
+                message: 'Message'
+            },
+            es: {
+                name: 'Nombre',
+                email: 'Correo',
+                message: 'Mensaje'
+            }
+        }
+
+        const emailLang = lang === 'es' ? 'es' : 'en'
+        const l = labels[emailLang]
+
         const result = await resend.emails.send({
             from: env.CONTACT_FROM_EMAIL,
             to: env.CONTACT_TO_EMAIL,
             replyTo: email.toString(),
-            subject: `📩 Nuevo mensaje desde yainier.com`,
+            subject: subjects[emailLang],
             text: `
-Nombre: ${name}
-Email: ${email}
+${l.name}: ${name}
+${l.email}: ${email}
 
-Mensaje:
+${l.message}:
 ${message}
       `,
         })

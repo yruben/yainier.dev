@@ -22,6 +22,11 @@ export default function ContactModal({ trans }: ContactModalProps) {
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // Detect language from URL
+    const lang = typeof window !== 'undefined'
+        ? (window.location.pathname.startsWith('/es') ? 'es' : 'en')
+        : 'en';
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setStatus('sending');
@@ -125,6 +130,13 @@ export default function ContactModal({ trans }: ContactModalProps) {
                                     tabIndex={-1}
                                     autoComplete="off"
                                     style={{ display: 'none' }}
+                                />
+
+                                {/* Language field - hidden */}
+                                <input
+                                    type="hidden"
+                                    name="lang"
+                                    value={lang}
                                 />
 
                                 {/* Name */}
