@@ -3,6 +3,7 @@ import ThemeToggle from './ThemeToggle';
 import LanguagePicker from './LanguagePicker';
 import NavLink from './NavLink';
 import NavContact from './NavContact';
+import MobileMenu from './MobileMenu';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -30,10 +31,25 @@ const t = useTranslations(lang);
                     </div>
                 </div>
             </div>
-            <div class="flex items-center gap-4">
+            <div class="hidden md:flex items-center gap-4">
                 <LanguagePicker client:idle currentLang={lang} pathname={Astro.url.pathname} />
                 <ThemeToggle client:idle />
             </div>
+
+            <MobileMenu 
+                client:load 
+                lang={lang} 
+                pathname={Astro.url.pathname} 
+                trans={{
+                    home: t('nav.home'),
+                    about: t('nav.about'),
+                    projects: t('nav.projects'),
+                    blog: t('nav.blog'),
+                    recommended: t('nav.recommended'),
+                    contact: t('nav.contact'),
+                    resume: t('nav.resume')
+                }} 
+            />
         </div>
     </div>
 </nav>
