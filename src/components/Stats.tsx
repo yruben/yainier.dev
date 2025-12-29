@@ -39,7 +39,7 @@ export default function Stats({ trans }: StatsProps) {
         { num: 30, suffix: "+", label: trans.projects },
         { num: 5, suffix: "+", label: trans.tech },
         { num: 100, suffix: "+", label: trans.clients },
-        { num: 1500, suffix: "+", label: trans.linkedin },
+        { num: 1600, suffix: "+", label: trans.linkedin },
         { num: 1, suffix: "", label: trans.degree },
     ];
 

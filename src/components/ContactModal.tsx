@@ -11,6 +11,9 @@ interface ContactModalProps {
         name: string;
         email: string;
         message: string;
+        namePlaceholder: string;
+        emailPlaceholder: string;
+        messagePlaceholder: string;
         send: string;
         success: string;
         error: string;
@@ -149,6 +152,7 @@ export default function ContactModal({ trans }: ContactModalProps) {
                                         name="name"
                                         id="name"
                                         required
+                                        placeholder={trans.namePlaceholder}
                                         className="w-full px-4 py-2 border border-gray-300 dark:border-white/10 dark:bg-navy-900 dark:text-white rounded-lg focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan focus:border-transparent outline-none transition-colors"
                                     />
                                 </div>
@@ -163,6 +167,7 @@ export default function ContactModal({ trans }: ContactModalProps) {
                                         name="email"
                                         id="email"
                                         required
+                                        placeholder={trans.emailPlaceholder}
                                         className="w-full px-4 py-2 border border-gray-300 dark:border-white/10 dark:bg-navy-900 dark:text-white rounded-lg focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan focus:border-transparent outline-none transition-colors"
                                     />
                                 </div>
@@ -177,6 +182,7 @@ export default function ContactModal({ trans }: ContactModalProps) {
                                         id="message"
                                         rows={5}
                                         required
+                                        placeholder={trans.messagePlaceholder}
                                         className="w-full px-4 py-2 border border-gray-300 dark:border-white/10 dark:bg-navy-900 dark:text-white rounded-lg focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan focus:border-transparent outline-none transition-colors resize-none"
                                     ></textarea>
                                 </div>
