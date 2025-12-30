@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useTranslations } from '../../i18n/utils';
+import { languages } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map((lang) => {
+      return { params: { lang } };
+  });
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as any);
+---
+
+<BaseLayout title={`${t('thanks.hire.title.part1')} ${t('thanks.hire.title.part2')} - Yainier`}>
+    <div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900 flex items-center justify-center">
+        <section class="py-20 px-6">
+            <div class="max-w-2xl mx-auto text-center">
+                <div class="mb-8 inline-flex items-center justify-center w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                    {t('thanks.hire.title.part1')} <span class="text-light-secondary dark:text-neon-pink">{t('thanks.hire.title.part2')}</span>
+                </h1>
+                
+                <p class="text-lg text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
+                    {t('thanks.hire.desc')}
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a 
+                        href={lang === 'en' ? '/' : `/${lang}`} 
+                        class="px-8 py-3 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-xl shadow-lg hover:scale-105 transition-transform"
+                    >
+                        {t('thanks.hire.home')}
+                    </a>
+                    <a 
+                        href={lang === 'en' ? '/projects' : `/${lang}/projects`} 
+                        class="px-8 py-3 bg-white dark:bg-navy-800 text-gray-700 dark:text-white font-bold rounded-xl border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-navy-700 transition-colors"
+                    >
+                        {t('thanks.hire.projects')}
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</BaseLayout>

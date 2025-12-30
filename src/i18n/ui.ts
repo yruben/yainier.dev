@@ -91,6 +91,11 @@ export const ui = {
         'recommended.title.part1': 'Recommended',
         'recommended.title.part2': 'Resources',
         'recommended.desc': 'Tools, courses, and resources I recommend for developers',
+        'thanks.hire.title.part1': 'Thanks for',
+        'thanks.hire.title.part2': 'reaching out!',
+        'thanks.hire.desc': "I've received your project details and I'm excited to learn more. I'll review your information and get back to you within 24–48 hours to discuss the next steps.",
+        'thanks.hire.home': 'Back to Home',
+        'thanks.hire.projects': 'Explore Projects',
     },
     es: {
         'nav.home': 'Inicio',
@@ -177,5 +182,10 @@ export const ui = {
         'recommended.title.part1': 'Recursos',
         'recommended.title.part2': 'Recomendados',
         'recommended.desc': 'Herramientas, cursos y recursos que recomiendo para desarrolladores',
+        'thanks.hire.title.part1': '¡Gracias por',
+        'thanks.hire.title.part2': 'contactarme!',
+        'thanks.hire.desc': 'He recibido los detalles de tu proyecto y estoy emocionado por saber más. Revisaré tu información y me pondré en contacto contigo en un plazo de 24 a 48 horas para discutir los próximos pasos.',
+        'thanks.hire.home': 'Volver al Inicio',
+        'thanks.hire.projects': 'Explorar Proyectos',
     },
 } as const;

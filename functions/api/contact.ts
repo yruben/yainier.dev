@@ -1,15 +1,5 @@
 import { Resend } from 'resend'
-
-// Cloudflare Pages Function types
-interface Env {
-    RESEND_API_KEY: string
-    CONTACT_FROM_EMAIL: string
-    CONTACT_TO_EMAIL: string
-}
-
-interface PagesFunction<Env = unknown> {
-    (context: { request: Request; env: Env }): Response | Promise<Response>
-}
+import type { Env, PagesFunction } from '../_types'
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     try {
