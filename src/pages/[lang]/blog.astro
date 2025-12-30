@@ -26,13 +26,13 @@ const totalArticles = allPosts.length;
 				{/* Header */}
 				<div class="text-center mb-16">
 					<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-						{t('blog.title')}
+						{t('blog.title.part1')} <span class="text-light-secondary dark:text-neon-pink">{t('blog.title.part2')}</span>
 					</h1>
 					<p class="text-gray-600 dark:text-gray-300 mb-2">
 						{t('blog.desc')}
 					</p>
 					<p class="text-sm text-light-primary dark:text-neon-cyan font-semibold">
-						{totalArticles} artículos publicados
+						{totalArticles} {lang === 'es' ? 'artículos publicados' : 'articles published'}
 					</p>
 					<div class="w-20 h-1 bg-light-primary dark:bg-neon-cyan mx-auto mt-6 rounded-full"></div>
 				</div>

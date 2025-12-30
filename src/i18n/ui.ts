@@ -88,6 +88,9 @@ export const ui = {
         'hire.timeline.normal': 'Standard (1-3 months)',
         'hire.timeline.flexible': 'Flexible (3+ months)',
         'hire.timeline.indefinite': 'Full-time / Indefinite Contract',
+        'recommended.title.part1': 'Recommended',
+        'recommended.title.part2': 'Resources',
+        'recommended.desc': 'Tools, courses, and resources I recommend for developers',
     },
     es: {
         'nav.home': 'Inicio',
@@ -171,5 +174,8 @@ export const ui = {
         'hire.timeline.normal': 'Estándar (1-3 meses)',
         'hire.timeline.flexible': 'Flexible (más de 3 meses)',
         'hire.timeline.indefinite': 'Contrato (Indefinido)',
+        'recommended.title.part1': 'Recursos',
+        'recommended.title.part2': 'Recomendados',
+        'recommended.desc': 'Herramientas, cursos y recursos que recomiendo para desarrolladores',
     },
 } as const;
