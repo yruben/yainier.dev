@@ -40,8 +40,34 @@ const timelineCollection = defineCollection({
     }),
 });
 
+const recoCategoriesCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        image: z.string(),
+        order: z.number(),
+    }),
+});
+
+const recoItemsCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        url: z.string(),
+        image: z.string().optional(),
+        category: z.string(), // slug of the category
+        pubDate: z.coerce.date().optional(),
+    }),
+});
+
+
+
 export const collections = {
     'blog': blogCollection,
     'projects': projectsCollection,
     'timeline': timelineCollection,
+    'reco_categories': recoCategoriesCollection,
+    'reco_items': recoItemsCollection,
 };

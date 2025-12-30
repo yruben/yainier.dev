@@ -1,34 +1,65 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations } from '../i18n/utils';
+import { getCollection } from 'astro:content';
+import CategoryCard from '../components/CategoryCard';
 
-const t = useTranslations('en');
+const lang = 'en';
+const t = useTranslations(lang);
+
+// Fetch categories for the default language
+const allCategories = await getCollection('reco_categories', ({ id }) => {
+    return id.startsWith(`${lang}/`);
+});
+
+// Sort categories by order
+const categories = allCategories.sort((a, b) => a.data.order - b.data.order);
+
+// Fetch all items for the default language to count them
+const allItems = await getCollection('reco_items', ({ id }) => {
+    return id.startsWith(`${lang}/`);
+});
+
+// Helper to get count per category
+const getCount = (categorySlug: string) => {
+    return allItems.filter(item => item.data.category === categorySlug).length;
+};
+
+// Helper to get slug from file name (id)
+const getSlug = (id: string) => id.split('/').pop()?.replace('.md', '') || '';
+
+const title = 'Recommended Resources';
 ---
 
-<BaseLayout title="Recommended - Yainier">
-    <div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900">
+<BaseLayout title={`${title} - Yainier`}>
+    <div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900 transition-colors duration-300">
         <section class="py-20">
-            <div class="container mx-auto px-6">
+            <div class="container mx-auto px-6 max-w-7xl">
                 <div class="text-center mb-16">
-                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
                         {t('recommended.title.part1')} <span class="text-light-secondary dark:text-neon-pink">{t('recommended.title.part2')}</span>
                     </h1>
-                    <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
                         {t('recommended.desc')}
                     </p>
-                    <div class="w-20 h-1 bg-light-primary dark:bg-neon-cyan mx-auto mt-6 rounded-full"></div>
+                    <div class="w-24 h-1.5 bg-gradient-to-r from-light-primary to-light-secondary dark:from-neon-cyan dark:to-neon-pink mx-auto mt-8 rounded-full"></div>
                 </div>
 
-                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    <!-- Placeholder for recommended content -->
-                    <div class="bg-white dark:bg-navy-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-white/5 hover:border-light-primary/50 dark:hover:border-neon-cyan/50 transition-all">
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Coming Soon</h3>
-                        <p class="text-gray-600 dark:text-gray-300">
-                            I'm curating a list of my favorite tools and resources. Check back soon!
-                        </p>
-                    </div>
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+                    {categories.map((category) => (
+                        <CategoryCard
+                            client:load
+                            title={category.data.title}
+                            description={category.data.description}
+                            image={category.data.image}
+                            count={getCount(getSlug(category.id))}
+                            href={`/${lang}/recommended/${getSlug(category.id)}`}
+                            lang={lang}
+                        />
+                    ))}
                 </div>
             </div>
         </section>
     </div>
 </BaseLayout>
+

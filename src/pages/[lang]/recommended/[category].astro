@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { languages } from '../../../i18n/ui';
+import { useTranslations } from '../../../i18n/utils';
+import RecommendedItemCard from '../../../components/RecommendedItemCard';
+
+export async function getStaticPaths() {
+    const allCategories = await getCollection('reco_categories');
+    
+    return allCategories.map(category => {
+        const parts = category.id.split('/');
+        const lang = parts[0];
+        const filename = parts[parts.length - 1];
+        const categorySlug = filename.replace('.md', '');
+        return {
+            params: { lang, category: categorySlug },
+            props: { category },
+        };
+    });
+}
+
+const { lang, category: categorySlug } = Astro.params;
+const { category } = Astro.props;
+const t = useTranslations(lang as any);
+
+// Fetch items for this category and language
+const items = await getCollection('reco_items', ({ id, data }) => {
+    return id.startsWith(`${lang}/`) && data.category === categorySlug;
+});
+
+// Sort items by date (newest first)
+const sortedItems = items.sort((a, b) => {
+    const dateA = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0;
+    const dateB = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0;
+    return dateB - dateA;
+});
+
+const backLabel = lang === 'es' ? 'Volver a Recomendados' : 'Back to Recommended';
+---
+
+<BaseLayout title={`${category.data.title} - Yainier`}>
+    <div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900 transition-colors duration-300">
+        <section class="py-20">
+            <div class="container mx-auto px-6 max-w-7xl">
+                {/* Breadcrumb / Back Link */}
+                <div class="mb-12">
+                    <a href={`/${lang}/recommended`} class="inline-flex items-center text-light-primary dark:text-neon-cyan hover:text-light-secondary dark:hover:text-neon-pink font-bold transition-colors group">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        {backLabel}
+                    </a>
+                </div>
+
+                <div class="mb-16">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                        {category.data.title}
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400 max-w-3xl text-lg leading-relaxed">
+                        {category.data.description}
+                    </p>
+                    <div class="w-20 h-1.5 bg-gradient-to-r from-light-primary to-light-secondary dark:from-neon-cyan dark:to-neon-pink mt-8 rounded-full"></div>
+                </div>
+
+                {sortedItems.length > 0 ? (
+                    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {sortedItems.map((item, index) => (
+                            <RecommendedItemCard
+                                client:load
+                                title={item.data.title}
+                                description={item.data.description}
+                                url={item.data.url}
+                                image={item.data.image}
+                                index={index}
+                                lang={lang}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div class="bg-white dark:bg-navy-800 p-12 rounded-2xl border border-gray-200 dark:border-white/10 text-center">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                            {lang === 'es' ? 'No hay elementos todavía' : 'No items yet'}
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            {lang === 'es' ? 'Vuelve pronto para ver nuevas actualizaciones.' : 'Check back soon for new updates.'}
+                        </p>
+                    </div>
+                )}
+            </div>
+        </section>
+    </div>
+</BaseLayout>
