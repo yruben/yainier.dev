@@ -24,10 +24,11 @@ const skills = [
 ];
 
 interface SkillsProps {
-    title: string;
+    titlePart1: string;
+    titlePart2: string;
 }
 
-export default function Skills({ title }: SkillsProps) {
+export default function Skills({ titlePart1, titlePart2 }: SkillsProps) {
     return (
         <section id="skills" className="py-20 bg-light-bg dark:bg-navy-900 relative transition-colors duration-300 border-t border-gray-300 dark:border-white/5">
             <div className="container mx-auto px-6">
@@ -38,8 +39,10 @@ export default function Skills({ title }: SkillsProps) {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">{title}</h2>
-                    <div className="w-20 h-1 bg-light-primary dark:bg-neon-cyan mx-auto rounded-full"></div>
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 relative inline-block">
+                        {titlePart1} <span className="text-light-secondary dark:text-neon-pink">{titlePart2}</span>
+                        <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-light-secondary dark:bg-neon-pink rounded-full"></span>
+                    </h2>
                 </motion.div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-10 gap-8">

@@ -106,8 +106,9 @@ export default function ContactModal({ trans }: ContactModalProps) {
                         >
                             <X size={24} />
                         </button>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 relative inline-block">
                             {trans.titlePart1} <span className="text-light-secondary dark:text-neon-pink">{trans.titlePart2}</span>
+                            <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-light-secondary dark:bg-neon-pink rounded-full"></span>
                         </h2>
                         <p className="text-gray-600 dark:text-gray-300 text-sm">{trans.desc}</p>
                     </div>

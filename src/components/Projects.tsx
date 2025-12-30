@@ -18,7 +18,8 @@ interface Project {
 interface ProjectsProps {
     projects: Project[];
     trans: {
-        title: string;
+        titlePart1: string;
+        titlePart2: string;
         desc: string;
         viewAll: string;
         details: string;
@@ -66,34 +67,25 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
     }, [selectedProject]);
 
 
-    const accentTextColor = enableInfiniteScroll
-        ? "text-light-secondary dark:text-neon-pink"
-        : "text-light-primary dark:text-neon-cyan";
+    const accentTextColor = "text-light-secondary dark:text-neon-pink";
 
-    const underlineColor = enableInfiniteScroll
-        ? "bg-light-secondary dark:bg-neon-pink"
-        : "bg-light-primary dark:bg-neon-cyan";
+    const underlineColor = "bg-light-secondary dark:bg-neon-pink";
 
     return (
         <section id="projects" className="py-20 bg-light-bg dark:bg-navy-900 transition-colors duration-300 border-t border-gray-300 dark:border-white/5">
             <div className="container mx-auto px-6 max-w-7xl">
                 <motion.div
-                    className={`mb-16 ${enableInfiniteScroll ? 'text-left' : 'text-center'}`}
+                    className="mb-16 text-center"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                        {trans.title.split(' ').map((word, i, arr) => (
-                            <span key={i} className={i === arr.length - 1 ? accentTextColor : ""}>
-                                {word} {i < arr.length - 1 ? ' ' : ''}
-                            </span>
-                        ))}
+                    <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 relative inline-block">
+                        {trans.titlePart1} <span className={accentTextColor}>{trans.titlePart2}</span>
+                        <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-light-secondary dark:bg-neon-pink rounded-full"></span>
                     </h2>
-                    {enableInfiniteScroll ? (
-                        <div className={`w-20 h-1 ${underlineColor} rounded-full`}></div>
-                    ) : (
+                    {!enableInfiniteScroll && (
                         <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mt-4">
                             {trans.desc}
                         </p>

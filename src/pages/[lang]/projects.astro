@@ -25,7 +25,8 @@ const sortedProjects = formattedProjects.sort((a, b) => (a.data.order || 999) - 
 <BaseLayout title={lang === 'es' ? 'Proyectos - Yainier' : 'Projects - Yainier'}>
 	<div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900">
 		<Projects client:load projects={sortedProjects} enableInfiniteScroll={true} trans={{
-			title: t('projects.title'),
+			titlePart1: t('projects.title.part1'),
+			titlePart2: t('projects.title.part2'),
 			desc: t('projects.desc'),
 			viewAll: t('projects.viewAll'),
 			details: t('projects.details')
