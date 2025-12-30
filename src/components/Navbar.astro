@@ -20,7 +20,7 @@ const t = useTranslations(lang);
             </div>
             <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-6">
-                    <NavLink client:load href={`/${lang === 'en' ? 'home' : lang}`} icon="home" text={t('nav.home')} />
+                    <NavLink client:load href={`/${lang === 'en' ? '' : lang}`} icon="home" text={t('nav.home')} />
                     <NavLink client:load href={`/${lang === 'en' ? 'about' : `${lang}/about`}`} icon="about" text={t('nav.about')} />
                     <NavLink client:load href={`/${lang === 'en' ? 'projects' : `${lang}/projects`}`} icon="projects" text={t('nav.projects')} />
                     <NavLink client:load href={`/${lang === 'en' ? 'blog' : `${lang}/blog`}`} icon="blog" text={t('nav.blog')} />

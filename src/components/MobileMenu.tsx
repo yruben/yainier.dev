@@ -67,7 +67,7 @@ export default function MobileMenu({ lang, pathname, trans }: MobileMenuProps) {
 
                             <nav className="flex flex-col gap-2">
                                 <div onClick={closeMenu} className="flex flex-col gap-2">
-                                    <NavLink href={`/${lang === 'en' ? 'home' : lang}`} icon="home" text={trans.home} />
+                                    <NavLink href={`/${lang === 'en' ? '' : lang}`} icon="home" text={trans.home} />
                                     <NavLink href={`/${lang === 'en' ? 'about' : `${lang}/about`}`} icon="about" text={trans.about} />
                                     <NavLink href={`/${lang === 'en' ? 'projects' : `${lang}/projects`}`} icon="projects" text={trans.projects} />
                                     <NavLink href={`/${lang === 'en' ? 'blog' : `${lang}/blog`}`} icon="blog" text={trans.blog} />
