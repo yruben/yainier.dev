@@ -57,6 +57,7 @@ export default function Timeline({ items }: TimelineProps) {
 
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [windowStart, setWindowStart] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
 
     if (sortedItems.length === 0) {
         return null;
@@ -103,11 +104,25 @@ export default function Timeline({ items }: TimelineProps) {
         setSelectedIndex(newIndex);
     };
 
+    useEffect(() => {
+        if (isPaused) return;
+
+        const interval = setInterval(() => {
+            nextItem();
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [isPaused, selectedIndex, windowStart]);
+
     return (
         <section className="w-full py-16 px-4 md:px-8 max-w-7xl mx-auto">
 
             {/* Top Featured Card */}
-            <div className="bg-white dark:bg-navy-800 rounded-2xl shadow-xl overflow-hidden mb-16 relative min-h-[400px] flex flex-col md:flex-row transition-colors duration-300">
+            <div
+                className="bg-white dark:bg-navy-800 rounded-2xl shadow-xl overflow-hidden mb-16 relative min-h-[400px] flex flex-col md:flex-row transition-colors duration-300"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+            >
 
                 {/* Navigation Arrows (Absolute positioned or integrated) */}
                 <button
