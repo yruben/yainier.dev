@@ -64,18 +64,23 @@ const { title, description = "Yainier's Portfolio" } = Astro.props;
         </script>
 
         <script is:inline>
-            const theme = (() => {
-                if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-                    return localStorage.getItem('theme');
+            const applyTheme = () => {
+                const theme = (() => {
+                    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+                        return localStorage.getItem('theme');
+                    }
+                    return 'dark';
+                })();
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
                 }
-                return 'dark'; // Default to dark mode on first visit
-            })();
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-            window.localStorage.setItem('theme', theme);
+                window.localStorage.setItem('theme', theme);
+            };
+
+            applyTheme();
+            document.addEventListener('astro:after-swap', applyTheme);
         </script>
 	</head>
 	<body class="bg-light-bg text-light-text dark:bg-navy-900 dark:text-white font-sans antialiased transition-colors duration-300">

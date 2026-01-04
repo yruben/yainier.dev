@@ -5,12 +5,26 @@ export default function ThemeToggle() {
     const [theme, setTheme] = useState(typeof localStorage !== 'undefined' && localStorage.getItem('theme') ? localStorage.getItem('theme') : 'dark');
 
     useEffect(() => {
+        const root = document.documentElement;
         if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
+            root.classList.add('dark');
         } else {
-            document.documentElement.classList.remove('dark');
+            root.classList.remove('dark');
         }
         localStorage.setItem('theme', theme || 'dark');
+    }, [theme]);
+
+    // Handle theme sync on navigation or external changes
+    useEffect(() => {
+        const syncTheme = () => {
+            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            if (currentTheme !== theme) {
+                setTheme(currentTheme);
+            }
+        };
+
+        document.addEventListener('astro:after-swap', syncTheme);
+        return () => document.removeEventListener('astro:after-swap', syncTheme);
     }, [theme]);
 
     const toggleTheme = () => {
