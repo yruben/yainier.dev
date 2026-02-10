@@ -63,9 +63,23 @@ export default function AboutDetail({ abstract, trans, lang = 'en', timelineItem
         // Sort keywords by length (longest first) to avoid partial matches
         const sortedKeywords = [...keywords].sort((a, b) => b.length - a.length);
 
+        // Replace each matched keyword with a unique opaque token so that
+        // subsequent shorter keywords (e.g. 'GraphQL') cannot match inside
+        // an already-wrapped longer keyword (e.g. 'GraphQL APIs').
+        const replacements: string[] = [];
+
         sortedKeywords.forEach((keyword) => {
             const regex = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-            highlightedText = highlightedText.replace(regex, `<mark>$1</mark>`);
+            highlightedText = highlightedText.replace(regex, (match) => {
+                const index = replacements.length;
+                replacements.push(match);
+                return `\u0000${index}\u0000`;
+            });
+        });
+
+        // Restore tokens as <mark> wrapped content
+        replacements.forEach((match, index) => {
+            highlightedText = highlightedText.replace(`\u0000${index}\u0000`, `<mark>${match}</mark>`);
         });
 
         return highlightedText;
