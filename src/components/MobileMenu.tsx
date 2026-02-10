@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
@@ -17,11 +17,24 @@ interface MobileMenuProps {
         recommended: string;
         contact: string;
         resume: string;
+        settings: string;
     };
 }
 
 export default function MobileMenu({ lang, pathname, trans }: MobileMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
+
+    // Lock body scroll when menu is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
 
     const toggleMenu = () => setIsOpen(!isOpen);
     const closeMenu = () => setIsOpen(false);
@@ -54,7 +67,7 @@ export default function MobileMenu({ lang, pathname, trans }: MobileMenuProps) {
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'tween', duration: 0.3 }}
-                            className="fixed right-0 top-0 bottom-0 z-[70] w-[80%] max-w-[320px] bg-white dark:bg-navy-900 shadow-2xl p-6 flex flex-col gap-6"
+                            className="fixed right-0 top-0 bottom-0 z-[70] w-[80%] max-w-[320px] bg-white dark:bg-navy-900 shadow-2xl p-6 flex flex-col gap-6 overflow-y-auto"
                         >
                             <div className="flex justify-between items-center mb-4">
                                 <span className="text-xl font-bold text-gray-900 dark:text-white">
@@ -83,7 +96,7 @@ export default function MobileMenu({ lang, pathname, trans }: MobileMenuProps) {
 
                             <div className="mt-auto flex flex-col gap-4 pt-6 border-t border-gray-100 dark:border-white/5">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Settings</span>
+                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{trans.settings}</span>
                                     <div className="flex items-center gap-4">
                                         <LanguagePicker currentLang={lang} pathname={pathname} />
                                         <ThemeToggle />

@@ -37,7 +37,7 @@ export default function LanguagePicker({ currentLang = 'en', pathname = '/' }: L
     };
 
     return (
-        <div className="flex gap-2 text-sm font-medium">
+        <div className="flex gap-2 text-sm font-medium notranslate" translate="no">
             {Object.entries(languages).map(([lang, label]) => (
                 <a
                     key={lang}
