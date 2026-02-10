@@ -2,8 +2,8 @@
 title: "Personal Portfolio"
 description: "A modern, high-performance personal portfolio built with Astro, React, and Tailwind CSS."
 tags: ["astro", "react", "tailwindcss", "typescript"]
-githubUrl: "https://github.com/yainier/portfolio"
-liveUrl: "https://yainier-dev.pages.dev/"
+githubUrl: "https://github.com/yruben/yainier.dev"
+liveUrl: "https://yainier.com"
 image: "/projects/personal-portfolio.png"
 order: 4
 ---
