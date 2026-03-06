@@ -2,7 +2,7 @@
 title: "Dominando Tailwind CSS"
 pubDate: 2023-10-15
 description: "Consejos y trucos para construir interfaces hermosas eficientemente con Tailwind CSS."
-author: "Yainier Ruben"
+author: "Yainier Martínez Ruben"
 authorImage: "/profile_new.png"
 image: "/blog/tailwind-cover.png"
 category: "CSS y Diseño"

@@ -2,7 +2,7 @@
 title: "Empezando con Astro"
 pubDate: 2023-10-01
 description: "Una breve introducción al framework Astro y por qué es genial para sitios estáticos."
-author: "Yainier Ruben"
+author: "Yainier Martínez Ruben"
 authorImage: "/profile_new.png"
 image: "/blog/astro-cover.png"
 category: "Desarrollo Web"
