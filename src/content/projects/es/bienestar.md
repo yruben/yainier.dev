@@ -2,8 +2,8 @@
 title: "Plataforma Bienestar"
 description: "Plataforma web que permite la interoperatividad entre todos los registros del país."
 tags: ["PHP", "Alfresco", "Java", "REST API", "JWT", "Firma Digital"]
-image: "/projects/bienestar.jpg"
-order: 6
+image: "/projects/bienestar.webp"
+order: 7
 ---
 
 # Plataforma Bienestar

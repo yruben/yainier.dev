@@ -1,68 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { useTranslations } from '../../i18n/utils';
-import { languages } from '../../i18n/ui';
+import ContactPage from '../../views/ContactPage.astro';
+import { nonDefaultLangPaths, type Lang } from '../../i18n/utils';
 
-export async function getStaticPaths() {
-  return Object.keys(languages).map((lang) => {
-      return { params: { lang } };
-  });
-}
+export const getStaticPaths = nonDefaultLangPaths;
 
-const { lang } = Astro.params;
-const t = useTranslations(lang as any);
+const lang = Astro.params.lang as Lang;
 ---
 
-<BaseLayout title={`Contact - Yainier`}>
-	<section class="max-w-xl mx-auto py-20 px-6">
-		<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 relative inline-block">
-            {t('contact.title.part1')} <span class="text-light-secondary dark:text-neon-pink">{t('contact.title.part2')}</span>
-            <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-light-secondary dark:bg-neon-pink rounded-full"></span>
-        </h1>
-		<p class="text-gray-600 dark:text-gray-400 mb-8">
-			{t('contact.desc')}
-		</p>
-
-		<form action="https://formspree.io/f/your-form-id" method="POST" class="space-y-6">
-			<div>
-				<label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('contact.form.name')}</label>
-				<input
-					type="text"
-					name="name"
-					id="name"
-					required
-					class="w-full px-4 py-2 border border-gray-300 dark:border-white/10 dark:bg-navy-800 dark:text-white rounded-md focus:ring-light-primary dark:focus:ring-neon-cyan focus:border-light-primary dark:focus:border-neon-cyan outline-none transition-colors"
-				/>
-			</div>
-
-			<div>
-				<label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('contact.form.email')}</label>
-				<input
-					type="email"
-					name="email"
-					id="email"
-					required
-					class="w-full px-4 py-2 border border-gray-300 dark:border-white/10 dark:bg-navy-800 dark:text-white rounded-md focus:ring-light-primary dark:focus:ring-neon-cyan focus:border-light-primary dark:focus:border-neon-cyan outline-none transition-colors"
-				/>
-			</div>
-
-			<div>
-				<label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('contact.form.message')}</label>
-				<textarea
-					name="message"
-					id="message"
-					rows="5"
-					required
-					class="w-full px-4 py-2 border border-gray-300 dark:border-white/10 dark:bg-navy-800 dark:text-white rounded-md focus:ring-light-primary dark:focus:ring-neon-cyan focus:border-light-primary dark:focus:border-neon-cyan outline-none transition-colors"
-				></textarea>
-			</div>
-
-			<button
-				type="submit"
-				class="w-full bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold py-2 px-4 rounded-md hover:opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-primary dark:focus:ring-neon-cyan"
-			>
-				{t('contact.send')}
-			</button>
-		</form>
-	</section>
-</BaseLayout>
+<ContactPage lang={lang} />

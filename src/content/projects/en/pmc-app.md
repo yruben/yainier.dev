@@ -3,8 +3,8 @@ title: "PMC App"
 description: "ABA Therapy platform for autism support providing interactive exercises, personalized interventions, and progress tracking for behavioral analysis."
 tags: ["mobile", "healthcare", "aba-therapy", "react-native"]
 liveUrl: "https://www.pmc-app.com"
-image: "/projects/pmc-app.png"
-order: 5
+image: "/projects/pmc-app.webp"
+order: 6
 ---
 
 # PMC App

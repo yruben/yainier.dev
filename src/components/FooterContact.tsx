@@ -8,6 +8,8 @@ export default function FooterContact({ text }: { text: string }) {
 
     return (
         <button
+            type="button"
+            aria-haspopup="dialog"
             onClick={handleClick}
             className="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors text-left"
         >

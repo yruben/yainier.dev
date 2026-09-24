@@ -4,40 +4,40 @@ import LanguagePicker from './LanguagePicker';
 import NavLink from './NavLink';
 import NavContact from './NavContact';
 import MobileMenu from './MobileMenu';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<nav class="fixed top-0 left-0 w-full z-50 bg-light-bg/80 dark:bg-navy-900/80 backdrop-blur-md border-b border-gray-200 dark:border-white/10 transition-colors duration-300">
+<header class="fixed top-0 left-0 w-full z-50 bg-light-bg/80 dark:bg-navy-900/80 backdrop-blur-md border-b border-gray-200 dark:border-white/10 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex-shrink-0">
-                <a href={`/${lang === 'en' ? '' : lang}`} class="text-2xl font-bold text-gray-900 dark:text-white transition-colors">
+                <a href={localizePath(lang, '/')} class="text-2xl font-bold text-gray-900 dark:text-white transition-colors">
                     yainier<span class="text-light-primary dark:text-neon-cyan">.com</span>
                 </a>
             </div>
-            <div class="hidden md:block">
+            <nav class="hidden md:block" aria-label="Main">
                 <div class="ml-10 flex items-baseline space-x-6">
-                    <NavLink client:load href={`/${lang === 'en' ? '' : lang}`} icon="home" text={t('nav.home')} />
-                    <NavLink client:load href={`/${lang === 'en' ? 'about' : `${lang}/about`}`} icon="about" text={t('nav.about')} />
-                    <NavLink client:load href={`/${lang === 'en' ? 'projects' : `${lang}/projects`}`} icon="projects" text={t('nav.projects')} />
-                    <NavLink client:load href={`/${lang === 'en' ? 'blog' : `${lang}/blog`}`} icon="blog" text={t('nav.blog')} />
-                    <NavLink client:load href={`/${lang === 'en' ? 'recommended' : `${lang}/recommended`}`} icon="recommended" text={t('nav.recommended')} />
-                    <NavContact client:load icon="contact" text={t('nav.contact')} />
+                    <NavLink href={localizePath(lang, '/')} icon="home" text={t('nav.home')} />
+                    <NavLink href={localizePath(lang, '/about')} icon="about" text={t('nav.about')} />
+                    <NavLink href={localizePath(lang, '/projects')} icon="projects" text={t('nav.projects')} />
+                    <NavLink href={localizePath(lang, '/blog')} icon="blog" text={t('nav.blog')} />
+                    <NavLink href={localizePath(lang, '/recommended')} icon="recommended" text={t('nav.recommended')} />
+                    <NavContact client:idle icon="contact" text={t('nav.contact')} />
                     <div class="ml-4">
-                        <NavLink client:load href="/resume.pdf" icon="download" text={t('nav.resume')} isButton={true} />
+                        <NavLink href="/resume.pdf" icon="download" text={t('nav.resume')} isButton={true} />
                     </div>
                 </div>
-            </div>
+            </nav>
             <div class="hidden md:flex items-center gap-4">
-                <LanguagePicker client:idle currentLang={lang} pathname={Astro.url.pathname} />
-                <ThemeToggle client:idle />
+                <LanguagePicker currentLang={lang} pathname={Astro.url.pathname} />
+                <ThemeToggle client:idle label={t('theme.toggle')} />
             </div>
 
             <MobileMenu 
-                client:load 
+                client:idle 
                 lang={lang} 
                 pathname={Astro.url.pathname} 
                 trans={{
@@ -48,9 +48,12 @@ const t = useTranslations(lang);
                     recommended: t('nav.recommended'),
                     contact: t('nav.contact'),
                     resume: t('nav.resume'),
-                    settings: t('nav.settings')
+                    settings: t('nav.settings'),
+                    toggle: t('menu.toggle'),
+                    close: t('menu.close'),
+                    theme: t('theme.toggle')
                 }} 
             />
         </div>
     </div>
-</nav>
+</header>

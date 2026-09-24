@@ -6,15 +6,16 @@ interface CategoryCardProps {
     image: string;
     count: number;
     href: string;
-    lang: string;
+    trans: {
+        item: string;
+        items: string;
+        explore: string;
+    };
 }
 
-export default function CategoryCard({ title, description, image, count, href, lang }: CategoryCardProps) {
-    const countLabel = lang === 'es'
-        ? `${count} ${count === 1 ? 'elemento' : 'elementos'}`
-        : `${count} ${count === 1 ? 'item' : 'items'}`;
-
-    const exploreLabel = lang === 'es' ? 'Explorar categoría' : 'Explore category';
+export default function CategoryCard({ title, description, image, count, href, trans }: CategoryCardProps) {
+    const countLabel = `${count} ${count === 1 ? trans.item : trans.items}`;
+    const exploreLabel = trans.explore;
 
     return (
         <motion.a
@@ -27,15 +28,17 @@ export default function CategoryCard({ title, description, image, count, href, l
         >
             <div className="aspect-[16/10] overflow-hidden relative">
                 <img
-                    src={image || "https://via.placeholder.com/800x500"}
-                    alt={title}
+                    src={image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
 
                 {/* Count Badge Overlay */}
                 <div className="absolute bottom-4 left-4 z-10">
-                    <span className="px-3 py-1 bg-light-primary/80 dark:bg-neon-cyan/20 text-white dark:text-neon-cyan text-[10px] font-bold uppercase tracking-wider rounded-full backdrop-blur-md border border-white/10">
+                    <span className="px-3 py-1 bg-light-primary/80 dark:bg-neon-cyan/20 text-white dark:text-neon-cyan text-xs font-bold uppercase tracking-wider rounded-full backdrop-blur-md border border-white/10">
                         {countLabel}
                     </span>
                 </div>
@@ -43,7 +46,7 @@ export default function CategoryCard({ title, description, image, count, href, l
 
             <div className="p-6 relative">
                 <div className="absolute -top-8 right-6 w-12 h-12 bg-white dark:bg-navy-700 rounded-xl shadow-lg flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-500 border border-gray-100 dark:border-white/5">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-primary dark:text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-light-primary dark:text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                     </svg>
                 </div>
@@ -58,6 +61,7 @@ export default function CategoryCard({ title, description, image, count, href, l
                 <div className="mt-6 flex items-center text-light-primary dark:text-neon-cyan font-bold text-xs uppercase tracking-widest pt-4 border-t border-gray-100 dark:border-white/5">
                     {exploreLabel}
                     <svg
+                        aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-300"
                         fill="none"

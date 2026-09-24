@@ -3,7 +3,7 @@ title: "Infraestructura de Llave Pública"
 description: "Infraestructura para gestionar certificados digitales para todo tipo de uso."
 tags: ["Java", "Java SE", "EJBCA", "Bootstrap", "HTML"]
 liveUrl: "https://pkicertificados.xetid.cu/"
-image: "/projects/acxetid_main.png"
+image: "/projects/acxetid_main.webp"
 order: 5
 ---
 
@@ -20,5 +20,5 @@ La Infraestructura de Llave Pública (PKI) es el conjunto de hardware, software,
 **Interfaz de Registro:**
 El componente principal de registro permite a los usuarios gestionar sus solicitudes de manera intuitiva y segura.
 
-![Componente de Registro](/projects/acxetid.png)
+![Componente de Registro](/projects/acxetid.webp)
 *Vista del componente principal de registro del sistema.*

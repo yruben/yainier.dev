@@ -6,11 +6,10 @@ interface RecommendedItemCardProps {
     url: string;
     image?: string;
     index: number;
-    lang: string;
+    visitLabel: string;
 }
 
-export default function RecommendedItemCard({ title, description, url, image, index, lang }: RecommendedItemCardProps) {
-    const visitLabel = lang === 'es' ? 'Visitar recurso' : 'Visit resource';
+export default function RecommendedItemCard({ title, description, url, image, index, visitLabel }: RecommendedItemCardProps) {
 
     return (
         <motion.div
@@ -25,7 +24,7 @@ export default function RecommendedItemCard({ title, description, url, image, in
 
             {image && (
                 <div className="mb-6 aspect-video overflow-hidden rounded-xl border border-gray-100 dark:border-white/5 shadow-inner">
-                    <img src={image} alt={title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                    <img src={image} alt="" decoding="async" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                 </div>
             )}
 
@@ -46,7 +45,7 @@ export default function RecommendedItemCard({ title, description, url, image, in
                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gray-50 dark:bg-navy-700 text-sm font-bold text-gray-900 dark:text-white group-hover:bg-light-primary dark:group-hover:bg-neon-cyan group-hover:text-white dark:group-hover:text-navy-900 transition-all duration-300 shadow-sm"
                 >
                     {visitLabel}
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                 </a>

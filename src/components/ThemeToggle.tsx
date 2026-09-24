@@ -1,41 +1,34 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 
-export default function ThemeToggle() {
-    const [theme, setTheme] = useState(typeof localStorage !== 'undefined' && localStorage.getItem('theme') ? localStorage.getItem('theme') : 'dark');
+const readTheme = () => (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+
+export default function ThemeToggle({ label = 'Toggle dark mode' }: { label?: string }) {
+    // Start with the SSR default and sync with the class set by the inline script after hydration
+    const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
     useEffect(() => {
-        const root = document.documentElement;
-        if (theme === 'dark') {
-            root.classList.add('dark');
-        } else {
-            root.classList.remove('dark');
-        }
-        localStorage.setItem('theme', theme || 'dark');
-    }, [theme]);
-
-    // Handle theme sync on navigation or external changes
-    useEffect(() => {
-        const syncTheme = () => {
-            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-            if (currentTheme !== theme) {
-                setTheme(currentTheme);
-            }
-        };
-
-        document.addEventListener('astro:after-swap', syncTheme);
-        return () => document.removeEventListener('astro:after-swap', syncTheme);
-    }, [theme]);
+        setTheme(readTheme());
+        const sync = () => setTheme(readTheme());
+        document.addEventListener('astro:after-swap', sync);
+        return () => document.removeEventListener('astro:after-swap', sync);
+    }, []);
 
     const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
+        const next = theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.classList.toggle('dark', next === 'dark');
+        try {
+            localStorage.setItem('theme', next);
+        } catch {}
+        setTheme(next);
     };
 
     return (
         <button
             onClick={toggleTheme}
-            className="p-2 rounded-full bg-gray-200 dark:bg-navy-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-navy-700 transition-colors focus:outline-none focus:ring-2 focus:ring-neon-cyan"
-            aria-label="Toggle Theme"
+            className="p-2 rounded-full bg-gray-200 dark:bg-navy-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-navy-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-light-primary dark:focus-visible:ring-neon-cyan"
+            aria-label={label}
+            aria-pressed={theme === 'dark'}
         >
             <motion.div
                 initial={false}
@@ -44,12 +37,12 @@ export default function ThemeToggle() {
             >
                 {theme === 'dark' ? (
                     // Sun Icon
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                 ) : (
                     // Moon Icon
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                 )}

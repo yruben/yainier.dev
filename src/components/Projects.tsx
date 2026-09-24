@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from 'react-markdown';
+import { useDialog } from "./useDialog";
 
 interface Project {
     data: {
@@ -23,14 +24,24 @@ interface ProjectsProps {
         desc: string;
         viewAll: string;
         details: string;
+        live: string;
+        close: string;
     };
+    viewAllHref?: string;
     enableInfiniteScroll?: boolean;
 }
 
-export default function Projects({ projects, trans, enableInfiniteScroll = false }: ProjectsProps) {
+// The markdown files start with their own H1, which would duplicate the modal title
+const stripLeadingHeading = (body: string) => body.replace(/^\s*#\s[^\n]*\n/, '');
+
+export default function Projects({ projects, trans, viewAllHref = '/projects', enableInfiniteScroll = false }: ProjectsProps) {
     const [visibleCount, setVisibleCount] = useState(enableInfiniteScroll ? 6 : projects.length);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const loadMoreRef = useRef<HTMLDivElement>(null);
+    const dialogRef = useRef<HTMLDivElement>(null);
+    const closeProject = () => setSelectedProject(null);
+
+    useDialog(dialogRef, selectedProject !== null, closeProject);
 
     const visibleProjects = projects.slice(0, visibleCount);
 
@@ -54,22 +65,8 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
         return () => observer.disconnect();
     }, [enableInfiniteScroll, projects.length]);
 
-    // Prevent body scroll when modal is open
-    useEffect(() => {
-        if (selectedProject) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-        return () => {
-            document.body.style.overflow = 'unset';
-        }
-    }, [selectedProject]);
-
-
     const accentTextColor = "text-light-secondary dark:text-neon-pink";
 
-    const underlineColor = "bg-light-secondary dark:bg-neon-pink";
 
     return (
         <section id="projects" className="py-20 bg-light-bg dark:bg-navy-900 transition-colors duration-300 border-t border-gray-300 dark:border-white/5">
@@ -95,7 +92,7 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
                 <div className="flex flex-wrap justify-center gap-6 max-w-[1400px] mx-auto">
                     {visibleProjects.map((project, index) => (
                         <motion.div
-                            key={index}
+                            key={project.slug}
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
@@ -106,24 +103,29 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
                             {/* Image Section - Always visible, covers full background */}
                             <div className="absolute inset-0">
                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent dark:from-navy-900/90 dark:to-transparent z-10"></div>
-                                <img
-                                    src={project.data.image || `https://via.placeholder.com/600x400?text=${project.data.title}`}
-                                    alt={project.data.title}
-                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                                    loading="lazy"
-                                />
+                                {project.data.image ? (
+                                    <img
+                                        src={project.data.image}
+                                        alt=""
+                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-gradient-to-br from-light-primary/40 to-light-secondary/40 dark:from-neon-cyan/20 dark:to-neon-pink/20" />
+                                )}
                             </div>
 
                             {/* Title - Always visible at bottom */}
-                            <div className="absolute bottom-0 left-0 right-0 p-4 z-30">
-                                <h3 className="text-lg font-bold text-white mb-1">{project.data.title}</h3>
+                            <div className="absolute bottom-0 left-0 right-0 p-4 z-30" aria-hidden="true">
+                                <p className="text-lg font-bold text-white mb-1">{project.data.title}</p>
                             </div>
 
                             {/* Overlay - Appears on hover with smooth gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/70 to-black/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/70 to-black/95 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity duration-300 z-20"></div>
 
                             {/* Content - Slides up on hover */}
-                            <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-40">
+                            <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 group-focus-within:translate-y-0 [@media(hover:none)]:translate-y-0 transition-transform duration-500 ease-out z-40">
                                 <div className="bg-gradient-to-t from-black/95 via-black/90 to-transparent pt-6 -mt-6">
                                     <h3 className="text-lg font-bold text-white mb-2">{project.data.title}</h3>
                                     <p className="text-gray-200 text-xs mb-3 line-clamp-2">{project.data.description}</p>
@@ -138,13 +140,15 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
 
                                     <div className="flex justify-between items-center pt-2 border-t border-white/20">
                                         <button
+                                            type="button"
+                                            aria-haspopup="dialog"
                                             onClick={() => setSelectedProject(project)}
                                             className="text-xs font-bold text-white hover:text-light-secondary dark:hover:text-neon-cyan transition-colors cursor-pointer"
                                         >
                                             {trans.details} &rarr;
                                         </button>
                                         {project.data.liveUrl && (
-                                            <a href={project.data.liveUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-gray-300 hover:text-white transition-colors">Live Demo</a>
+                                            <a href={project.data.liveUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-gray-200 hover:text-white transition-colors">{trans.live}</a>
                                         )}
                                     </div>
                                 </div>
@@ -161,7 +165,7 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
 
                 {!enableInfiniteScroll && (
                     <div className="text-center mt-12">
-                        <a href="/projects" className="inline-block px-8 py-3 border border-light-primary dark:border-neon-cyan text-light-primary dark:text-neon-cyan font-bold rounded-full hover:bg-light-primary hover:text-white dark:hover:bg-neon-cyan dark:hover:text-navy-900 transition-all shadow-md">
+                        <a href={viewAllHref} className="inline-block px-8 py-3 border border-light-primary dark:border-neon-cyan text-light-primary dark:text-neon-cyan font-bold rounded-full hover:bg-light-primary hover:text-white dark:hover:bg-neon-cyan dark:hover:text-navy-900 transition-all shadow-md">
                             {trans.viewAll}
                         </a>
                     </div>
@@ -175,33 +179,41 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                onClick={() => setSelectedProject(null)}
+                                onClick={closeProject}
                                 className="absolute inset-0 bg-navy-900/80 backdrop-blur-sm"
                             />
                             <motion.div
+                                ref={dialogRef}
+                                role="dialog"
+                                aria-modal="true"
+                                aria-labelledby="project-modal-title"
+                                tabIndex={-1}
                                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                                className="bg-white dark:bg-navy-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden relative z-10 flex flex-col"
+                                className="bg-white dark:bg-navy-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden relative z-10 flex flex-col outline-none"
                             >
                                 {/* Modal Header / Image */}
                                 <div className="relative h-48 md:h-64 shrink-0">
-                                    <img
-                                        src={selectedProject.data.image || `https://via.placeholder.com/800x400?text=${selectedProject.data.title}`}
-                                        alt={selectedProject.data.title}
-                                        className="w-full h-full object-cover"
-                                    />
+                                    {selectedProject.data.image && (
+                                        <img
+                                            src={selectedProject.data.image}
+                                            alt=""
+                                            className="w-full h-full object-cover"
+                                        />
+                                    )}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                                     <button
-                                        onClick={() => setSelectedProject(null)}
+                                        onClick={closeProject}
+                                        aria-label={trans.close}
                                         className="absolute top-4 right-4 text-white hover:text-white bg-black/50 hover:bg-black/70 rounded-full p-2 transition-colors cursor-pointer z-50"
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     </button>
                                     <div className="absolute bottom-4 left-6 right-6">
-                                        <h3 className="text-2xl md:text-4xl font-bold text-white mb-2">{selectedProject.data.title}</h3>
+                                        <h2 id="project-modal-title" className="text-2xl md:text-4xl font-bold text-white mb-2">{selectedProject.data.title}</h2>
                                         <div className="flex flex-wrap gap-2">
                                             {selectedProject.data.tags.map((tag, i) => (
                                                 <span key={i} className="text-xs font-medium px-2.5 py-1 bg-light-primary/80 dark:bg-neon-cyan/20 text-white dark:text-neon-cyan rounded-full border border-white/10">
@@ -216,7 +228,7 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
                                 <div className="p-6 md:p-8 overflow-y-auto custom-scrollbar">
                                     <div className="prose dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-a:text-light-primary dark:prose-a:text-neon-cyan hover:prose-a:text-light-secondary dark:hover:prose-a:text-neon-pink">
                                         <ReactMarkdown>
-                                            {selectedProject.body}
+                                            {stripLeadingHeading(selectedProject.body)}
                                         </ReactMarkdown>
                                     </div>
 
@@ -239,8 +251,8 @@ export default function Projects({ projects, trans, enableInfiniteScroll = false
                                                 rel="noopener noreferrer"
                                                 className="flex items-center gap-2 px-6 py-3 rounded-lg bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold hover:bg-light-secondary dark:hover:bg-neon-cyan/80 transition-colors"
                                             >
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                                Live Demo
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                                {trans.live}
                                             </a>
                                         )}
                                     </div>

@@ -3,7 +3,7 @@ title: "FirstDue"
 description: "Plataforma de software integral basada en la nube para operaciones de bomberos y servicios médicos de emergencia, gestionando incidentes, personal, capacitación y análisis en un sistema unificado."
 tags: ["react", "cloud", "saas", "fire-ems"]
 liveUrl: "https://www.firstdue.com"
-image: "/projects/firstdue-platform.png"
+image: "/projects/firstdue-platform.webp"
 order: 2
 ---
 

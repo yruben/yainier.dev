@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Projects from '../components/Projects';
+import { getCollection } from 'astro:content';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
+const sortedProjects = allProjects.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+---
+
+<BaseLayout title={t('meta.projects.title')} description={t('meta.projects.desc')}>
+    <div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900">
+        <Projects client:load projects={sortedProjects} enableInfiniteScroll={true} trans={{
+            titlePart1: t('projects.title.part1'),
+            titlePart2: t('projects.title.part2'),
+            desc: t('projects.desc'),
+            viewAll: t('projects.viewAll'),
+            details: t('projects.details'),
+            live: t('projects.live'),
+            close: t('projects.close'),
+        }} />
+    </div>
+</BaseLayout>

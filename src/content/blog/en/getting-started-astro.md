@@ -3,8 +3,8 @@ title: "Getting Started with Astro"
 pubDate: 2023-10-01
 description: "A brief introduction to the Astro framework and why it's great for static sites."
 author: "Yainier Martínez Ruben"
-authorImage: "/profile_new.png"
-image: "/blog/astro-cover.png"
+authorImage: "/profile_new.webp"
+image: "/blog/astro-cover.webp"
 category: "Web Development"
 tags: ["astro", "webdev", "ssg"]
 ---

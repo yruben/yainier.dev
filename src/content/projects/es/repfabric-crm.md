@@ -3,7 +3,7 @@ title: "RepFabric CRM"
 description: "Plataforma CRM impulsada por IA para fabricantes, representantes de ventas y distribuidores con informes de ventas, seguimiento de comisiones e integración de correo electrónico."
 tags: ["crm", "ai", "salesforce", "api-integration"]
 liveUrl: "https://repfabric.com/"
-image: "/projects/repfabricc-crm.png"
+image: "/projects/repfabricc-crm.webp"
 order: 3
 ---
 

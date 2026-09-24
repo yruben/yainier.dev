@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm';
+import SectionTitle from '../components/SectionTitle.astro';
+import { useTranslations, contactFormTrans, type Lang } from '../i18n/utils';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('meta.contact.title')} description={t('meta.contact.desc')}>
+    <section class="max-w-xl mx-auto pt-32 pb-20 px-6">
+        <SectionTitle as="h1" class="text-3xl mb-8" part1={t('contact.title.part1')} part2={t('contact.title.part2')} />
+        <p class="text-gray-600 dark:text-gray-400 mb-8">
+            {t('contact.desc')}
+        </p>
+
+        <ContactForm client:load lang={lang} trans={contactFormTrans(lang)} idPrefix="contact-page" />
+    </section>
+</BaseLayout>

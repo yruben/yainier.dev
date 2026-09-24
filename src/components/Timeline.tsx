@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 interface TimelineItem {
     id: string;
@@ -17,8 +17,15 @@ interface TimelineItem {
 
 interface TimelineProps {
     items: TimelineItem[];
-    title?: string;
+    trans: {
+        prev: string;
+        next: string;
+        noImage: string;
+    };
 }
+
+const WINDOW_SIZE = 5;
+const AUTOPLAY_MS = 5000;
 
 const IconMap: Record<string, any> = {
     'home': (
@@ -47,88 +54,67 @@ const IconMap: Record<string, any> = {
         </svg>
     ),
     'default': (
-        <div className="w-2.5 h-2.5 bg-current rounded-full" />
+        <span className="block w-2.5 h-2.5 bg-current rounded-full" />
     )
 }
 
-export default function Timeline({ items }: TimelineProps) {
-    // Sort items by label
+export default function Timeline({ items, trans }: TimelineProps) {
     const sortedItems = [...items].sort((a, b) => parseInt(a.data.label) - parseInt(b.data.label));
 
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [windowStart, setWindowStart] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+    const [hasFocus, setHasFocus] = useState(false);
+    const [reducedMotion, setReducedMotion] = useState(false);
+    const isPaused = isHovered || hasFocus || reducedMotion;
+    const count = sortedItems.length;
 
-    if (sortedItems.length === 0) {
+    useEffect(() => {
+        const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+        setReducedMotion(query.matches);
+        const onChange = () => setReducedMotion(query.matches);
+        query.addEventListener('change', onChange);
+        return () => query.removeEventListener('change', onChange);
+    }, []);
+
+    useEffect(() => {
+        if (isPaused || count === 0) return;
+        const interval = setInterval(() => setSelectedIndex((i) => (i + 1) % count), AUTOPLAY_MS);
+        return () => clearInterval(interval);
+    }, [isPaused, count]);
+
+    if (count === 0) {
         return null;
     }
 
-    const windowSize = 5;
     const selectedItem = sortedItems[selectedIndex];
+    const nextItem = () => setSelectedIndex((i) => (i + 1) % count);
+    const prevItem = () => setSelectedIndex((i) => (i - 1 + count) % count);
 
-    const nextItem = () => {
-        const newIndex = (selectedIndex + 1) % sortedItems.length;
-
-        // Only slide the window if we're at the last visible item in the current window
-        // and there are more items to show
-        const isAtLastVisibleItem = selectedIndex === windowStart + windowSize - 1;
-        const hasMoreItemsAhead = windowStart + windowSize < sortedItems.length;
-
-        if (isAtLastVisibleItem && hasMoreItemsAhead) {
-            // Slide window forward by 1
-            setWindowStart(windowStart + 1);
-        } else if (newIndex === 0) {
-            // Wrapped around to start
-            setWindowStart(0);
-        }
-
-        setSelectedIndex(newIndex);
-    };
-
-    const prevItem = () => {
-        const newIndex = (selectedIndex - 1 + sortedItems.length) % sortedItems.length;
-
-        // Only slide the window if we're at the first visible item in the current window
-        // and there are items before
-        const isAtFirstVisibleItem = selectedIndex === windowStart;
-        const hasItemsBefore = windowStart > 0;
-
-        if (isAtFirstVisibleItem && hasItemsBefore) {
-            // Slide window backward by 1
-            setWindowStart(windowStart - 1);
-        } else if (newIndex === sortedItems.length - 1) {
-            // Wrapped around to end
-            setWindowStart(Math.max(sortedItems.length - windowSize, 0));
-        }
-
-        setSelectedIndex(newIndex);
-    };
-
-    useEffect(() => {
-        if (isPaused) return;
-
-        const interval = setInterval(() => {
-            nextItem();
-        }, 5000);
-
-        return () => clearInterval(interval);
-    }, [isPaused, selectedIndex, windowStart]);
+    // Sliding window of markers, centred on the selected one when possible
+    const startIndex = count <= WINDOW_SIZE ? 0 : Math.min(Math.max(selectedIndex - 2, 0), count - WINDOW_SIZE);
+    const visibleItems = sortedItems.slice(startIndex, startIndex + WINDOW_SIZE);
 
     return (
-        <section className="w-full py-16 px-4 md:px-8 max-w-7xl mx-auto">
+        <div
+            className="w-full py-16 px-4 md:px-8 max-w-7xl mx-auto"
+            onFocus={() => setHasFocus(true)}
+            onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node)) setHasFocus(false);
+            }}
+        >
 
             {/* Top Featured Card */}
             <div
                 className="bg-white dark:bg-navy-800 rounded-2xl shadow-xl overflow-hidden mb-16 relative min-h-[400px] flex flex-col md:flex-row transition-colors duration-300"
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
             >
 
                 {/* Navigation Arrows (Absolute positioned or integrated) */}
                 <button
                     onClick={prevItem}
                     className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-gray-100/10 dark:bg-navy-700/10 hover:bg-gray-200/30 dark:hover:bg-navy-600/30 transition-colors shadow-lg backdrop-blur-sm group"
-                    aria-label="Previous event"
+                    aria-label={trans.prev}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-gray-200 group-hover:scale-110 transition-transform">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -137,7 +123,7 @@ export default function Timeline({ items }: TimelineProps) {
                 <button
                     onClick={nextItem}
                     className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-gray-100/10 dark:bg-navy-700/10 hover:bg-gray-200/30 dark:hover:bg-navy-600/30 transition-colors shadow-lg backdrop-blur-sm group"
-                    aria-label="Next event"
+                    aria-label={trans.next}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-gray-200 group-hover:scale-110 transition-transform">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -147,6 +133,7 @@ export default function Timeline({ items }: TimelineProps) {
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={selectedItem.id}
+                        aria-live={isPaused ? 'polite' : 'off'}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
@@ -163,14 +150,14 @@ export default function Timeline({ items }: TimelineProps) {
                             >
                                 {selectedItem.data.label}
                             </motion.span>
-                            <motion.h2
+                            <motion.h3
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
                                 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
                             >
                                 {selectedItem.data.title}
-                            </motion.h2>
+                            </motion.h3>
                             <motion.p
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -195,12 +182,14 @@ export default function Timeline({ items }: TimelineProps) {
                                     >
                                         <img
                                             src={selectedItem.data.image}
-                                            alt={selectedItem.data.title}
+                                            alt=""
+                                            decoding="async"
                                             className="w-full h-full object-cover object-center"
                                         />
                                     </div>
                                     {/* Reflection Effect */}
                                     <div
+                                        aria-hidden="true"
                                         className="relative w-full h-20 md:h-24 mt-1 rounded-b-2xl overflow-hidden opacity-30"
                                         style={{
                                             transform: 'rotateY(-8deg) rotateX(-2deg)',
@@ -220,7 +209,7 @@ export default function Timeline({ items }: TimelineProps) {
                                 </div>
                             ) : (
                                 <div className="w-full h-64 md:h-72 bg-gray-100 dark:bg-navy-900 flex items-center justify-center rounded-2xl border-4 border-white dark:border-white/10">
-                                    <span className="text-gray-400 dark:text-gray-600">No Image Available</span>
+                                    <span className="text-gray-600 dark:text-gray-400">{trans.noImage}</span>
                                 </div>
                             )}
                         </div>
@@ -240,27 +229,7 @@ export default function Timeline({ items }: TimelineProps) {
                 {/* Scrollable list - Simplified for fixed items */}
                 <div className="overflow-hidden pb-8 mx-auto max-w-4xl px-8">
                     <div className="flex justify-center items-start gap-4 md:gap-8 transition-all duration-300 ease-in-out">
-                        {(() => {
-                            // Calculate sliding window
-                            const windowSize = 5;
-                            const totalItems = sortedItems.length;
-
-                            let startIndex = 0;
-                            if (totalItems <= windowSize) {
-                                startIndex = 0;
-                            } else {
-                                // Try to center the selected index
-                                // For window 5, center is index 2. So we want start = selected - 2
-                                startIndex = selectedIndex - 2;
-
-                                // Clamp start to valid range [0, total - window]
-                                if (startIndex < 0) startIndex = 0;
-                                if (startIndex > totalItems - windowSize) startIndex = totalItems - windowSize;
-                            }
-
-                            const visibleItems = sortedItems.slice(startIndex, startIndex + windowSize);
-
-                            return visibleItems.map((item, i) => {
+                        {visibleItems.map((item, i) => {
                                 // We need the original index to handle selection correctly
                                 const originalIndex = startIndex + i;
                                 const isSelected = originalIndex === selectedIndex;
@@ -271,10 +240,11 @@ export default function Timeline({ items }: TimelineProps) {
                                     <button
                                         key={item.id}
                                         onClick={() => setSelectedIndex(originalIndex)}
-                                        className={`flex flex-col items-center group focus:outline-none min-w-[120px] md:min-w-[140px] relative transition-all duration-500 ease-in-out ${isSelected ? 'opacity-100 scale-100' : 'opacity-50 hover:opacity-100 scale-90'}`}
+                                        aria-current={isSelected ? 'step' : undefined}
+                                        className={`flex flex-col items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-light-primary dark:focus-visible:ring-neon-cyan rounded-lg min-w-[120px] md:min-w-[140px] relative transition-all duration-500 ease-in-out ${isSelected ? 'opacity-100 scale-100' : 'opacity-50 hover:opacity-100 scale-90'}`}
                                     >
                                         {/* Marker Circle */}
-                                        <div className={`
+                                        <span aria-hidden="true" className={`
                                             w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center border-4 relative z-10 mb-4 transition-all duration-300
                                             ${isSelected
                                                 ? 'bg-light-primary dark:bg-neon-cyan border-white dark:border-navy-900 text-white dark:text-navy-900 shadow-lg scale-110'
@@ -287,25 +257,24 @@ export default function Timeline({ items }: TimelineProps) {
                                             {isSelected && (
                                                 <span className="absolute inset-0 rounded-full bg-light-primary/30 dark:bg-neon-cyan/30 animate-ping -z-10"></span>
                                             )}
-                                        </div>
+                                        </span>
 
                                         {/* Text Labels */}
-                                        <div className="text-center space-y-1">
-                                            <h4 className={`text-xs md:text-sm font-bold transition-colors ${isSelected ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+                                        <span className="block text-center space-y-1">
+                                            <span className={`block text-xs md:text-sm font-bold transition-colors ${isSelected ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
                                                 {item.data.markerTitle}
-                                            </h4>
-                                            <p className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 leading-tight hidden md:block mx-auto text-center">
+                                            </span>
+                                            <span className="text-xs text-gray-600 dark:text-gray-400 leading-tight hidden md:block mx-auto text-center">
                                                 {item.data.markerText}
-                                            </p>
-                                        </div>
+                                            </span>
+                                        </span>
                                     </button>
                                 );
-                            });
-                        })()}
+                        })}
                     </div>
                 </div>
             </div>
 
-        </section>
+        </div>
     );
 }

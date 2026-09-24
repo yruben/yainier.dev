@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
+import { useDialog } from './useDialog';
 import { createPortal } from 'react-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -6,6 +7,7 @@ import ThemeToggle from './ThemeToggle';
 import LanguagePicker from './LanguagePicker';
 import NavContact from './NavContact';
 import NavLink from './NavLink';
+import { localizePath, type Lang } from '../i18n/utils';
 
 interface MobileMenuProps {
     lang: string;
@@ -19,35 +21,32 @@ interface MobileMenuProps {
         contact: string;
         resume: string;
         settings: string;
+        toggle: string;
+        close: string;
+        theme: string;
     };
 }
 
 export default function MobileMenu({ lang, pathname, trans }: MobileMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
 
-    // Lock body scroll when menu is open
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, [isOpen]);
-
+    const panelRef = useRef<HTMLDivElement>(null);
     const toggleMenu = () => setIsOpen(!isOpen);
     const closeMenu = () => setIsOpen(false);
+    const path = (p: string) => localizePath(lang as Lang, p);
+
+    useDialog(panelRef, isOpen, closeMenu);
 
     return (
         <div className="md:hidden flex items-center">
             <button
                 onClick={toggleMenu}
                 className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-colors focus:outline-none"
-                aria-label="Toggle Menu"
+                aria-label={trans.toggle}
+                aria-expanded={isOpen}
+                aria-controls="mobile-menu"
             >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
+                {isOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
             </button>
 
             {typeof document !== 'undefined' && createPortal(
@@ -65,6 +64,11 @@ export default function MobileMenu({ lang, pathname, trans }: MobileMenuProps) {
 
                             {/* Menu Panel */}
                             <motion.div
+                                ref={panelRef}
+                                id="mobile-menu"
+                                role="dialog"
+                                aria-modal="true"
+                                aria-label="Menu"
                                 initial={{ x: '100%' }}
                                 animate={{ x: 0 }}
                                 exit={{ x: '100%' }}
@@ -75,18 +79,18 @@ export default function MobileMenu({ lang, pathname, trans }: MobileMenuProps) {
                                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                                         yainier<span className="text-light-primary dark:text-neon-cyan">.com</span>
                                     </span>
-                                    <button onClick={closeMenu} className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-full">
-                                        <X size={24} />
+                                    <button onClick={closeMenu} aria-label={trans.close} className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-full">
+                                        <X size={24} aria-hidden="true" />
                                     </button>
                                 </div>
 
                                 <nav className="flex flex-col gap-2">
                                     <div onClick={closeMenu} className="flex flex-col gap-2">
-                                        <NavLink href={`/${lang === 'en' ? '' : lang}`} icon="home" text={trans.home} />
-                                        <NavLink href={`/${lang === 'en' ? 'about' : `${lang}/about`}`} icon="about" text={trans.about} />
-                                        <NavLink href={`/${lang === 'en' ? 'projects' : `${lang}/projects`}`} icon="projects" text={trans.projects} />
-                                        <NavLink href={`/${lang === 'en' ? 'blog' : `${lang}/blog`}`} icon="blog" text={trans.blog} />
-                                        <NavLink href={`/${lang === 'en' ? 'recommended' : `${lang}/recommended`}`} icon="recommended" text={trans.recommended} />
+                                        <NavLink href={path('/')} icon="home" text={trans.home} />
+                                        <NavLink href={path('/about')} icon="about" text={trans.about} />
+                                        <NavLink href={path('/projects')} icon="projects" text={trans.projects} />
+                                        <NavLink href={path('/blog')} icon="blog" text={trans.blog} />
+                                        <NavLink href={path('/recommended')} icon="recommended" text={trans.recommended} />
                                     </div>
                                     <div className="border-t border-gray-100 dark:border-white/5 my-4 pt-4 flex flex-col gap-4">
                                         <div onClick={closeMenu}>
@@ -98,10 +102,10 @@ export default function MobileMenu({ lang, pathname, trans }: MobileMenuProps) {
 
                                 <div className="mt-auto flex flex-col gap-4 pt-6 border-t border-gray-100 dark:border-white/5">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{trans.settings}</span>
+                                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{trans.settings}</span>
                                         <div className="flex items-center gap-4">
                                             <LanguagePicker currentLang={lang} pathname={pathname} />
-                                            <ThemeToggle />
+                                            <ThemeToggle label={trans.theme} />
                                         </div>
                                     </div>
                                 </div>

@@ -3,7 +3,7 @@ title: "FirstDue"
 description: "End-to-end cloud-based software platform for Fire & EMS operations, managing incidents, personnel, training, and analytics in one unified system."
 tags: ["react", "cloud", "saas", "fire-ems"]
 liveUrl: "https://www.firstdue.com"
-image: "/projects/firstdue-platform.png"
+image: "/projects/firstdue-platform.webp"
 order: 2
 ---
 

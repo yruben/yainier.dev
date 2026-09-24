@@ -1,26 +1,26 @@
 import { motion } from "motion/react";
 
 const skills = [
-    { name: "HTML5", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
-    { name: "CSS3", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
-    { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
-    { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
-    { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-    { name: "Astro", icon: "https://astro.build/assets/press/astro-icon-light-gradient.svg" },
-    { name: "Tailwind", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
-    { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
-    { name: "PHP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
-    { name: "Laravel", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" },
-    { name: "Zend", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/zend/zend-original.svg" },
-    { name: "NestJS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg" },
-    { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
-    { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
-    { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
-    { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
-    { name: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
-    { name: "Spring Boot", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" },
-    { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
-    { name: "GraphQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" },
+    { name: "HTML5", icon: "/icons/html5-original.svg" },
+    { name: "CSS3", icon: "/icons/css3-original.svg" },
+    { name: "JavaScript", icon: "/icons/javascript-original.svg" },
+    { name: "TypeScript", icon: "/icons/typescript-original.svg" },
+    { name: "React", icon: "/icons/react-original.svg" },
+    { name: "Astro", icon: "/icons/astro.svg" },
+    { name: "Tailwind", icon: "/icons/tailwindcss-original.svg" },
+    { name: "Git", icon: "/icons/git-original.svg" },
+    { name: "PHP", icon: "/icons/php-original.svg" },
+    { name: "Laravel", icon: "/icons/laravel-original.svg" },
+    { name: "Zend", icon: "/icons/zend-original.svg" },
+    { name: "NestJS", icon: "/icons/nestjs-original.svg" },
+    { name: "AWS", icon: "/icons/amazonwebservices-original-wordmark.svg" },
+    { name: "Docker", icon: "/icons/docker-original.svg" },
+    { name: "PostgreSQL", icon: "/icons/postgresql-original.svg" },
+    { name: "MongoDB", icon: "/icons/mongodb-original.svg" },
+    { name: "Java", icon: "/icons/java-original.svg" },
+    { name: "Spring Boot", icon: "/icons/spring-original.svg" },
+    { name: "Python", icon: "/icons/python-original.svg" },
+    { name: "GraphQL", icon: "/icons/graphql-plain.svg" },
 ];
 
 interface SkillsProps {
@@ -52,14 +52,14 @@ export default function Skills({ titlePart1, titlePart2 }: SkillsProps) {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1, duration: 0.5 }}
+                            transition={{ delay: (index % 10) * 0.05, duration: 0.5 }}
                             whileHover={{ y: -10 }}
-                            className="bg-white dark:bg-navy-800 p-6 rounded-xl flex flex-col items-center justify-center border border-gray-200 dark:border-white/5 hover:border-light-primary/50 dark:hover:border-neon-cyan/50 shadow-sm hover:shadow-md dark:shadow-neon-cyan transition-all group cursor-pointer"
+                            className="bg-white dark:bg-navy-800 p-6 rounded-xl flex flex-col items-center justify-center border border-gray-200 dark:border-white/5 hover:border-light-primary/50 dark:hover:border-neon-cyan/50 shadow-sm hover:shadow-md dark:shadow-neon-cyan transition-all group"
                         >
                             <div className="w-16 h-16 mb-4 relative">
-                                <img src={skill.icon} alt={skill.name} className="w-full h-full object-contain filter group-hover:brightness-125 transition-all" />
+                                <img src={skill.icon} alt="" width={64} height={64} loading="lazy" decoding="async" className="w-full h-full object-contain filter group-hover:brightness-125 transition-all" />
                             </div>
-                            <h3 className="text-gray-700 dark:text-gray-300 font-medium group-hover:text-light-primary dark:group-hover:text-white transition-colors">{skill.name}</h3>
+                            <h3 className="text-gray-700 dark:text-gray-300 font-medium text-center group-hover:text-light-primary dark:group-hover:text-white transition-colors">{skill.name}</h3>
                         </motion.div>
                     ))}
                 </div>

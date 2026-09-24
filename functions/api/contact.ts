@@ -5,18 +5,19 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     try {
         const formData = await request.formData()
 
-        // Honeypot anti-spam (matches ContactModal field name)
+        // Honeypot anti-spam: pretend it worked so bots don't retry
         if (formData.get('_honey')) {
             return new Response(
-                JSON.stringify({ success: false, message: 'Spam detected' }),
-                { status: 400, headers: { 'Content-Type': 'application/json' } }
+                JSON.stringify({ success: true, message: 'Message sent successfully' }),
+                { status: 200, headers: { 'Content-Type': 'application/json' } }
             )
         }
 
-        const name = formData.get('name')
-        const email = formData.get('email')
-        const message = formData.get('message')
-        const lang = formData.get('lang') || 'en' // Get language from form, default to 'en'
+        const field = (key: string) => formData.get(key)?.toString().trim().slice(0, 5000) ?? ''
+        const name = field('name')
+        const email = field('email')
+        const message = field('message')
+        const lang = field('lang') || 'en'
 
         if (!name || !email || !message) {
             return new Response(
@@ -53,7 +54,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         const result = await resend.emails.send({
             from: env.CONTACT_FROM_EMAIL,
             to: env.CONTACT_TO_EMAIL,
-            replyTo: email.toString(),
+            replyTo: email,
             subject: subjects[emailLang],
             text: `
 ${l.name}: ${name}

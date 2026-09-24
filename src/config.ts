@@ -1,13 +1,13 @@
 export const siteConfig = {
-    hero: {
-        title: "Yainier Martínez Ruben",
-        subtitlePrefix: "And I'm a ",
-        typewriterWords: [
-            "Software Engineer",
-            "Youtuber",
-            "Tech Lover",
-            "Cryptography Specialist",
-            "AI Context Engineer"
-        ]
-    }
-};
+    name: "Yainier Martínez Ruben",
+    domain: "yainier.com",
+    twitterHandle: "@yainiermr",
+    socials: [
+        { name: "GitHub", url: "https://github.com/yruben" },
+        { name: "LinkedIn", url: "https://www.linkedin.com/in/yainiermr" },
+        { name: "YouTube", url: "https://youtube.com/@IngenieroDeExito" },
+        { name: "Twitter", url: "https://twitter.com/yainiermr" },
+    ],
+} as const;
+
+export type SocialName = typeof siteConfig.socials[number]['name'];

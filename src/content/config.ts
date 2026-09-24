@@ -7,7 +7,7 @@ const blogCollection = defineCollection({
         pubDate: z.date(),
         description: z.string(),
         author: z.string().default('Yainier Martínez Ruben'),
-        authorImage: z.string().default('/profile_new.png'),
+        authorImage: z.string().default('/profile_new.webp'),
         image: z.string().optional(),
         tags: z.array(z.string()),
         category: z.string().optional(),
