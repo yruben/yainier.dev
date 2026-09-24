@@ -1,10 +1,12 @@
 import { motion } from "motion/react";
 import type { CollectionEntry } from 'astro:content';
+import { dateLocale, localizePath, stripLang, type Lang } from '../i18n/utils';
 
 interface BlogCardProps {
     post: CollectionEntry<'blog'>;
     index?: number;
-    lang?: string;
+    lang?: Lang;
+    minReadLabel: string;
 }
 
 // Function to calculate reading time based on word count
@@ -14,9 +16,10 @@ function calculateReadingTime(content: string): number {
     return Math.ceil(wordCount / wordsPerMinute);
 }
 
-export default function BlogCard({ post, index = 0, lang = 'en' }: BlogCardProps) {
+export default function BlogCard({ post, index = 0, lang = 'en', minReadLabel }: BlogCardProps) {
     const readingTime = calculateReadingTime(post.body);
-    const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+    const href = localizePath(lang, `/blog/${stripLang(post.slug)}`);
+    const formattedDate = post.data.pubDate.toLocaleDateString(dateLocale[lang], {
         year: 'numeric',
         month: 'short',
         day: 'numeric'
@@ -35,7 +38,9 @@ export default function BlogCard({ post, index = 0, lang = 'en' }: BlogCardProps
                 {post.data.image ? (
                     <img
                         src={post.data.image}
-                        alt={post.data.title}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                 ) : (
@@ -44,13 +49,13 @@ export default function BlogCard({ post, index = 0, lang = 'en' }: BlogCardProps
             </div>
 
             {/* Overlay - Appears on hover with smooth gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity duration-300"></div>
 
             {/* Content - Hidden by default, shows on hover */}
-            <div className="absolute inset-0 p-4 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="absolute inset-0 p-4 flex flex-col justify-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity duration-300">
                 {/* Title */}
                 <h3 className="text-base font-bold text-white mb-2 line-clamp-2">
-                    <a href={lang === 'en' ? `/blog/${post.slug.replace(/^en\//, '')}` : `/${lang}/blog/${post.slug.replace(/^[a-z]{2}\//, '')}`}>
+                    <a href={href} className="after:absolute after:inset-0 focus:outline-none focus-visible:underline">
                         {post.data.title}
                     </a>
                 </h3>
@@ -61,7 +66,7 @@ export default function BlogCard({ post, index = 0, lang = 'en' }: BlogCardProps
                         {formattedDate}
                     </time>
                     <span>·</span>
-                    <span>{readingTime} min read</span>
+                    <span>{readingTime} {minReadLabel}</span>
                 </div>
 
                 {/* Description */}
@@ -85,7 +90,8 @@ export default function BlogCard({ post, index = 0, lang = 'en' }: BlogCardProps
                 <div className="flex items-center gap-2 pt-2 border-t border-white/20">
                     <img
                         src={post.data.authorImage}
-                        alt={post.data.author}
+                        alt=""
+                        loading="lazy"
                         className="w-5 h-5 rounded-full object-cover"
                     />
                     <p className="text-xs font-medium text-white">

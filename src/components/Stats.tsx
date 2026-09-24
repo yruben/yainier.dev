@@ -30,7 +30,8 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
         return () => controls.stop();
     }, [to, suffix, isInView]);
 
-    return <span ref={nodeRef} className="text-4xl font-bold mb-2">0{suffix}</span>;
+    // Server-rendered with the final value so crawlers and no-JS visitors see real numbers
+    return <span ref={nodeRef} className="text-4xl font-bold mb-2">{to}{suffix}</span>;
 }
 
 export default function Stats({ trans }: StatsProps) {

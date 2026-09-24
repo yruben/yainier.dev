@@ -7,12 +7,14 @@ interface AboutProps {
         p1: string;
         p2: string;
         cta: string;
+        imageAlt: string;
+        badgeLine1: string;
+        badgeLine2: string;
     };
-    lang?: string;
+    aboutHref: string;
 }
 
-export default function About({ trans, lang = 'en' }: AboutProps) {
-    const aboutLink = lang === 'en' ? '/about' : `/${lang}/about`;
+export default function About({ trans, aboutHref }: AboutProps) {
 
     return (
         <section id="about" className="py-20 bg-gray-50 dark:bg-navy-800 overflow-hidden transition-colors duration-300 border-t border-gray-300 dark:border-white/5">
@@ -29,16 +31,16 @@ export default function About({ trans, lang = 'en' }: AboutProps) {
                     >
                         {/* Main Image */}
                         <div className="absolute top-10 left-10 w-4/5 h-4/5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-white/10 z-10">
-                            <img src="/about_me_new.png" alt="Working" className="w-full h-full object-cover" />
+                            <img src="/about_me_new.webp" alt={trans.imageAlt} width={900} height={900} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                         {/* Decorative Elements */}
-                        <div className="absolute top-0 right-10 w-20 h-20 bg-light-primary/20 dark:bg-neon-cyan/20 rounded-full blur-xl animate-pulse"></div>
-                        <div className="absolute bottom-10 left-0 w-32 h-32 bg-light-secondary/20 dark:bg-neon-pink/20 rounded-full blur-xl animate-pulse"></div>
+                        <div className="absolute top-0 right-10 w-20 h-20 bg-light-primary/20 dark:bg-neon-cyan/20 rounded-full blur-xl animate-pulse" aria-hidden="true"></div>
+                        <div className="absolute bottom-10 left-0 w-32 h-32 bg-light-secondary/20 dark:bg-neon-pink/20 rounded-full blur-xl animate-pulse" aria-hidden="true"></div>
 
                         {/* Floating Badge */}
                         <div className="absolute bottom-20 right-0 bg-white dark:bg-navy-900 p-4 rounded-xl shadow-lg dark:shadow-neon-cyan border border-gray-100 dark:border-neon-cyan/30 z-20 flex items-center gap-3">
                             <div className="text-3xl font-bold text-light-primary dark:text-neon-cyan">10+</div>
-                            <div className="text-xs text-gray-600 dark:text-gray-300 uppercase leading-tight">Years<br />Experience</div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300 uppercase leading-tight">{trans.badgeLine1}<br />{trans.badgeLine2}</div>
                         </div>
                     </motion.div>
 
@@ -62,7 +64,7 @@ export default function About({ trans, lang = 'en' }: AboutProps) {
                             {trans.p2}
                         </p>
 
-                        <a href={aboutLink} className="inline-block px-8 py-3 bg-light-secondary dark:bg-neon-pink text-white font-bold rounded-lg hover:bg-pink-600 transition-colors shadow-md dark:shadow-neon-pink">
+                        <a href={aboutHref} className="inline-block px-8 py-3 bg-light-secondary dark:bg-neon-pink text-white font-bold rounded-lg hover:opacity-90 transition-colors shadow-md dark:shadow-neon-pink">
                             {trans.cta}
                         </a>
                     </motion.div>

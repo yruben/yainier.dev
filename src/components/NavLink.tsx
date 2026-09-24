@@ -25,9 +25,10 @@ export default function NavLink({ href, icon, text, isButton = false }: NavLinkP
             <a
                 href={href}
                 target="_blank"
+                rel="noopener"
                 className="inline-flex items-center gap-2 px-6 py-2 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-full hover:opacity-90 transition-opacity shadow-md dark:shadow-neon-cyan"
             >
-                {IconComponent && <IconComponent className="w-4 h-4" />}
+                {IconComponent && <IconComponent className="w-4 h-4" aria-hidden="true" />}
                 <span>{text}</span>
             </a>
         );
@@ -38,7 +39,7 @@ export default function NavLink({ href, icon, text, isButton = false }: NavLinkP
             href={href}
             className="group relative inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan px-3 py-2 rounded-md text-sm font-medium transition-colors"
         >
-            {IconComponent && <IconComponent className="w-4 h-4" />}
+            {IconComponent && <IconComponent className="w-4 h-4" aria-hidden="true" />}
             <span>{text}</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-light-primary dark:bg-neon-cyan transition-all duration-300 group-hover:w-full"></span>
         </a>

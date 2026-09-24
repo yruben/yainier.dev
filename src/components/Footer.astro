@@ -1,51 +1,55 @@
 ---
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { siteConfig } from '../config';
 import NetworkAnimation from './NetworkAnimation';
 import FooterContact from './FooterContact';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const linkClass = 'text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors';
+const links = [
+    { href: localizePath(lang, '/'), label: t('nav.home') },
+    { href: localizePath(lang, '/about'), label: t('nav.about') },
+    { href: localizePath(lang, '/projects'), label: t('nav.projects') },
+    { href: localizePath(lang, '/blog'), label: t('nav.blog') },
+    { href: localizePath(lang, '/recommended'), label: t('nav.recommended') },
+];
 ---
 
 <footer class="relative overflow-hidden bg-gray-100 dark:bg-navy-900 border-t border-gray-200 dark:border-white/10 pt-16 pb-8 transition-colors duration-300">
     <NetworkAnimation client:visible />
-    <div class="container mx-auto px-6">
+    <div class="container mx-auto px-6 relative">
         <div class="grid md:grid-cols-4 gap-8 mb-12">
             <div class="col-span-1 md:col-span-2">
-                <a href={`/${lang === 'en' ? '' : lang}`} class="text-2xl font-bold text-gray-900 dark:text-white mb-4 inline-block">
+                <a href={localizePath(lang, '/')} class="text-2xl font-bold text-gray-900 dark:text-white mb-4 inline-block">
                     yainier<span class="text-light-primary dark:text-neon-cyan">.com</span>
                 </a>
                 <p class="text-gray-600 dark:text-gray-400 max-w-sm">
                     {t('footer.desc')}
                 </p>
             </div>
-            
-            <div>
-                <h4 class="text-gray-900 dark:text-white font-bold mb-4">{t('footer.links')}</h4>
+
+            <nav aria-labelledby="footer-links">
+                <h2 id="footer-links" class="text-base text-gray-900 dark:text-white font-bold mb-4">{t('footer.links')}</h2>
                 <ul class="space-y-2">
-                    <li><a href="/" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">{t('nav.home')}</a></li>
-                    <li><a href="#about" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">{t('nav.about')}</a></li>
-                    <li><a href="#projects" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">{t('nav.projects')}</a></li>
-                    <li><a href="#blog" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">{t('nav.blog')}</a></li>
-                    <li><a href="/recommended" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">{t('nav.recommended')}</a></li>
-                    <li><FooterContact client:load text={t('nav.contact')} /></li>
+                    {links.map(({ href, label }) => <li><a href={href} class={linkClass}>{label}</a></li>)}
+                    <li><FooterContact client:idle text={t('nav.contact')} /></li>
                 </ul>
-            </div>
+            </nav>
 
             <div>
-                <h4 class="text-gray-900 dark:text-white font-bold mb-4">{t('footer.connect')}</h4>
+                <h2 class="text-base text-gray-900 dark:text-white font-bold mb-4">{t('footer.connect')}</h2>
                 <ul class="space-y-2">
-                    <li><a href="https://github.com/yruben" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">GitHub</a></li>
-                    <li><a href="https://www.linkedin.com/in/yainiermr" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">LinkedIn</a></li>
-                    <li><a href="https://youtube.com/@IngenieroDeExito" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">YouTube</a></li>
-                    <li><a href="https://twitter.com/yainiermr" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-light-primary dark:hover:text-neon-cyan transition-colors">Twitter</a></li>
+                    {siteConfig.socials.map(({ name, url }) => (
+                        <li><a href={url} target="_blank" rel="noopener noreferrer" class={linkClass}>{name}</a></li>
+                    ))}
                 </ul>
             </div>
         </div>
-        
+
         <div class="border-t border-gray-200 dark:border-white/5 pt-8 text-center">
-            <p class="text-gray-500 dark:text-gray-500 text-sm">
-                &copy; {new Date().getFullYear()} Yainier Martínez Ruben. All rights reserved.
+            <p class="text-gray-600 dark:text-gray-400 text-sm">
+                &copy; {new Date().getFullYear()} {siteConfig.name}. {t('footer.rights')}
             </p>
         </div>
     </div>

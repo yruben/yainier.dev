@@ -1,36 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import AboutDetail from '../../components/AboutDetail';
-import { useTranslations } from '../../i18n/utils';
+import AboutPage from '../../views/AboutPage.astro';
+import { nonDefaultLangPaths, type Lang } from '../../i18n/utils';
 
-import { languages } from '../../i18n/ui';
+export const getStaticPaths = nonDefaultLangPaths;
 
-import { getCollection } from 'astro:content';
-
-export async function getStaticPaths() {
-  return Object.keys(languages).map((lang) => {
-      return { params: { lang } };
-  });
-}
-
-const { lang } = Astro.params;
-const t = useTranslations(lang as any);
-
-const timelineEntries = await getCollection('timeline', ({ id }) => id.startsWith(`${lang}/`));
-console.log(`[About] Lang: ${lang}, Found ${timelineEntries.length} entries`);
-if (timelineEntries.length > 0) {
-    console.log('[About] First entry data:', timelineEntries[0].data);
-}
-const sortedTimeline = timelineEntries.sort((a, b) => parseInt(a.data.label) - parseInt(b.data.label));
+const lang = Astro.params.lang as Lang;
 ---
 
-<BaseLayout title={lang === 'es' ? 'Sobre Mí - Yainier' : 'About - Yainier'}>
-    <div class="pt-20">
-        <AboutDetail client:load abstract={t('about.abstract')} timelineItems={sortedTimeline} trans={{
-            pageTitle: t('about.page.title'),
-            pageSubtitle: t('about.page.subtitle'),
-            professionalSummary: t('about.professionalSummary'),
-            timelineTitle: t('about.timeline.title')
-        }} />
-    </div>
-</BaseLayout>
+<AboutPage lang={lang} />

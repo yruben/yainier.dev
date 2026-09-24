@@ -1,35 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Projects from '../../components/Projects';
-import { getCollection } from 'astro:content';
-import { useTranslations } from '../../i18n/utils';
+import ProjectsPage from '../../views/ProjectsPage.astro';
+import { nonDefaultLangPaths, type Lang } from '../../i18n/utils';
 
-import { languages } from '../../i18n/ui';
+export const getStaticPaths = nonDefaultLangPaths;
 
-export async function getStaticPaths() {
-  return Object.keys(languages).map((lang) => {
-      return { params: { lang } };
-  });
-}
-
-const { lang } = Astro.params;
-const t = useTranslations(lang as any);
-const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
-const formattedProjects = allProjects.map(project => ({
-	...project,
-	body: project.body
-}));
-const sortedProjects = formattedProjects.sort((a, b) => (a.data.order || 999) - (b.data.order || 999));
+const lang = Astro.params.lang as Lang;
 ---
 
-<BaseLayout title={lang === 'es' ? 'Proyectos - Yainier' : 'Projects - Yainier'}>
-	<div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900">
-		<Projects client:load projects={sortedProjects} enableInfiniteScroll={true} trans={{
-			titlePart1: t('projects.title.part1'),
-			titlePart2: t('projects.title.part2'),
-			desc: t('projects.desc'),
-			viewAll: t('projects.viewAll'),
-			details: t('projects.details')
-		}} />
-	</div>
-</BaseLayout>
+<ProjectsPage lang={lang} />

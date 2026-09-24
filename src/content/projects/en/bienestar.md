@@ -2,8 +2,8 @@
 title: "Bienestar Platform"
 description: "Web platform that enables interoperability between all national registries."
 tags: ["PHP", "Alfresco", "Java", "REST API", "JWT", "Digital Signature"]
-image: "/projects/bienestar.jpg"
-order: 6
+image: "/projects/bienestar.webp"
+order: 7
 ---
 
 # Bienestar Platform

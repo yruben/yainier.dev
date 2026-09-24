@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import type { ComponentProps } from "react";
 import Timeline from "./Timeline";
 
 interface AboutDetailProps {
@@ -8,16 +9,19 @@ interface AboutDetailProps {
         pageSubtitle: string;
         professionalSummary: string;
         timelineTitle: string;
+        imageAlt: string;
+        timelinePrev: string;
+        timelineNext: string;
+        timelineNoImage: string;
     };
-    lang?: string;
-    timelineItems?: any[];
+    timelineItems?: ComponentProps<typeof Timeline>['items'];
 }
 
 const Keyword = ({ children }: { children: string }) => (
     <span className="text-light-primary dark:text-neon-cyan font-semibold">{children}</span>
 );
 
-export default function AboutDetail({ abstract, trans, lang = 'en', timelineItems = [] }: AboutDetailProps) {
+export default function AboutDetail({ abstract, trans, timelineItems = [] }: AboutDetailProps) {
     // Function to highlight keywords in the abstract
     const highlightKeywords = (text: string) => {
         const keywords = [
@@ -143,8 +147,10 @@ export default function AboutDetail({ abstract, trans, lang = 'en', timelineItem
                         >
                             <div className="relative">
                                 <img
-                                    src="/about_me.png"
-                                    alt="About Me"
+                                    src="/about_me.webp"
+                                    alt={trans.imageAlt}
+                                    width={800}
+                                    height={800}
                                     className="rounded-2xl shadow-2xl border-4 border-white dark:border-white/10 w-full object-cover"
                                 />
                                 {/* Decorative glow effect */}
@@ -182,7 +188,7 @@ export default function AboutDetail({ abstract, trans, lang = 'en', timelineItem
                         </h2>
                         <div className="w-20 h-1 bg-light-secondary dark:bg-neon-pink rounded-full"></div>
                     </motion.div>
-                    <Timeline items={timelineItems} />
+                    <Timeline items={timelineItems} trans={{ prev: trans.timelinePrev, next: trans.timelineNext, noImage: trans.timelineNoImage }} />
                 </div>
             </div>
         </section>

@@ -1,6 +1,6 @@
 # 🚀 yainier.dev
 
-![yainier.dev Preview](/public/assets/preview.png)
+![yainier.dev Preview](/public/assets/preview.webp)
 
 Personal portfolio and biography website for **Yainier Martínez Ruben**, a Senior Full Stack Engineer with over 10 years of experience. This site showcases professional experience, projects, blog articles, and curated resources.
 
@@ -27,8 +27,8 @@ Personal portfolio and biography website for **Yainier Martínez Ruben**, a Seni
 - **UI Components**: [React](https://reactjs.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Animations**: [Motion](https://motion.dev/)
-- **Icons**: [Lucide React](https://lucide.dev/) & [Astro Icon](https://github.com/natemoo-re/astro-icon)
-- **Forms & API**: [Resend](https://resend.com/) (Emailing) & [Astro Actions](https://docs.astro.build/en/guides/actions/)
+- **Icons**: [Lucide React](https://lucide.dev/) & [Devicon](https://devicon.dev/) (self-hosted SVGs)
+- **Forms & API**: [Resend](https://resend.com/) (emailing) via [Cloudflare Pages Functions](https://developers.cloudflare.com/pages/functions/) in `functions/api/`
 
 ## 📂 Project Structure
 

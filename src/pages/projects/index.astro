@@ -1,26 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Projects from '../../components/Projects';
-import { getCollection } from 'astro:content';
-import { useTranslations } from '../../i18n/utils';
-
-const t = useTranslations('en');
-const allProjects = await getCollection('projects', ({ id }) => id.startsWith('en/'));
-const sortedProjects = allProjects.sort((a, b) => (a.data.order || 999) - (b.data.order || 999));
-const formattedProjects = sortedProjects.map(project => ({
-	...project,
-	body: project.body
-}));
+import ProjectsPage from '../../views/ProjectsPage.astro';
 ---
 
-<BaseLayout title="Projects - Yainier">
-	<div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900">
-		<Projects client:load projects={formattedProjects} enableInfiniteScroll={true} trans={{
-			titlePart1: t('projects.title.part1'),
-			titlePart2: t('projects.title.part2'),
-			desc: t('projects.desc'),
-			viewAll: t('projects.viewAll'),
-			details: t('projects.details')
-		}} />
-	</div>
-</BaseLayout>
+<ProjectsPage lang="en" />

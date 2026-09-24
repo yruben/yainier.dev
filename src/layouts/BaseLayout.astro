@@ -1,9 +1,11 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import '@fontsource-variable/inter';
+import { ClientRouter } from 'astro:transitions';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import ScrollToTop from '../components/ScrollToTop';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, switchLangPath, ogLocale, localizePath, contactFormTrans, type Lang } from '../i18n/utils';
+import { languages, defaultLang } from '../i18n/ui';
 
 import HireMeFAB from '../components/HireMeFAB';
 import ContactModal from '../components/ContactModal';
@@ -11,99 +13,114 @@ import ContactModal from '../components/ContactModal';
 interface Props {
 	title: string;
 	description?: string;
+	image?: string;
+	type?: 'website' | 'article';
+	noindex?: boolean;
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const { title, description = "Yainier's Portfolio" } = Astro.props;
+const { title, description = t('meta.home.desc'), image = '/og-image.jpg', type = 'website', noindex = false } = Astro.props;
+const fullTitle = title.includes('Yainier') ? title : `${title} · Yainier Martínez Ruben`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
+const alternates = (Object.keys(languages) as Lang[]).map((l) => ({
+	lang: l,
+	href: new URL(switchLangPath(Astro.url.pathname, lang, l), Astro.site).href,
+}));
+const defaultAlternate = alternates.find((a) => a.lang === defaultLang)!;
+const personJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Yainier Martínez Ruben',
+	url: Astro.site?.href,
+	image: new URL('/profile_new.webp', Astro.site).href,
+	jobTitle: t('meta.jobTitle'),
+	sameAs: [
+		'https://github.com/yruben',
+		'https://www.linkedin.com/in/yainiermr',
+		'https://twitter.com/yainiermr',
+		'https://youtube.com/@IngenieroDeExito',
+	],
+};
 ---
 
 <!doctype html>
 <html lang={lang} class="scroll-smooth">
+	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<meta name="theme-color" content="#0a192f" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{fullTitle}</title>
 		<meta name="description" content={description} />
-        <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-        <link rel="sitemap" href="/sitemap-index.xml" />
+		<meta name="author" content="Yainier Martínez Ruben" />
+		{noindex && <meta name="robots" content="noindex" />}
+		<link rel="canonical" href={canonical} />
+		{alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+		<link rel="alternate" hreflang="x-default" href={defaultAlternate.href} />
+		<link rel="sitemap" href="/sitemap-index.xml" />
 
-        <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={Astro.url} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={new URL("/og-image.jpg", Astro.site)} />
+		<!-- Open Graph -->
+		<meta property="og:type" content={type} />
+		<meta property="og:site_name" content="Yainier Martínez Ruben" />
+		<meta property="og:locale" content={ogLocale[lang]} />
+		{alternates.filter((a) => a.lang !== lang).map((a) => <meta property="og:locale:alternate" content={ogLocale[a.lang]} />)}
+		<meta property="og:url" content={canonical} />
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={imageUrl} />
+		<meta property="og:image:alt" content={fullTitle} />
 
-        <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={Astro.url} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-        <meta property="twitter:image" content={new URL("/og-image.jpg", Astro.site)} />
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@yainiermr" />
+		<meta name="twitter:creator" content="@yainiermr" />
+		<meta name="twitter:title" content={fullTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={imageUrl} />
 
-		<ViewTransitions />
+		<ClientRouter />
 
-        <!-- Schema.org JSON-LD -->
-        <script type="application/ld+json">
-            {
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Yainier",
-              "url": "https://yainier.dev",
-              "image": "https://yainier.dev/profile_new.png",
-              "jobTitle": "Senior Software Architect",
-              "sameAs": [
-                "https://github.com/yruben",
-                "https://www.linkedin.com/in/yainiermr",
-                "https://twitter.com/yainiermr",
-                "https://youtube.com/@IngenieroDeExito"
-              ]
-            }
-        </script>
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 
-        <script is:inline>
-            const applyTheme = () => {
-                const theme = (() => {
-                    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-                        return localStorage.getItem('theme');
-                    }
-                    return 'dark';
-                })();
-                if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-                window.localStorage.setItem('theme', theme);
-            };
+		<style is:global>
+			@media (prefers-reduced-motion: reduce) {
+				*, *::before, *::after {
+					animation-duration: 0.01ms !important;
+					animation-iteration-count: 1 !important;
+					transition-duration: 0.01ms !important;
+					scroll-behavior: auto !important;
+				}
+			}
+		</style>
 
-            applyTheme();
-            document.addEventListener('astro:after-swap', applyTheme);
-        </script>
+		<script is:inline>
+			const applyTheme = () => {
+				let theme = 'dark';
+				try {
+					theme = localStorage.getItem('theme') || 'dark';
+				} catch {}
+				document.documentElement.classList.toggle('dark', theme === 'dark');
+			};
+
+			applyTheme();
+			document.addEventListener('astro:after-swap', applyTheme);
+		</script>
 	</head>
 	<body class="bg-light-bg text-light-text dark:bg-navy-900 dark:text-white font-sans antialiased transition-colors duration-300">
-        <Navbar />
-		<main>
+		<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-md focus:bg-white focus:text-navy-900">
+			{t('skipLink')}
+		</a>
+		<Navbar />
+		<main id="main">
 			<slot />
 		</main>
-        <HireMeFAB client:idle text={t('hero.hire')} />
-        <ContactModal client:idle trans={{
-            titlePart1: t('contact.title.part1'),
-            titlePart2: t('contact.title.part2'),
-            desc: t('contact.desc'),
-            name: t('contact.form.name'),
-            email: t('contact.form.email'),
-            message: t('contact.form.message'),
-            namePlaceholder: t('contact.form.name.placeholder'),
-            emailPlaceholder: t('contact.form.email.placeholder'),
-            messagePlaceholder: t('contact.form.message.placeholder'),
-            send: t('contact.send'),
-            success: t('contact.success'),
-            error: t('contact.error')
-        }} />
-        <Footer />
-        <ScrollToTop client:load />
+		<HireMeFAB client:idle text={t('hero.hire')} href={localizePath(lang, '/hire-me')} />
+		<ContactModal client:idle lang={lang} trans={contactFormTrans(lang)} />
+		<Footer />
+		<ScrollToTop client:idle label={t('scrollTop')} />
 	</body>
 </html>

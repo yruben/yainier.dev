@@ -1,0 +1,69 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RecommendedItemCard from '../components/RecommendedItemCard';
+import { getCollection } from 'astro:content';
+import { useTranslations, localizePath, type Lang } from '../i18n/utils';
+
+interface Props {
+    lang: Lang;
+    category: CollectionEntry<'reco_categories'>;
+    categorySlug: string;
+}
+
+const { lang, category, categorySlug } = Astro.props;
+const t = useTranslations(lang);
+
+const items = await getCollection('reco_items', ({ id, data }) => id.startsWith(`${lang}/`) && data.category === categorySlug);
+
+// Newest first
+const sortedItems = items.sort((a, b) => (b.data.pubDate?.getTime() ?? 0) - (a.data.pubDate?.getTime() ?? 0));
+---
+
+<BaseLayout title={category.data.title} description={category.data.description}>
+    <div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900 transition-colors duration-300">
+        <section class="py-20">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="mb-12">
+                    <a href={localizePath(lang, '/recommended')} class="inline-flex items-center text-light-primary dark:text-neon-cyan hover:text-light-secondary dark:hover:text-neon-pink font-bold transition-colors group">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        {t('recommended.back')}
+                    </a>
+                </div>
+
+                <div class="mb-16">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                        {category.data.title}
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400 max-w-3xl text-lg leading-relaxed">
+                        {category.data.description}
+                    </p>
+                    <div class="w-20 h-1.5 bg-gradient-to-r from-light-primary to-light-secondary dark:from-neon-cyan dark:to-neon-pink mt-8 rounded-full" aria-hidden="true"></div>
+                </div>
+
+                {sortedItems.length > 0 ? (
+                    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {sortedItems.map((item, index) => (
+                            <RecommendedItemCard
+                                client:visible
+                                title={item.data.title}
+                                description={item.data.description}
+                                url={item.data.url}
+                                image={item.data.image}
+                                index={index}
+                                visitLabel={t('recommended.visit')}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div class="bg-white dark:bg-navy-800 p-12 rounded-2xl border border-gray-200 dark:border-white/10 text-center">
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">{t('recommended.empty.title')}</h2>
+                        <p class="text-gray-600 dark:text-gray-400">{t('recommended.empty.desc')}</p>
+                    </div>
+                )}
+            </div>
+        </section>
+    </div>
+</BaseLayout>

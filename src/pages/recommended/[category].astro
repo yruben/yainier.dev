@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+import RecommendedCategoryPage from '../../views/RecommendedCategoryPage.astro';
+
+export async function getStaticPaths() {
+    const categories = await getCollection('reco_categories', ({ id }) => id.startsWith('en/'));
+    return categories.map((category) => {
+        const categorySlug = category.id.split('/').pop()!.replace('.md', '');
+        return { params: { category: categorySlug }, props: { category, categorySlug } };
+    });
+}
+
+const { category, categorySlug } = Astro.props;
+---
+
+<RecommendedCategoryPage lang="en" category={category} categorySlug={categorySlug} />

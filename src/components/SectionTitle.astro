@@ -1,0 +1,15 @@
+---
+interface Props {
+    part1: string;
+    part2: string;
+    as?: 'h1' | 'h2';
+    class?: string;
+}
+
+const { part1, part2, as: Tag = 'h2', class: className = 'text-3xl md:text-4xl mb-6' } = Astro.props;
+---
+
+<Tag class:list={['font-bold text-gray-900 dark:text-white relative inline-block', className]}>
+    {part1}{' '}<span class="text-light-secondary dark:text-neon-pink">{part2}</span>
+    <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-light-secondary dark:bg-neon-pink rounded-full" aria-hidden="true"></span>
+</Tag>

@@ -3,7 +3,7 @@ title: "ENZONA"
 description: "Plataforma líder de pagos digitales de Cuba para comercio electrónico y servicios de e-gobierno, permitiendo transacciones seguras y transferencias de dinero."
 tags: ["laravel", "java", "react", "esb", "payment-gateway"]
 liveUrl: "https://enzona.net/"
-image: "/projects/plataforma-pagos.jpg"
+image: "/projects/plataforma-pagos.webp"
 order: 1
 ---
 

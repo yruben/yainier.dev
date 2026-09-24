@@ -3,7 +3,7 @@ title: "Public Key Infrastructure"
 description: "Infrastructure for managing digital certificates for all types of use cases."
 tags: ["Java", "Java SE", "EJBCA", "Bootstrap", "HTML"]
 liveUrl: "https://pkicertificados.xetid.cu/"
-image: "/projects/acxetid_main.png"
+image: "/projects/acxetid_main.webp"
 order: 5
 ---
 
@@ -20,5 +20,5 @@ A Public Key Infrastructure (PKI) is a set of hardware, software, policies, and 
 **Registration Interface:**
 The main registration component allows users to manage their requests intuitively and securely.
 
-![Registration Component](/projects/acxetid.png)
+![Registration Component](/projects/acxetid.webp)
 *View of the system's main registration component.*

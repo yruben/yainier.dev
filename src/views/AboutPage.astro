@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutDetail from '../components/AboutDetail';
+import { getCollection } from 'astro:content';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const timelineEntries = await getCollection('timeline', ({ id }) => id.startsWith(`${lang}/`));
+const sortedTimeline = timelineEntries.sort((a, b) => parseInt(a.data.label) - parseInt(b.data.label));
+---
+
+<BaseLayout title={t('meta.about.title')} description={t('meta.about.desc')}>
+    <div class="pt-20">
+        <AboutDetail client:load abstract={t('about.abstract')} timelineItems={sortedTimeline} trans={{
+            pageTitle: t('about.page.title'),
+            pageSubtitle: t('about.page.subtitle'),
+            professionalSummary: t('about.professionalSummary'),
+            timelineTitle: t('about.timeline.title'),
+            imageAlt: t('alt.about'),
+            timelinePrev: t('timeline.prev'),
+            timelineNext: t('timeline.next'),
+            timelineNoImage: t('timeline.noImage'),
+        }} />
+    </div>
+</BaseLayout>

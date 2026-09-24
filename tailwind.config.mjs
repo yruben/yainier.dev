@@ -1,4 +1,5 @@
 import typography from '@tailwindcss/typography';
+import plugin from 'tailwindcss/plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -7,7 +8,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
+                sans: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
             },
             colors: {
                 navy: {
@@ -25,8 +26,8 @@ export default {
                     bg: '#f8fafc', // slate-50
                     surface: '#ffffff',
                     text: '#0f172a', // slate-900
-                    primary: '#0ea5e9', // sky-500
-                    secondary: '#ec4899', // pink-500
+                    primary: '#0369a1', // sky-700: 5.9:1 on white, passes WCAG AA
+                    secondary: '#be185d', // pink-700: 6:1 on white, passes WCAG AA
                 }
             },
             boxShadow: {
@@ -48,5 +49,11 @@ export default {
     },
     plugins: [
         typography,
+        plugin(({ addUtilities }) => {
+            addUtilities({
+                '.animation-delay-2000': { 'animation-delay': '2s' },
+                '.custom-scrollbar': { 'scrollbar-width': 'thin' },
+            });
+        }),
     ],
 }

@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero';
+import Stats from '../components/Stats';
+import Skills from '../components/Skills';
+import About from '../components/About';
+import Projects from '../components/Projects';
+import BlogCard from '../components/BlogCard';
+import SectionTitle from '../components/SectionTitle.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations, localizePath, type Lang } from '../i18n/utils';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const typewriterWords = [t('hero.word1'), t('hero.word2'), t('hero.word3'), t('hero.word4'), t('hero.word5')];
+
+const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
+const recentProjects = allProjects
+    .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
+    .slice(0, 4);
+
+const allPosts = await getCollection('blog', ({ id }) => id.startsWith(`${lang}/`));
+const recentPosts = allPosts
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 3);
+---
+
+<BaseLayout title={t('meta.home.title')} description={t('meta.home.desc')}>
+    <Hero client:load trans={{
+        hello: t('hero.hello'),
+        subtitlePrefix: t('hero.subtitlePrefix'),
+        hire: t('hero.hire'),
+        contact: t('hero.contact'),
+        description: t('hero.description'),
+        profileAlt: t('alt.profile'),
+    }} titles={typewriterWords} hireHref={localizePath(lang, '/hire-me')} />
+
+    <Stats client:visible trans={{
+        years: t('stats.years'),
+        projects: t('stats.projects'),
+        tech: t('stats.tech'),
+        clients: t('stats.clients'),
+        linkedin: t('stats.linkedin'),
+        degree: t('stats.degree')
+    }} />
+
+    <Skills client:visible titlePart1={t('skills.title.part1')} titlePart2={t('skills.title.part2')} />
+
+    <About client:visible trans={{
+        titlePart1: t('about.title.part1'),
+        titlePart2: t('about.title.part2'),
+        p1: t('about.p1'),
+        p2: t('about.p2'),
+        cta: t('about.cta'),
+        imageAlt: t('alt.about'),
+        badgeLine1: t('about.badge.line1'),
+        badgeLine2: t('about.badge.line2'),
+    }} aboutHref={localizePath(lang, '/about')} />
+
+    <Projects projects={recentProjects} client:visible viewAllHref={localizePath(lang, '/projects')} trans={{
+        titlePart1: t('projects.title.part1'),
+        titlePart2: t('projects.title.part2'),
+        desc: t('projects.desc'),
+        viewAll: t('projects.viewAll'),
+        details: t('projects.details'),
+        live: t('projects.live'),
+        close: t('projects.close'),
+    }} />
+
+    <section id="blog" class="py-20 bg-gray-50 dark:bg-navy-800 transition-colors duration-300 border-t border-gray-300 dark:border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <SectionTitle part1={t('blog.title.part1')} part2={t('blog.title.part2')} />
+                <p class="text-gray-600 dark:text-gray-300 mb-2">{t('blog.desc')}</p>
+                <p class="text-sm text-light-primary dark:text-neon-cyan font-semibold">
+                    {allPosts.length} {t('blog.published')}
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-6 mb-12 max-w-7xl mx-auto">
+                {recentPosts.map((post, index) => (
+                    <div class="w-full sm:w-72 flex-shrink-0">
+                        <BlogCard client:visible post={post} index={index} lang={lang} minReadLabel={t('blog.minRead')} />
+                    </div>
+                ))}
+            </div>
+
+            <div class="text-center">
+                <a
+                    href={localizePath(lang, '/blog')}
+                    class="inline-block px-8 py-3 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-full hover:opacity-90 transition-all shadow-md dark:shadow-neon-cyan"
+                >
+                    {t('blog.readMore')} &rarr;
+                </a>
+            </div>
+        </div>
+    </section>
+</BaseLayout>

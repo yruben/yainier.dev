@@ -1,17 +1,12 @@
 import { motion } from "motion/react";
 import { Mail } from "lucide-react";
-import { isContactOpen } from "../stores/contactStore";
 
 interface HireMeFABProps {
     text: string;
+    href: string;
 }
 
-export default function HireMeFAB({ text }: HireMeFABProps) {
-    const lang = typeof window !== 'undefined'
-        ? (window.location.pathname.startsWith('/es') ? 'es' : 'en')
-        : 'en';
-    const href = lang === 'en' ? '/hire-me' : '/es/hire-me';
-
+export default function HireMeFAB({ text, href }: HireMeFABProps) {
     return (
         <motion.a
             href={href}
@@ -22,7 +17,7 @@ export default function HireMeFAB({ text }: HireMeFABProps) {
             whileTap={{ scale: 0.95 }}
             className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-6 py-3 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-full shadow-lg hover:shadow-xl hover:shadow-light-primary/30 dark:hover:shadow-neon-cyan/30 transition-shadow border border-white/20 dark:border-navy-900/10 backdrop-blur-sm"
         >
-            <Mail size={20} />
+            <Mail size={20} aria-hidden="true" />
             <span>{text}</span>
         </motion.a>
     );

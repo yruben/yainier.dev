@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const fieldClass = 'w-full px-4 py-3 bg-white dark:bg-navy-900 border border-gray-300 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-light-primary dark:focus:ring-neon-cyan outline-none transition-all';
+const labelClass = 'block text-sm font-semibold text-gray-700 dark:text-gray-200';
+const budgets = ['< $1000', '$1000 – $3,500', '$3,500 – $6,000', '$6,000+'];
+const projectTypes = ['website', 'webapp', 'ecommerce', 'consulting', 'maintenance', 'other'] as const;
+const timelines = ['urgent', 'normal', 'flexible', 'indefinite'] as const;
+---
+
+<BaseLayout title={t('meta.hire.title')} description={t('meta.hire.desc')}>
+    <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+        <div class="absolute top-1/4 -left-20 w-72 h-72 bg-light-primary/10 dark:bg-neon-cyan/5 rounded-full blur-3xl animate-blob" aria-hidden="true"></div>
+        <div class="absolute bottom-1/4 -right-20 w-72 h-72 bg-light-secondary/10 dark:bg-neon-pink/5 rounded-full blur-3xl animate-blob animation-delay-2000" aria-hidden="true"></div>
+
+        <div class="max-w-3xl mx-auto relative z-10">
+            <div class="text-center mb-12">
+                <SectionTitle as="h1" class="text-4xl md:text-5xl mb-6" part1={t('hire.title.part1')} part2={t('hire.title.part2')} />
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    {t('hire.subtitle')}
+                </p>
+                <div class="mt-8 inline-block px-4 py-2 bg-light-primary/10 dark:bg-neon-cyan/10 border border-light-primary/20 dark:border-neon-cyan/20 rounded-full">
+                    <span class="text-light-primary dark:text-neon-cyan font-bold">{t('hire.note')}</span>
+                </div>
+            </div>
+
+            <div id="hire-error" role="alert" hidden class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400">
+                {t('hire.error')}
+            </div>
+
+            <form action="/api/hire" method="POST" class="bg-white/50 dark:bg-navy-800/50 backdrop-blur-md border border-gray-200 dark:border-white/10 p-8 md:p-12 rounded-3xl shadow-xl space-y-8">
+                <input type="hidden" name="lang" value={lang} />
+
+                <!-- Honeypot -->
+                <div class="hidden" aria-hidden="true">
+                    <label for="hire-honey">{t('form.honeypot')}</label>
+                    <input type="text" name="_honey" id="hire-honey" tabindex="-1" autocomplete="off" />
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="hire-name" class={labelClass}>
+                            {t('hire.form.name')} <span class="text-light-secondary dark:text-neon-pink" aria-hidden="true">*</span>
+                        </label>
+                        <input type="text" name="name" id="hire-name" required autocomplete="name" placeholder={t('hire.form.name.placeholder')} class={fieldClass} />
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="hire-email" class={labelClass}>
+                            {t('hire.form.email')} <span class="text-light-secondary dark:text-neon-pink" aria-hidden="true">*</span>
+                        </label>
+                        <input type="email" name="email" id="hire-email" required autocomplete="email" placeholder={t('hire.form.email.placeholder')} class={fieldClass} />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="hire-company" class={labelClass}>{t('hire.form.company')}</label>
+                        <input type="text" name="company" id="hire-company" autocomplete="organization" placeholder="Acme Corp" class={fieldClass} />
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="hire-type" class={labelClass}>
+                            {t('hire.form.type')} <span class="text-light-secondary dark:text-neon-pink" aria-hidden="true">*</span>
+                        </label>
+                        <select name="project_type" id="hire-type" required class={`${fieldClass} cursor-pointer`}>
+                            <option value="" disabled selected>{t('hire.form.select')}</option>
+                            {projectTypes.map((type) => <option value={type}>{t(`hire.type.${type}`)}</option>)}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <fieldset class="space-y-2">
+                        <legend class={`${labelClass} mb-4`}>
+                            {t('hire.form.budget')} <span class="text-light-secondary dark:text-neon-pink" aria-hidden="true">*</span>
+                        </legend>
+                        <div class="grid grid-cols-1 gap-3">
+                            {budgets.map((value) => (
+                                <label class="flex items-center gap-3 p-3 border border-gray-300 dark:border-white/10 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-navy-900/50 transition-colors group has-[:checked]:border-light-primary dark:has-[:checked]:border-neon-cyan">
+                                    <input type="radio" name="budget" value={value} required class="w-4 h-4 text-light-primary dark:text-neon-cyan focus:ring-light-primary dark:focus:ring-neon-cyan" />
+                                    <span class="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">{value}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </fieldset>
+
+                    <div class="space-y-2">
+                        <label for="hire-timeline" class={labelClass}>
+                            {t('hire.form.timeline')} <span class="text-light-secondary dark:text-neon-pink" aria-hidden="true">*</span>
+                        </label>
+                        <select name="timeline" id="hire-timeline" required class={`${fieldClass} cursor-pointer`}>
+                            <option value="" disabled selected>{t('hire.form.select')}</option>
+                            {timelines.map((value) => <option value={value}>{t(`hire.timeline.${value}`)}</option>)}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="hire-description" class={labelClass}>
+                        {t('hire.form.description')} <span class="text-light-secondary dark:text-neon-pink" aria-hidden="true">*</span>
+                    </label>
+                    <textarea
+                        name="description"
+                        id="hire-description"
+                        rows="5"
+                        required
+                        placeholder={t('hire.form.description.placeholder')}
+                        class={`${fieldClass} resize-none`}
+                    ></textarea>
+                </div>
+
+                <div class="pt-4">
+                    <button
+                        type="submit"
+                        class="w-full py-4 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-2xl shadow-lg shadow-light-primary/30 dark:shadow-neon-cyan/20 hover:scale-[1.02] active:scale-[0.98] transition-all text-lg"
+                    >
+                        {t('hire.form.send')}
+                    </button>
+                    <p class="mt-4 text-center text-xs text-gray-600 dark:text-gray-400">
+                        {t('hire.privacy')}
+                    </p>
+                </div>
+            </form>
+        </div>
+    </section>
+</BaseLayout>
+
+<script>
+    // /api/hire redirects back here with ?error=1 when the email could not be sent
+    const showHireError = () => {
+        const alert = document.getElementById('hire-error');
+        if (alert && new URLSearchParams(location.search).has('error')) {
+            alert.hidden = false;
+            alert.scrollIntoView({ block: 'center' });
+        }
+    };
+    document.addEventListener('astro:page-load', showHireError);
+</script>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/BlogCard';
+import { getCollection } from 'astro:content';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const allPosts = await getCollection('blog', ({ id }) => id.startsWith(`${lang}/`));
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={t('meta.blog.title')} description={t('meta.blog.desc')}>
+    <div class="pt-20 min-h-screen bg-light-bg dark:bg-navy-900">
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                        {t('blog.title.part1')} <span class="text-light-secondary dark:text-neon-pink">{t('blog.title.part2')}</span>
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-300 mb-2">{t('blog.desc')}</p>
+                    <p class="text-sm text-light-primary dark:text-neon-cyan font-semibold">
+                        {allPosts.length} {t('blog.published')}
+                    </p>
+                    <div class="w-20 h-1 bg-light-primary dark:bg-neon-cyan mx-auto mt-6 rounded-full" aria-hidden="true"></div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto">
+                    {sortedPosts.map((post, index) => (
+                        <div class="w-full sm:w-72 flex-shrink-0">
+                            <BlogCard client:visible post={post} index={index} lang={lang} minReadLabel={t('blog.minRead')} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    </div>
+</BaseLayout>

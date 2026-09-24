@@ -4,7 +4,7 @@ description: "A modern, high-performance personal portfolio built with Astro, Re
 tags: ["astro", "react", "tailwindcss", "typescript"]
 githubUrl: "https://github.com/yruben/yainier.dev"
 liveUrl: "https://yainier.com"
-image: "/projects/personal-portfolio.png"
+image: "/projects/personal-portfolio.webp"
 order: 4
 ---
 

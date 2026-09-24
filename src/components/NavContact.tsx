@@ -20,10 +20,12 @@ export default function NavContact({ text, icon }: NavContactProps) {
 
     return (
         <button
+            type="button"
+            aria-haspopup="dialog"
             onClick={handleClick}
             className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-light-primary dark:hover:text-neon-cyan transition-colors font-medium"
         >
-            {Icon && <Icon size={18} />}
+            {Icon && <Icon size={18} aria-hidden="true" />}
             <span>{text}</span>
         </button>
     );
