@@ -146,6 +146,10 @@ export const ui = {
         'theme.toggle': 'Toggle dark mode',
         'scrollTop': 'Scroll to top',
         'skipLink': 'Skip to content',
+        'notFound.title': 'Page not found',
+        'notFound.desc': "The page you're looking for doesn't exist or has moved.",
+        'notFound.home': 'Back to Home',
+        'notFound.projects': 'See my projects',
     },
     es: {
         'nav.home': 'Inicio',
@@ -287,5 +291,9 @@ export const ui = {
         'theme.toggle': 'Cambiar modo oscuro',
         'scrollTop': 'Volver arriba',
         'skipLink': 'Saltar al contenido',
+        'notFound.title': 'Página no encontrada',
+        'notFound.desc': 'La página que buscas no existe o se ha movido.',
+        'notFound.home': 'Volver al inicio',
+        'notFound.projects': 'Ver mis proyectos',
     },
 } as const;

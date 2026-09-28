@@ -58,9 +58,13 @@ const personJsonLd = {
 		<meta name="description" content={description} />
 		<meta name="author" content="Yainier Martínez Ruben" />
 		{noindex && <meta name="robots" content="noindex" />}
-		<link rel="canonical" href={canonical} />
-		{alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
-		<link rel="alternate" hreflang="x-default" href={defaultAlternate.href} />
+		{!noindex && (
+			<>
+				<link rel="canonical" href={canonical} />
+				{alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+				<link rel="alternate" hreflang="x-default" href={defaultAlternate.href} />
+			</>
+		)}
 		<link rel="sitemap" href="/sitemap-index.xml" />
 
 		<!-- Open Graph -->
