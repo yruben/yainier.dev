@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations, localizePath, type Lang } from '../i18n/utils';
+
+// Cloudflare Pages serves this single 404.html for every unknown path,
+// so both languages are rendered and the script below picks one.
+const langs: Lang[] = ['en', 'es'];
+---
+
+<BaseLayout title="404" description="Page not found" noindex>
+    <section class="min-h-screen flex items-center justify-center pt-20 pb-20 px-6 bg-light-bg dark:bg-navy-900">
+        <div class="max-w-xl text-center">
+            <p class="text-7xl md:text-8xl font-bold text-light-primary dark:text-neon-cyan mb-6" aria-hidden="true">404</p>
+            {langs.map((lang) => {
+                const t = useTranslations(lang);
+                return (
+                    <div data-lang={lang} lang={lang} hidden={lang !== 'en'}>
+                        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">{t('notFound.title')}</h1>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-10">{t('notFound.desc')}</p>
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <a
+                                href={localizePath(lang, '/')}
+                                class="px-8 py-3 bg-light-primary dark:bg-neon-cyan text-white dark:text-navy-900 font-bold rounded-xl shadow-lg hover:opacity-90 transition-opacity"
+                            >
+                                {t('notFound.home')}
+                            </a>
+                            <a
+                                href={localizePath(lang, '/projects')}
+                                class="px-8 py-3 bg-white dark:bg-navy-800 text-gray-700 dark:text-white font-bold rounded-xl border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-navy-700 transition-colors"
+                            >
+                                {t('notFound.projects')}
+                            </a>
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    </section>
+</BaseLayout>
+
+<script is:inline>
+    (() => {
+        const lang = location.pathname.startsWith('/es/') || location.pathname === '/es' ? 'es' : 'en';
+        if (lang === 'en') return;
+        document.documentElement.lang = lang;
+        document.title = '404 · Página no encontrada';
+        document.querySelectorAll('[data-lang]').forEach((el) => {
+            el.hidden = el.getAttribute('data-lang') !== lang;
+        });
+    })();
+</script>
