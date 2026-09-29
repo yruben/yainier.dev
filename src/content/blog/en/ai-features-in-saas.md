@@ -4,7 +4,7 @@ pubDate: 2026-09-21
 description: "Practical lessons on integrating AI into an existing product: choosing the right problems, designing for errors and keeping costs under control."
 author: "Yainier Martínez Ruben"
 authorImage: "/profile_new.webp"
-image: "/projects/repfabricc-crm.webp"
+image: "/blog/ai-saas-cover.webp"
 category: "Artificial Intelligence"
 tags: ["ai", "llm", "saas", "product-engineering"]
 ---
