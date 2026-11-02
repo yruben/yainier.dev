@@ -4,7 +4,7 @@ pubDate: 2026-08-31
 description: "Una introducción práctica a la Infraestructura de Clave Pública: certificados, autoridades de certificación, cadenas de confianza y firma digital."
 author: "Yainier Martínez Ruben"
 authorImage: "/profile_new.webp"
-image: "/projects/acxetid_main.webp"
+image: "/blog/pki-cover.webp"
 category: "Seguridad"
 tags: ["seguridad", "pki", "certificados", "firma-digital"]
 ---

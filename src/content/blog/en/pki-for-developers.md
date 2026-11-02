@@ -4,7 +4,7 @@ pubDate: 2026-08-31
 description: "A practical introduction to Public Key Infrastructure: certificates, certificate authorities, trust chains and digital signatures."
 author: "Yainier Martínez Ruben"
 authorImage: "/profile_new.webp"
-image: "/projects/acxetid_main.webp"
+image: "/blog/pki-cover.webp"
 category: "Security"
 tags: ["security", "pki", "certificates", "digital-signature"]
 ---

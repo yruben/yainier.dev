@@ -4,7 +4,7 @@ pubDate: 2026-08-10
 description: "Lo que trabajar en una plataforma de pagos digitales me enseñó sobre idempotencia, consistencia y diseñar pensando en los fallos."
 author: "Yainier Martínez Ruben"
 authorImage: "/profile_new.webp"
-image: "/projects/plataforma-pagos.webp"
+image: "/blog/payment-platform-cover.webp"
 category: "Arquitectura de Software"
 tags: ["pagos", "arquitectura", "backend", "fiabilidad"]
 ---

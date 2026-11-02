@@ -4,7 +4,7 @@ pubDate: 2026-09-21
 description: "Lecciones prácticas para integrar IA en un producto existente: elegir los problemas correctos, diseñar para los errores y mantener los costos bajo control."
 author: "Yainier Martínez Ruben"
 authorImage: "/profile_new.webp"
-image: "/projects/repfabricc-crm.webp"
+image: "/blog/ai-saas-cover.webp"
 category: "Inteligencia Artificial"
 tags: ["ia", "llm", "saas", "ingenieria-de-producto"]
 ---

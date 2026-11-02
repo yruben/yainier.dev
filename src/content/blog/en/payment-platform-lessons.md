@@ -4,7 +4,7 @@ pubDate: 2026-08-10
 description: "What working on a digital payment platform taught me about idempotency, consistency and designing for failure."
 author: "Yainier Martínez Ruben"
 authorImage: "/profile_new.webp"
-image: "/projects/plataforma-pagos.webp"
+image: "/blog/payment-platform-cover.webp"
 category: "Software Architecture"
 tags: ["payments", "architecture", "backend", "reliability"]
 ---

@@ -54,6 +54,8 @@ const sortedItems = items.sort((a, b) => (b.data.pubDate?.getTime() ?? 0) - (a.d
                                 image={item.data.image}
                                 index={index}
                                 visitLabel={t('recommended.visit')}
+                                playLabel={t('recommended.play')}
+                                watchLabel={t('recommended.watchYoutube')}
                             />
                         ))}
                     </div>
